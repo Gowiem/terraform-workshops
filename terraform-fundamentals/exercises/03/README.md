@@ -17,8 +17,8 @@ terraform init
 
 ### Plan
 
-Next step is to run a plan, which is a dry run that helps us understand what terraform intends to change when it 
-runs an apply.  
+Next step is to run a plan, which is a dry run that helps us understand what terraform intends to change when it
+runs an apply.
 
 Remember from the previous exercise that we'll need to make sure our `student_alias` value gets passed in appropriately.
 Pick whichever method of doing so, and then run your plan:
@@ -46,7 +46,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be created
   + resource "aws_s3_bucket_object" "user_student_alias_object" {
       + acl                    = "private"
-      + bucket                 = "dws-di-..."
+      + bucket                 = "tf-fundamentals-..."
       + content                = "This bucket is reserved for ..."
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -66,10 +66,10 @@ can't guarantee that exactly these actions will be performed if
 "terraform apply" is subsequently run.
 ```
 
-From the above output, we can see that terraform will create a single S3 object in our bucket.  An important line 
-to note is the one beginning with "Plan:".  We see that 1 resource will be created, 0 will be changed, and 0 destroyed.  
+From the above output, we can see that terraform will create a single S3 object in our bucket.  An important line
+to note is the one beginning with "Plan:".  We see that 1 resource will be created, 0 will be changed, and 0 destroyed.
 
-Terraform is designed to detect when there is configuration drift in resources that it created and then intelligently 
+Terraform is designed to detect when there is configuration drift in resources that it created and then intelligently
 determine how to correct the difference. This will be covered in more detail a little later.
 
 ### Apply
@@ -94,7 +94,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be created
   + resource "aws_s3_bucket_object" "user_student_alias_object" {
       + acl                    = "private"
-      + bucket                 = "dws-di-..."
+      + bucket                 = "tf-fundamentals-..."
       + content                = "This bucket is reserved for ..."
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -135,12 +135,12 @@ You should notice a couple differences:
 
 Now, let's try making a change to the s3 bucket object and allow Terraform to correct it.  Let's change the content of our object.
 
-Find `main.tf` and modify the s3 bucket stanza to reflect the following:
+Find `main.tf` and modify the s3 bucket block to reflect the following:
 
 ```hcl
-# declare a resource stanza so we can create something.
+# declare a resource block so we can create something.
 resource "aws_s3_bucket_object" "user_student_alias_object" {
-  bucket  = "dws-di-${var.student_alias}"
+  bucket  = "tf-fundamentals-${var.student_alias}"
   key     = "student.alias"
   content = "This bucket is reserved for ${var.student_alias} ****ONLY****"
 }
@@ -160,7 +160,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be updated in-place
   ~ resource "aws_s3_bucket_object" "user_student_alias_object" {
         acl           = "private"
-        bucket        = "dws-di-..."
+        bucket        = "tf-fundamentals-..."
       ~ content       = "This bucket is reserved for ..." -> "This bucket is reserved for ... ****ONLY****"
         content_type  = "binary/octet-stream"
         etag          = "94e32327b8007fa215f3a9edbda7f68c"
@@ -184,7 +184,7 @@ A terraform plan informs you with a few symbols to tell you what will happen
 
 So our above plan will modify our s3 object in place per our requested update to the file.
 
-Some resources or some changes require that a resource be recreated to facilitate that change, and those cases are usually expected. One example of this would be an AWS launch configuration. In AWS, launch configurations cannot be changed, only copied and modified once during the creation of the copy. Terraform is generally made aware of these caveats and 
+Some resources or some changes require that a resource be recreated to facilitate that change, and those cases are usually expected. One example of this would be an AWS launch configuration. In AWS, launch configurations cannot be changed, only copied and modified once during the creation of the copy. Terraform is generally made aware of these caveats and
 handles those changes gracefully, including updating dependent resources to link to the newly created resource. This
 greatly simplifies complex or frequent changes to any size infrastructure and reduces the possibility of human error.
 
@@ -211,7 +211,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be destroyed
   - resource "aws_s3_bucket_object" "user_student_alias_object" {
       - acl           = "private" -> null
-      - bucket        = "dws-di-chucky" -> null
+      - bucket        = "tf-fundamentals-chucky" -> null
       - content       = "This bucket is reserved for ... ****ONLY****" -> null
       - content_type  = "binary/octet-stream" -> null
       - etag          = "c7e49348083281f9dd997923fe6084b7" -> null

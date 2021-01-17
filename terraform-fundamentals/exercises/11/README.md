@@ -7,7 +7,7 @@ Terraform
 
 ## The `microservice` module
 
-Our `microservice` module here is designed to be a generic module for spinning some sort of application that can scale 
+Our `microservice` module here is designed to be a generic module for spinning some sort of application that can scale
 and be load balanced in AWS. Some key components to this module:
 
 * **AWS Launch Configuration**: a launch configuration defines a standard way in which an EC2 instance should be launched, such as the base AMI, the instance type, the user data (launch script), security groups or firewall rules, etc.
@@ -26,7 +26,7 @@ and be load balanced in AWS. Some key components to this module:
 # ---------------------------------------------------------------------------------------------------------------------
 
 provider "aws" {
-  version = "~> 2.0"
+  version = "~> 3.0"
   region  = "${var.aws_region}"
 }
 
@@ -67,7 +67,7 @@ module "backend" {
 }
 ```
 
-We've abstracted almost everything into our module, and we see here a pretty nice reusability pattern. It also makes it easy 
+We've abstracted almost everything into our module, and we see here a pretty nice reusability pattern. It also makes it easy
 to see our intention for the project as whole in the code itself (documented infrastructure code through the code itself?):
 
 * We're setting up a backend service that should have at most 3 servers, a minimum of 1 server; we're telling it to use the startup script of `user-data-backend.sh` and we're passing the text that will be served through the service as the output of the app/page
@@ -107,15 +107,15 @@ data "template_file" "user_data" {
 }
 ```
 
-this resource is making use of the `template` provider, but our module doesn't define a specific provider block for it, nor 
-does our terraform using the module, thus we're presented with this message. It's considered best practice to explicitly 
+this resource is making use of the `template` provider, but our module doesn't define a specific provider block for it, nor
+does our terraform using the module, thus we're presented with this message. It's considered best practice to explicitly
 define provider blocks with some sort of explicit version requirement. Things have been changing fast in terraform and all of
 it's available providers, thus locking down to a particular version or at least major version can be helpful if not
 necessary in many cases.
 
 So, should the block be defined in the module or the thing using the module? The answer depends, but Hashicorp recommends that
 only the _root_ module, or calling Terraform define provider blocks. In this way, those using a module can decide on what
-version of the provider they need to use. Modules will inherit provider definitions implicitly by default. See 
+version of the provider they need to use. Modules will inherit provider definitions implicitly by default. See
 https://www.terraform.io/docs/configuration/modules.html#providers-within-modules for more info.
 
 Let's add the provider block for the `template` provider and re-run init. Add the following to our root main.tf file at the top:
@@ -158,7 +158,7 @@ module "example" {
 }
 ```
 
-This particular example is defining the default provider for this module or terraform project with a region of us-west-1, but an 
+This particular example is defining the default provider for this module or terraform project with a region of us-west-1, but an
 alternate provider that can then be passed to the example module.
 
 OK, back to our main exercise though, as soon as you're done with your `init` command, we can move the acutal apply:
@@ -195,11 +195,11 @@ lifecycle {
 }
 ```
 
-Lifecycles are another common meta attribute across terraform resources. They define how terraform internally processes changes to the 
-resource. In this case, we're telling Terraform that if a new resource needs to be created, and one already exists, ensure that 
+Lifecycles are another common meta attribute across terraform resources. They define how terraform internally processes changes to the
+resource. In this case, we're telling Terraform that if a new resource needs to be created, and one already exists, ensure that
 the new resource gets created before the previous one gets destroyed. One major caveat and gotcha of terraform exists in this flow:
 
-**If a resource defines a lifecycle rule of `create_before_destroy = true`, all of the related resource dependencies must also explicitly 
+**If a resource defines a lifecycle rule of `create_before_destroy = true`, all of the related resource dependencies must also explicitly
 define the same lifecycle rule for terraform internal processing to happen as expected**
 
 #### Template Files

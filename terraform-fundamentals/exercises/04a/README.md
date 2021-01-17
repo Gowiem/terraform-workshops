@@ -8,7 +8,7 @@ name in the `.terraform` subdir. Change as noted below:
 ```hcl
 terraform {
   backend "s3" {
-    bucket = "dws-di-* # change '*' to your student alias and add trailing quote
+    bucket = "tf-fundamentals-* # change '*' to your student alias and add trailing quote
     key    = "state/remote-state"
         region = "us-east-2"
   }
@@ -16,7 +16,7 @@ terraform {
 ```
 
 We need to specify the S3 bucket which stores the state, and we can't use a variable or a local, so you'll need to
-first edit `main.tf` to enter the actual name of your bucket. 
+first edit `main.tf` to enter the actual name of your bucket.
 
 Now run `terraform apply` in your Cloud9 IDE. This will create an instance. (You might want to take note of the instance
 ID which is shown in the EC2 console.)
@@ -41,7 +41,7 @@ the Terraform project.
 # Workspaces
 
 Now let's go further with a simple example of workspaces. Remember that workspaces are just distinct copies of the
-state. Rather than making our own copies, we'll let Terraform do it for us. 
+state. Rather than making our own copies, we'll let Terraform do it for us.
 
 Terraform always starts with a workspace called `default`. Let's create a new workspace and name it `sandbox`. To do
 that we'll use this command

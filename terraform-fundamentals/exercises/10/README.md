@@ -2,9 +2,9 @@
 
 By Default, Terraform will store the state for you infrastructure in a local file, but there's a problem with this:
 
-What if you work on a team where different people will run terraform at different times from different places? This 
-would mean you'd need to share your state file in some way. Some people have done it as encrypted local files in source 
-control, but this is generally not maintainable or scalable. So, enter the idea of central remote options for storing 
+What if you work on a team where different people will run terraform at different times from different places? This
+would mean you'd need to share your state file in some way. Some people have done it as encrypted local files in source
+control, but this is generally not maintainable or scalable. So, enter the idea of central remote options for storing
 your state files.
 
 Since this course is about Terraform in AWS specifically, let's look at a relevant option that Terraform provides: S3
@@ -21,7 +21,7 @@ terraform {
 }
 ```
 
-_ASIDE: The above is the first time we're seeing the root `terraform` block or stanza. In many cases, it's sole use will
+_ASIDE: The above is the first time we're seeing the root `terraform` block. In many cases, it's sole use will
 be for defining a remote backend, but it also allows you to do things like define a required terraform version via
 semantic version syntax. See https://www.terraform.io/docs/configuration/terraform.html for more info_
 
@@ -58,7 +58,7 @@ Terraform will perform the following actions:
       + arn                         = (known after apply)
       + bucket                      = (known after apply)
       + bucket_domain_name          = (known after apply)
-      + bucket_prefix               = "dws-di-bane-"
+      + bucket_prefix               = "tf-fundamentals-bane-"
       + bucket_regional_domain_name = (known after apply)
       + force_destroy               = true
       + hosted_zone_id              = (known after apply)
@@ -83,19 +83,19 @@ Do you want to perform these actions?
   Enter a value: yes
 
 aws_s3_bucket.state_bucket: Creating...
-aws_s3_bucket.state_bucket: Creation complete after 5s [id=dws-di-bane-20190623022126911700000001]
+aws_s3_bucket.state_bucket: Creation complete after 5s [id=tf-fundamentals-bane-20190623022126911700000001]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-state_bucket_name = dws-di-bane-20190623022126911700000001
+state_bucket_name = tf-fundamentals-bane-20190623022126911700000001
 ```
 
-Now, before we move on, you may be asking yourself: so what about the state for this state bucket? And it's a good 
-question. In this case, we're just accepting that we're maintaining a local state for the bucket itself. There are a 
-number of different paths you can take here including just ensuring that the bucket exists manually. The general idea 
-is that whatever manages this state bucket, be it manual or automated, should be by itself, easily recreateable and 
+Now, before we move on, you may be asking yourself: so what about the state for this state bucket? And it's a good
+question. In this case, we're just accepting that we're maintaining a local state for the bucket itself. There are a
+number of different paths you can take here including just ensuring that the bucket exists manually. The general idea
+is that whatever manages this state bucket, be it manual or automated, should be by itself, easily recreateable and
 not buried in a bunch of other automation.
 
 Copy the value of your `state_bucket_name` output from the output of your apply, we'll use it for setting the remote
@@ -123,7 +123,7 @@ bucket
 
 You'll want to enter the bucket name that was output from your `state-bucket` terraform run.
 
-Let's just focus on this slightly-different init command. It accepts backend configuration variables. The 
+Let's just focus on this slightly-different init command. It accepts backend configuration variables. The
 terraform settings and backend configuration block in a .tf file **CANNOT** accept or process interpolations. We can,
 however, still parameterize this stuff. This is particularly useful for things like secrets or other secure stuff
 you might pass into backend configuration. You can store it temporarily outside of your infrastructure code and

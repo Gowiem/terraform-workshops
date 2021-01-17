@@ -1,10 +1,10 @@
 # Exercise #9: Resource Counts and Conditional HCL
 
-The idea of "looping" or repeated resource capabilities in Terraform is one of the most encountered gotchas. 
-Declarative infrastructure tools and languages often require or encourage more explicit definition of things 
-rather than supporting logic where other languages might have an "easier" way of doing things. Nonetheless, 
-there's still a good deal you can accomplish via Terraform's `count` concept that mimicks the idea of loops 
-and creating multiple copies or versions of a single thing. 
+The idea of "looping" or repeated resource capabilities in Terraform is one of the most encountered gotchas.
+Declarative infrastructure tools and languages often require or encourage more explicit definition of things
+rather than supporting logic where other languages might have an "easier" way of doing things. Nonetheless,
+there's still a good deal you can accomplish via Terraform's `count` concept that mimicks the idea of loops
+and creating multiple copies or versions of a single thing.
 
 Modules, as we saw, are another key aspect of reusability in Terraform.
 
@@ -37,7 +37,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[0] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "dws-di-chucky"
+      + bucket                 = "tf-fundamentals-chucky"
       + content                = "dynamic-file at index 0"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -51,7 +51,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[1] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "dws-di-chucky"
+      + bucket                 = "tf-fundamentals-chucky"
       + content                = "dynamic-file at index 1"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -65,7 +65,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[2] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "dws-di-chucky"
+      + bucket                 = "tf-fundamentals-chucky"
       + content                = "dynamic-file at index 2"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -79,7 +79,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.optional_file[0] will be created
   + resource "aws_s3_bucket_object" "optional_file" {
       + acl                    = "private"
-      + bucket                 = "dws-di-chucky"
+      + bucket                 = "tf-fundamentals-chucky"
       + content                = "optional-file"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -106,7 +106,7 @@ Let's look at the `main.tf` file here to see what's going on. First, the `aws_s3
 ```hcl
 resource "aws_s3_bucket_object" "dynamic_file" {
   count   = "${var.object_count}"
-  bucket  = "dws-di-${var.student_alias}"
+  bucket  = "tf-fundamentals-${var.student_alias}"
   key     = "dynamic-file-${count.index}"
   content = "dynamic-file at index ${count.index}"
 }
@@ -140,7 +140,7 @@ things in your ultimately built infrastructure. Let's look at our `main.tf` agai
 ```hcl
 resource "aws_s3_bucket_object" "optional_file" {
   count   = "${var.include_optional_file ? 1 : 0}"
-  bucket  = "dws-di-${var.student_alias}"
+  bucket  = "tf-fundamentals-${var.student_alias}"
   key     = "optional-file"
   content = "optional-file"
 }
@@ -156,7 +156,7 @@ We see in our plan output
   # aws_s3_bucket_object.optional_file[0] will be created
   + resource "aws_s3_bucket_object" "optional_file" {
       + acl                    = "private"
-      + bucket                 = "dws-di-chucky"
+      + bucket                 = "tf-fundamentals-chucky"
       + content                = "optional-file"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -177,14 +177,14 @@ variable "include_optional_file" {
 }
 ```
 
-So, indeed our optional file/object would be created/maintained since we're using the default `include_optional_file=true`. Try 
+So, indeed our optional file/object would be created/maintained since we're using the default `include_optional_file=true`. Try
 another plan, but with
 
 ```
 terraform plan -var include_optional_file=false
 ```
 
-Is it what you expected? If you have a little extra time, play around more with count and other ways that you might achieve 
+Is it what you expected? If you have a little extra time, play around more with count and other ways that you might achieve
 conditional logic in HCL. Ask questions if you have them.
 
 Then, let's move on!

@@ -19,7 +19,7 @@ resource "random_shuffle" "region" {
 
 resource "aws_s3_bucket" "student_buckets" {
   for_each      = local.students
-  bucket        = "devint-${each.value.kebab_case_name}"
+  bucket        = "tf-fundamentals-${each.value.kebab_case_name}"
   acl           = "private"
   force_destroy = true
 }
@@ -80,8 +80,8 @@ resource "aws_iam_policy" "student_bucket_access" {
                 "s3:*"
             ],
             "Resource": [
-                "arn:aws:s3:::devint-${each.value.kebab_case_name}",
-                "arn:aws:s3:::devint-${each.value.kebab_case_name}-*"
+                "arn:aws:s3:::tf-fundamentals-${each.value.kebab_case_name}",
+                "arn:aws:s3:::tf-fundamentals-${each.value.kebab_case_name}-*"
             ]
         },
         {
@@ -91,8 +91,8 @@ resource "aws_iam_policy" "student_bucket_access" {
                 "s3:*"
             ],
             "Resource": [
-              "arn:aws:s3:::devint-${each.value.kebab_case_name}/*",
-              "arn:aws:s3:::devint-${each.value.kebab_case_name}-*/*"
+              "arn:aws:s3:::tf-fundamentals-${each.value.kebab_case_name}/*",
+              "arn:aws:s3:::tf-fundamentals-${each.value.kebab_case_name}-*/*"
             ]
         }
     ]
@@ -236,7 +236,7 @@ data "template_file" "email_script" {
   }
 }
 
-resource "null_resource" "email_users" {
+resource "null_resource" "email_students" {
   for_each = local.students
 
   provisioner "local-exec" {

@@ -1,4 +1,4 @@
-# S3 backend example 
+# S3 backend example
 # see https://www.terraform.io/docs/backends/types/s3.html
 
 # Run this from your own machine as well as from your Cloud9 IDE
@@ -6,7 +6,7 @@
 
 terraform {
   backend "s3" {
-    bucket = "dws-di-* # change '*' to your student alias and add trailing quote
+    bucket = "tf-fundamentals-* # change '*' to your student alias and add trailing quote
     key    = "state/remote-state"
 	region = "us-east-2"
   }
