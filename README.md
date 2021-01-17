@@ -1,7 +1,11 @@
-# Terraform Fundamentals Course
+# Terraform Workshops
 
-This material was originally called terraform-workshop and built by nubbthedestroyer (Michael Lucas).
+Materials for teaching Terraform as part of Develop Intelligence courses. These courses are provided live with an accompanying slide deck. The materials included here are supplemental to provide exercises and experiments for the students to get hands on experience with Terraform.
 
-Michael gave it to us when he stopped teaching, and then it was modified by Patrick Force.
+## History
 
-Patrick created a day of Packer to add to this workshop and that is not included here as we do not own that material.
+This material was originally called terraform-workshop and built by Michael Lucas (@nubbthedestroyer).
+
+Michael gave it to Develop Intelligence when he stopped teaching, and then it was modified by Patrick Force (@rockholla).
+
+The updates in this repository have been made by Matt Gowie (@Gowiem).
