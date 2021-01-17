@@ -47,7 +47,10 @@ cd workshop
 git clone https://github.com/Gowiem/terraform-workshop .
 ```
 
-## Confirm your AWS access
+Having done that, we should be ready to move on!
+
+<!-- TODO Remove as no longer needed -->
+<!-- ## Confirm your AWS access
 
 Before we move on, let's make sure we have our AWS credentials setup correctly. To do this, we need to confirm that our Cloud9 Environment was properly setup with an access key pair and defaults to our selected region (Ohio). To do that, run the following command:
 
@@ -64,6 +67,6 @@ AWS_ACCESS_KEY_ID=xxxxxx
 AWS_PATH=/opt/aws
 AWS_AUTO_SCALING_HOME=/opt/aws/apitools/as
 AWS_ELB_HOME=/opt/aws/apitools/elb
-```
+``` -->
 
-Having done that, we should be ready to move on!
+
