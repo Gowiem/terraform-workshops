@@ -20,9 +20,9 @@ variable "student_alias" {
 }
 ```
 
-*Note: We don't have to have a variables.tf file–we could just as well put all variables, resources,
+*Note: We don't have to have a variables.tf file – we could just as well put all variables, resources,
 outputs, etc. into one file, but it's considered best practice to maintain different files for variables,
-outputs, and resources.*
+outputs, and resources.
 
 The name of the variable above would be `student_alias`.
 
@@ -33,7 +33,7 @@ The possible properties of a variable:
     * defined in a *.tfvars file
     * defined in an environment variable like `TF_VAR_[variable name]`
     * or it will prompt for the input
-2. `description`: a useful descriptor for the variable
+2. `description`: a useful summary of what the variable does
 3. `type`: we'll discuss types in depth later
 
 We've only set the description, so there's no default value, and it will use the default type of: `string`.
@@ -51,7 +51,7 @@ negates the benefits of Terraform's native re-usability.  Instead, try using one
 
 Every time a new terraform working directory is created, we need to initialize it to prepare it to run against
 the designated external API.  This does not need to happen after the first apply, just for new working directories.
-Before continuing, make sure you're in the same directory as this README
+Before continuing, make sure you're in the same directory as this `README.md` file.
 
 ```bash
 terraform init
@@ -64,17 +64,11 @@ Initializing the backend...
 
 Initializing provider plugins...
 - Checking for available provider plugins...
-- Downloading plugin for provider "aws" (terraform-providers/aws) 2.15.0...
+- Downloading plugin for provider "aws" (terraform-providers/aws) 3.24.1...
 
 Terraform has been successfully initialized!
 
-You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
-
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
+...
 ```
 
 The init method picked up on the fact that we had a reference to AWS resources in our HCL. Namely, that we defined
@@ -87,7 +81,9 @@ provider "aws" {
 ```
 
 One of init's jobs here is to ensure that it downloads the necessary providers to the `.terraform` directory
-locally so that further plans and applies can use it.
+locally so that further plans and applies can use it. We'll get into providers later in the course.
+
+## Ways to pass variable values to Terraform
 
 ### tfvars file
 
@@ -99,8 +95,8 @@ Let's try a few things.
 * create a file called terraform.tfvars in this directory
 * insert the following code into it:
 ```hcl
-# swap "[your alias]" with your provided alias
-student_alias = "[your alias]"
+# swap "$YOUR_ALIAS" with your full name in kebab case. e.g. "Luke Skywalker" => "luke-skywalker"
+student_alias = "$YOUR_ALIAS"
 ```
 * then run this in the same directory
 ```bash
@@ -125,7 +121,7 @@ testing because values entered via CLI override values from other methods.
 identifier like before.
 
 ```bash
-terraform plan -var 'student_alias=[your alias]'
+terraform plan -var 'student_alias=$YOUR_ALIAS'
 ```
 
 * You can try using a different identifier to see if it worked. Like before, you should be able to see the
@@ -139,7 +135,7 @@ environment variable must be `TF_VAR_` followed by the variable name, and the va
 Try the following:
 
 ```bash
-TF_VAR_student_alias=[your alias] terraform plan
+TF_VAR_student_alias=$YOUR_ALIAS terraform plan
 ```
 
 This can be a useful method for secrets handling, or other automated use cases.

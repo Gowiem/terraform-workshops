@@ -2,10 +2,10 @@ locals {
   students_yaml = yamldecode(file("${path.module}/config/${terraform.workspace}.yaml"))
 
   # students is a map of student names to student info objects
-  # Example: { finn_mertens: { name: "Finn Mertens", email: "finn@masterpoint.io", kebab_case_name: "FinnMertens" }, ... }
+  # Example: { finn_mertens: { name: "Finn Mertens", email: "finn@masterpoint.io", alias: "finn-mertens" }, ... }
   students = { for s in local.students_yaml :
     replace(lower(s.name), " ", "_") => merge(s, {
-      kebab_case_name = replace(lower(s.name), " ", "-")
+      alias = replace(lower(s.name), " ", "-")
     })
   }
 }
@@ -19,7 +19,7 @@ resource "random_shuffle" "region" {
 
 resource "aws_s3_bucket" "student_buckets" {
   for_each      = local.students
-  bucket        = "tf-fundamentals-${each.value.kebab_case_name}"
+  bucket        = "tf-fundamentals-${each.value.alias}"
   acl           = "private"
   force_destroy = true
 }
@@ -58,7 +58,7 @@ resource "aws_iam_user_login_profile" "students" {
 
 resource "aws_iam_policy" "student_bucket_access" {
   for_each    = local.students
-  name        = "${each.value.kebab_case_name}-StudentBucketAccess"
+  name        = "${each.value.alias}-StudentBucketAccess"
   description = "Allowing student access to their own bucket"
   policy      = <<EOF
 {
@@ -80,8 +80,8 @@ resource "aws_iam_policy" "student_bucket_access" {
                 "s3:*"
             ],
             "Resource": [
-                "arn:aws:s3:::tf-fundamentals-${each.value.kebab_case_name}",
-                "arn:aws:s3:::tf-fundamentals-${each.value.kebab_case_name}-*"
+                "arn:aws:s3:::tf-fundamentals-${each.value.alias}",
+                "arn:aws:s3:::tf-fundamentals-${each.value.alias}-*"
             ]
         },
         {
@@ -91,8 +91,8 @@ resource "aws_iam_policy" "student_bucket_access" {
                 "s3:*"
             ],
             "Resource": [
-              "arn:aws:s3:::tf-fundamentals-${each.value.kebab_case_name}/*",
-              "arn:aws:s3:::tf-fundamentals-${each.value.kebab_case_name}-*/*"
+              "arn:aws:s3:::tf-fundamentals-${each.value.alias}/*",
+              "arn:aws:s3:::tf-fundamentals-${each.value.alias}-*/*"
             ]
         }
     ]
@@ -232,7 +232,10 @@ data "template_file" "email_script" {
   vars = {
     encrypted_password = aws_iam_user_login_profile.students[each.key].encrypted_password
     student_email      = each.value.email
+    student_alias      = each.value.alias
     student_region     = random_shuffle.region[each.key].result[0]
+    link_to_slides     = var.link_to_slides
+    link_to_survey     = var.link_to_survey
   }
 }
 

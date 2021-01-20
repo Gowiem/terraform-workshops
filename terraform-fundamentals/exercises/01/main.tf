@@ -9,7 +9,7 @@ provider "aws" {
 
 # declare a resource block so we can create something.
 resource "aws_s3_bucket_object" "student_alias" {
-  bucket  = "tf-fundamentals--${var.student_alias}"
-  key     = "student_alias"
+  bucket  = "tf-fundamentals-${var.student_alias}"
+  key     = "student.alias"
   content = "This bucket is reserved for ${var.student_alias}"
 }

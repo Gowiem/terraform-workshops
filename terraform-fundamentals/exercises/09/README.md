@@ -37,7 +37,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[0] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundamentals-chucky"
+      + bucket                 = "tf-fundamentals-luke-skywalker"
       + content                = "dynamic-file at index 0"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -51,7 +51,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[1] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundamentals-chucky"
+      + bucket                 = "tf-fundamentals-luke-skywalker"
       + content                = "dynamic-file at index 1"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -65,7 +65,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[2] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundamentals-chucky"
+      + bucket                 = "tf-fundamentals-luke-skywalker"
       + content                = "dynamic-file at index 2"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -79,7 +79,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.optional_file[0] will be created
   + resource "aws_s3_bucket_object" "optional_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundamentals-chucky"
+      + bucket                 = "tf-fundamentals-luke-skywalker"
       + content                = "optional-file"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -156,7 +156,7 @@ We see in our plan output
   # aws_s3_bucket_object.optional_file[0] will be created
   + resource "aws_s3_bucket_object" "optional_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundamentals-chucky"
+      + bucket                 = "tf-fundamentals-luke-skywalker"
       + content                = "optional-file"
       + content_type           = (known after apply)
       + etag                   = (known after apply)

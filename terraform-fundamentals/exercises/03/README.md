@@ -119,7 +119,9 @@ aws_s3_bucket_object.user_student_alias_object: Creation complete after 1s [id=s
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
 
-Now let's run a plan again.
+Awesome, we've succesfully applied our Terraform infrastructure and created a resource, easy!
+
+Now let's run a plan again and see what happens:
 
 ```bash
 terraform plan
@@ -135,7 +137,7 @@ You should notice a couple differences:
 
 Now, let's try making a change to the s3 bucket object and allow Terraform to correct it.  Let's change the content of our object.
 
-Find `main.tf` and modify the s3 bucket block to reflect the following:
+Find `main.tf` and modify the s3 bucket block to reflect the following (add the `****ONLY****` bit to the end of the content string):
 
 ```hcl
 # declare a resource block so we can create something.
@@ -211,7 +213,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be destroyed
   - resource "aws_s3_bucket_object" "user_student_alias_object" {
       - acl           = "private" -> null
-      - bucket        = "tf-fundamentals-chucky" -> null
+      - bucket        = "tf-fundamentals-..." -> null
       - content       = "This bucket is reserved for ... ****ONLY****" -> null
       - content_type  = "binary/octet-stream" -> null
       - etag          = "c7e49348083281f9dd997923fe6084b7" -> null
@@ -235,6 +237,6 @@ aws_s3_bucket_object.user_student_alias_object: Destruction complete after 0s
 Destroy complete! Resources: 1 destroyed.
 ```
 
-You'll notice that the destroy process if very similar to apply, just the other way around! And it also requires
+You'll notice that the destroy process is very similar to apply, just the other way around! And it also requires
 confirmation, which is a good thing.
 
