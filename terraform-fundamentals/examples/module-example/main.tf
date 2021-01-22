@@ -1,5 +1,9 @@
-module "printer" {
-  source = "./my_module"
+module "example" {
+  source = "./hello"
+  name   = "Class"
+}
 
-  thing = "this should be printed"
+output "executed_command_from_module" {
+  value       = module.example.executed_command
+  description = "The command that the module executed."
 }
