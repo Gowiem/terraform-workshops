@@ -1,9 +1,12 @@
 locals {
-  students_yaml = yamldecode(file("${path.module}/config/${terraform.workspace}.yaml"))
+  config_yaml = yamldecode(file("${path.module}/config/${terraform.workspace}.yaml"))
+
+  link_to_slides = local.config_yaml.link_to_slides
+  link_to_survey = local.config_yaml.link_to_survey
 
   # students is a map of student names to student info objects
   # Example: { finn_mertens: { name: "Finn Mertens", email: "finn@masterpoint.io", alias: "finn-mertens" }, ... }
-  students = { for s in local.students_yaml :
+  students = { for s in local.config_yaml.students :
     replace(lower(s.name), " ", "_") => merge(s, {
       alias = replace(lower(s.name), " ", "-")
     })
@@ -234,8 +237,8 @@ data "template_file" "email_script" {
     student_email      = each.value.email
     student_alias      = each.value.alias
     student_region     = random_shuffle.region[each.key].result[0]
-    link_to_slides     = var.link_to_slides
-    link_to_survey     = var.link_to_survey
+    link_to_slides     = local.link_to_slides
+    link_to_survey     = local.link_to_survey
   }
 }
 

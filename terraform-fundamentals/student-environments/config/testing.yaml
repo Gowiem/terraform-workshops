@@ -1,5 +1,8 @@
-- name: Finn Mertens
-  email: matt+finn@masterpoint.io
+link_to_survey: testing
+link_to_slides: testing
+students:
+  - name: Finn Mertens
+    email: matt+finn@masterpoint.io
 
-- name: Jake Dogg
-  email: matt+jake@masterpoint.io
+  - name: Jake Dogg
+    email: matt+jake@masterpoint.io
