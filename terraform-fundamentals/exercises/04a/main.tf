@@ -4,7 +4,7 @@
 # Run this from your own machine as well as from your Cloud9 IDE
 # and you'll see that state is maintained across both machines.
 terraform {
-  backend "`s3" {
+  backend "s3" {
     bucket = "tf-fundamentals-${var.student_alias}"
     key    = "state/remote-state"
     region = "us-east-2"
