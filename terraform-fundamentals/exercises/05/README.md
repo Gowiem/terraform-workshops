@@ -19,15 +19,18 @@ Then, add this provider block with the new region to `main.tf` just under the ex
 ```hcl
 provider "aws" {
   version = "~> 3.0"
-  region = "${var.region_alt}"
-  alias = "alternate"
+  region  = var.region_alt
+  alias   = "alternate"
 }
 ```
 
 You will also need to specify the alternate provider when creating your bucket:
 
 ```hcl
+resource "aws_s3_bucket" "student_bucket_alt" {
+  bucket   = "tf-fundamentals-${var.student_alias}-alt"
   provider = aws.alternate
+}
 ```
 
 Now, let's provision and bring up another s3 bucket in this other region
@@ -40,9 +43,9 @@ terraform show
 The above should show that you have a bucket now named `tf-fundamentals-[your student alias]-alt` that was created in the
 us-west-2 region.
 
-*NOTE:* that at the beginning of our course we set the `AWS_DEFAULT_REGION` environment variable in your Cloud9 environment.
-Along with this variable and the access key and secret key, terraform is able to use these environment variables for the AWS
-provider as defaults unless you override them in the HCL provider block.
+**NOTE:** the `AWS_DEFAULT_REGION` environment variable is set in your Cloud9 environment as part of creating it.
+Along with this variable and the access key and secret key, terraform is able to use these environment variables for the default AWS
+provider (non-aliased provider) as defaults unless you override them in the provider block.
 
 We'll be looking more at using providers in other exercises as we move along.
 
