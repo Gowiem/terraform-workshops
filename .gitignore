@@ -1,2 +1,11 @@
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+## terraform-workshops specific ignores
+########################################
 ! fundamentals/student-environments/config/testing.yaml
 fundamentals/student-environments/config/*
