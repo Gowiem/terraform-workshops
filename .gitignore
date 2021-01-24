@@ -5,6 +5,9 @@
 *.tfstate
 *.tfstate.*
 
+# plan files
+*.plan
+
 ## terraform-workshops specific ignores
 ########################################
 ! fundamentals/student-environments/config/testing.yaml
