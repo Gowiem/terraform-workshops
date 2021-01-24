@@ -1,6 +1,6 @@
 # Exercise #6: Modules
 
-Terraform is *ALL* about modules.  Every terraform working directory is really just a module that could be reused by others
+Terraform is *ALL* about modules.  Every terraform project / working directory is really just a module that could be reused by others
 This is one of the key capabilities of Terraform.
 
 In this exercise, we are going to modularize the code that we have been playing with during this whole workshop, but instead of
@@ -48,12 +48,7 @@ terraform apply
 ```
 
 You'll notice that terraform manages each resource as if there is no module division, meaning the resources are bucketed
-into one big change list, but under the covers Terraform's dependency graph will show some separation.  It's very difficult,
-for example, to create dependencies between two resources that are in different modules.  You can, however, use
-interpolation to create a variable dependency between two modules at the root level, ensuring one is created before the other.
-
-Specific applications where direct resource dependency is required really necessitate the grouping of those resources
-into a single module or project.
+into one big change list, but under the covers Terraform's dependency graph will show some separation.
 
 ### Finishing this exercise
 
