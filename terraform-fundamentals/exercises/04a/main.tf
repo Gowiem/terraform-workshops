@@ -3,10 +3,9 @@
 
 # Run this from your own machine as well as from your Cloud9 IDE
 # and you'll see that state is maintained across both machines.
-
 terraform {
-  backend "s3" {
-    bucket = "tf-fundamentals-* # change '*' to your student alias and add trailing quote
+  backend "`s3" {
+    bucket = "tf-fundamentals-${var.student_alias}"
     key    = "state/remote-state"
     region = "us-east-2"
   }
@@ -37,6 +36,6 @@ resource "aws_instance" "web" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "TestInstance"
+    Name = "${var.student_alias}-TestInstance"
   }
 }

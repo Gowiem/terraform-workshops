@@ -6,9 +6,9 @@
 
 terraform {
   backend "s3" {
-    bucket = "tf-fundamentals-* # change '*' to your student alias and add trailing quote
+    bucket = "tf-fundamentals-${var.student_alias}"
     key    = "state/remote-state"
-	region = "us-east-2"
+    region = "us-east-2"
   }
 }
 
