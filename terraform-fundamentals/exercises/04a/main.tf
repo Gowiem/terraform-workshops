@@ -5,7 +5,7 @@
 # and you'll see that state is maintained across both machines.
 terraform {
   backend "s3" {
-    bucket = "tf-fundamentals-${var.student_alias}"
+    bucket = "tf-fundamentals-* # change '*' to your student alias and add trailing quote
     key    = "state/remote-state"
     region = "us-east-2"
   }

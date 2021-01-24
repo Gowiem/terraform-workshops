@@ -2,17 +2,22 @@
 
 This exercise represents a simple example of a remote backend. Most examples require deeper understanding of AWS,
 but all we did here was create an AWS instance and store the state in S3 rather than locally. To do this we use a
-`terraform` block.
+`terraform` block. It has a deliberate error in it because we don't want Terraform to store an incorrect bucket
+name in the `.terraform` subdir. Change as noted below:
+
 
 ```hcl
 terraform {
   backend "s3" {
-    bucket = "tf-fundamentals-${var.student_alias}"
+    bucket = "tf-fundamentals-* # change '*' to your student alias and add trailing quote
     key    = "state/remote-state"
     region = "us-east-2"
   }
 }
 ```
+
+We need to specify the S3 bucket which stores the state, and we can't use a variable or a local (not allowed in `backend` blocks), so you'll need to
+first edit `main.tf` to enter the actual name of your bucket.
 
 Now run `terraform apply` in your Cloud9 IDE. This will create an instance and print the instance ID of the new instance as it's an output.
 
