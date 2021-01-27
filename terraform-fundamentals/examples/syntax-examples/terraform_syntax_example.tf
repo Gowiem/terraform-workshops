@@ -2,12 +2,20 @@ locals {
   example = "argument"
 }
 
+data "aws_s3_bucket" "example_bucket" {
+  # ...
+}
+
 resource "aws_instance" "example" {
   ami = "abc123"
 
   network_interface {
-    # ...
+    # This is a nested block
   }
+}
+
+module "rds_cluster" {
+  # ...
 }
 
 variable "ami" {
@@ -20,5 +28,9 @@ output "instance_id" {
 }
 
 terraform {
+  # ...
+}
+
+provider "github" {
   # ...
 }

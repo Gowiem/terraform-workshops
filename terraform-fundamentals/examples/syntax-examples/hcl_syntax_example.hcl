@@ -4,9 +4,9 @@
 Multi line comment block
 */
 structure { }
-structure "arg0" { }
-structure "arg0" "arg1" { }
-structure "arg0" "arg1" "arg2" {
+structure "label0" { }
+structure "label0" "label1" { }
+structure "label0" "label1" "label2" {
     interpolation = "${lookup(element(var.foo, "bar"))}"
     decimal = -42
     hexidecimal = 0xDEADBEEF
