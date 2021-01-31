@@ -1,4 +1,0 @@
-variable "region" {
-  # fill in
-}
-

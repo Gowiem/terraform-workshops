@@ -1,6 +1,5 @@
 provider "aws" {
-  version = "~> 3.0"
-  region  = var.region
+  region = var.region
 }
 
 data "aws_ami" "ubuntu" {
@@ -19,7 +18,7 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_security_group" "nginx" {
-  name        = "nginx_firewall"
+  name        = "${var.student_alias}-nginx-firewall"
   description = "Firewall for the nginx-server"
 
   ingress {
@@ -46,11 +45,11 @@ resource "aws_instance" "nginx_server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
 
-  user_data = file("install-nginx.sh")
+  user_data = file("install_nginx.sh")
 
   security_groups = [aws_security_group.nginx.name]
 
   tags = {
-    Name = "nginx-server"
+    Name = "${var.student_alias}-nginx-server"
   }
 }
