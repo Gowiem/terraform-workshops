@@ -7,16 +7,19 @@ variable "student_alias" {
 }
 
 variable "key_name" {
-  description = "The name of the EC2 Key Pair that can be used to SSH to the EC2 Instances. Leave blank to not associate a Key Pair with the Instances."
   default     = ""
+  description = <<-EOT
+  The name of the EC2 Key Pair that can be used to SSH to the EC2 Instances.
+  Leave blank to not associate a Key Pair with the Instances."
+  EOT
 }
 
 variable "frontend_server_text" {
-  description = "The text the frontend should return for HTTP requests"
   default     = "Hello from frontend"
+  description = "The text the frontend should return for HTTP requests"
 }
 
 variable "backend_server_text" {
-  description = "The text the backend should return for HTTP requests"
   default     = "Hello from backend"
+  description = "The text the backend should return for HTTP requests"
 }

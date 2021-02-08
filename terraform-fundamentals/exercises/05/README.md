@@ -18,7 +18,6 @@ Then, add this provider block with the new region to `main.tf` just under the ex
 
 ```hcl
 provider "aws" {
-  version = "~> 3.0"
   region  = var.region_alt
   alias   = "alternate"
 }

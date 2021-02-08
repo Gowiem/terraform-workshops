@@ -1,6 +1,4 @@
-provider "aws" {
-  version = "~> 3.0"
-}
+provider "aws" {}
 
 variable "student_alias" {
   description = "Your student alias"

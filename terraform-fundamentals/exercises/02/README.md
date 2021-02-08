@@ -75,9 +75,7 @@ The init method picked up on the fact that we had a reference to AWS resources i
 the AWS provider
 
 ```hcl
-provider "aws" {
-  version = "~> 3.0" # meaning any non-beta version >= 3.0 and < 4.0
-}
+provider "aws" {}
 ```
 
 One of init's jobs here is to ensure that it downloads the necessary providers to the `.terraform` directory

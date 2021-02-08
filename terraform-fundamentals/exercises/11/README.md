@@ -25,11 +25,6 @@ and be load balanced in AWS. Some key components to this module:
 # DEPLOY TWO MICROSERVICES: FRONTEND AND BACKEND
 # ---------------------------------------------------------------------------------------------------------------------
 
-provider "aws" {
-  version = "~> 3.0"
-  region  = "${var.aws_region}"
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # DEPLOY THE FRONTEND
 # ---------------------------------------------------------------------------------------------------------------------
@@ -68,7 +63,7 @@ module "backend" {
 ```
 
 We've abstracted almost everything into our module, and we see here a pretty nice reusability pattern. It also makes it easy
-to see our intention for the project as whole in the code itself (documented infrastructure code through the code itself?):
+to see our intention for the project overall in the code itself (note: *this* is one of the huge benefits of infrastructure as code that we've talked about):
 
 * We're setting up a backend service that should have at most 3 servers, a minimum of 1 server; we're telling it to use the startup script of `user-data-backend.sh` and we're passing the text that will be served through the service as the output of the app/page
 * We're setting up a frontend service that should have at most 2 servers, a minimum of 1 server; it will use the `user-data-frontend.sh` as the startup script and we'll pass the text to serve through the app/page as well
@@ -86,8 +81,7 @@ The following providers do not have any version constraints in configuration,
 so the latest version was installed.
 
 To prevent automatic upgrades to new major versions that may contain breaking
-changes, it is recommended to add version = "..." constraints to the
-corresponding provider blocks in configuration, with the constraint strings
+changes, it is recommended to specify version constraints providers via the `terraform` block, with the constraint strings
 suggested below.
 
 * provider.template: version = "~> 2.1"
@@ -109,26 +103,30 @@ data "template_file" "user_data" {
 
 this resource is making use of the `template` provider, but our module doesn't define a specific provider block for it, nor
 does our terraform using the module, thus we're presented with this message. It's considered best practice to explicitly
-define provider blocks with some sort of explicit version requirement. Things have been changing fast in terraform and all of
+define the provider version requirement. Things have been changing fast in terraform and all of
 it's available providers, thus locking down to a particular version or at least major version can be helpful if not
 necessary in many cases.
 
 So, should the block be defined in the module or the thing using the module? The answer depends, but Hashicorp recommends that
 only the _root_ module, or calling Terraform define provider blocks. In this way, those using a module can decide on what
 version of the provider they need to use. Modules will inherit provider definitions implicitly by default. See
-https://www.terraform.io/docs/configuration/modules.html#providers-within-modules for more info.
+https://www.terraform.io/docs/language/meta-arguments/module-providers.html for more info.
 
-Let's add the provider block for the `template` provider and re-run init. Add the following to our root main.tf file at the top:
+Let's add an explicit provider version requirement for the `template` provider and re-run init. Add the following to our root `main.tf` file at the top:
 
 ```hcl
-provider "template" {
-  version = "~> 2.1"
+terraform {
+  required_providers {
+    template = {
+      source  = "hashicorp/template"
+      version = "~> 2.2"
+    }
+  }
 }
 ```
 
 Then we can re-run init:
 ```bash
-rm -rf .terraform
 terraform init
 ```
 
@@ -171,14 +169,14 @@ terraform apply
 
 The apply will present you with the plan and ask you to accept it to continue with the actual apply. Type "yes" and we'll
 see the actual creation of resources on AWS start to happen. This will take a little while, so let's look through some other
-things in the meantime
+things in the meantime.
 
 ### Some new and common things going on in the `microservice` module
 
 #### Dependencies
 
 ```
-depends_on = ["aws_alb_listener.http"]
+depends_on = [aws_alb_listener.http]
 ```
 
 The `depends_on` meta attribute is a common terraform resource property that allows you to define explicit dependencies. In most
@@ -207,10 +205,6 @@ define the same lifecycle rule for terraform internal processing to happen as ex
 We haven't seen these yet, but there's yet another type of data source: a `data "template_file"` resource allows us to load a local
 template file and pass values into for rendering and then for use in another resource. In this case, we pass in our rendered templates
 as the startup scripts for our servers
-
-#### Terraform 0.12 only syntax?
-
-Can you identify the syntax in our project and the `microservice` module that would only work in Terraform v0.12?
 
 ### OK, back to our apply results
 
@@ -344,7 +338,7 @@ the load balancer to our EC2 instances actually running the service code. Includ
 through the backend load balancer to the backend server or servers. So, we also have our backend load balancer URL. Let's try to open that
 in the browser.
 
-Did it work? Wait, can you figure out why not?
+Did it work? If not, can you figure out why not?
 
 ### What else?
 

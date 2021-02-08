@@ -3,9 +3,7 @@
 # Declare the provider being used, in this case it's AWS.
 # This provider supports setting the provider version, AWS credentials as well as the region.
 # It can also pull credentials and the region to use from environment variables, which we have set, so we'll use those
-provider "aws" {
-  version = "~> 3.0"
-}
+provider "aws" {}
 
 # A Terraform data source is a specific type of resource that gives us the ability to pull in data from elsewhere to
 # use in our own terraform HCL and operations
