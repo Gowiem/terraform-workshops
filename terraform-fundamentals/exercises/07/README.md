@@ -14,8 +14,8 @@ terraform apply
 
 You should see something like:
 
-```Error: Could not satisfy plugin requirements
-
+```
+Error: Could not satisfy plugin requirements
 
 Plugin reinitialization required. Please run "terraform init".
 
@@ -50,11 +50,17 @@ unset TF_VAR_student_alias && terraform apply -input=false
 Which should give you something like:
 
 ```
-Error: Unassigned variable
+Error: No value for required variable
 
-The input variable "student_alias" has not been assigned a value. This is a
-bug in Terraform; please report it in a GitHub issue.
+  on variables.tf line 4:
+   4: variable "student_alias" {
+
+The root module input variable "student_alias" is not set, and has no default
+value. Use a -var or -var-file command line argument to provide a value for
+this variable.
 ```
+
+Alright, pretty simple and straight forward to grasp right? Let's move on.
 
 ### Syntactical Errors
 
@@ -130,8 +136,7 @@ and what is required. The `bucket` property is required, so it's tell us we have
 
 ### Provider Errors or Passthrough
 
-And now to the most frustrating ones! These may be random, intermittent. They will be very specific to the provider and problems
-that happen when actually trying to do the work of setting up or maintaining your resources. Let's take a look at a simple example.
+And now to the most frustrating ones! These may be random, intermittent and they will be very specific to the provider you're using. These problems happen when actually trying to do the work of setting up or maintaining your resources. Let's take a look at a simple example.
 Modify the invalid resource we've been working with here in `main.tf` to now be:
 
 ```hcl
@@ -208,7 +213,7 @@ Where is this error actually coming from? In this case, it's the AWS S3 API. It'
 doesn't exist. Terraform is making the related API call to try and create the object, but AWS can't do it because the bucket
 in which we're trying to put the object either doesn't exist or we don't own it, so we get this error passed back to us.
 
-One other thing worth noting–Did everything fail?
+One other thing worth noting -- Did everything fail?
 
 ```
 aws_s3_bucket_object.a_resource_that_will_fail: Creating...
