@@ -12,7 +12,7 @@ and using them in action.
 
 ### Primitive Types
 
-Terraform has restructured to include variable types in a category "primitive." These are quite similar to
+Terraform has restructured to include variable types in a category "primitive". These are quite similar to
 what you'd find in other language primitives. Let's change into the `primitives` directory and run some terraform
 to see primitives in action
 
@@ -21,8 +21,7 @@ cd primitives
 terraform apply
 ```
 
-We're not really creating any infrastructure in this exercise, rather just looking at the processing and output
-of variables and data. You should see something like the following when running the above:
+Wow that fast! That's because we're not really creating any infrastructure in this folder, rather we're just looking at the processing and output of variables and data. You should see something like the following when running the above:
 
 ```
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
@@ -60,7 +59,7 @@ variable "my_number" {
 }
 ...
 output "my_number_plus_two" {
-  value = "${var.my_number + 2}"
+  value = var.my_number + 2
 }
 ```
 
@@ -73,10 +72,11 @@ variable "my_bool" {
 }
 ...
 output "my_bool_negated" {
-  value = "${!var.my_bool}"
+  value = !var.my_bool
 }
+
 output "my_bool_value" {
-  value = "${var.my_bool == true ? "my_bool is true" : "my_bool is false"}"
+  value = var.my_bool == true ? "my_bool is true" : "my_bool is false"
 }
 ```
 
@@ -230,7 +230,7 @@ We've covered HCL data and variable concepts pretty completely at this point, bu
 at one other thing: Terraform data sources and referencing these data sources.
 
 Remember earlier when we queried the state of another terraform project? That was a Terraform data source. We want to look at how
-providers allow you the ability to query particular sources to get things you need at runtime with the same mechanism. 
+providers allow you the ability to query particular sources to get things you need at runtime with the same mechanism.
 Two very common examples in the AWS provider:
 
 1. Querying available AMI images in AWS to get the AMI ID to use for your EC2 instance

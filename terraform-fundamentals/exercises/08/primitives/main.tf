@@ -18,13 +18,13 @@ output "my_string_interpolated" {
 }
 
 output "my_number_plus_two" {
-  value = "${var.my_number + 2}"
+  value = var.my_number + 2
 }
 
 output "my_bool_negated" {
-  value = "${!var.my_bool}"
+  value = !var.my_bool
 }
 
 output "my_bool_value" {
-  value = "${var.my_bool == true ? "my_bool is true" : "my_bool is false"}"
+  value = var.my_bool == true ? "my_bool is true" : "my_bool is false"
 }
