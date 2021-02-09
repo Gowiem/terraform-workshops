@@ -10,5 +10,8 @@
 
 ## terraform-workshops specific ignores
 ########################################
-! fundamentals/student-environments/config/testing.yaml
-fundamentals/student-environments/config/*
+! student-environments/config/testing.yaml
+student-environments/config/*
+
+! student-environments/messages/.gitkeep
+student-environments/messages/*

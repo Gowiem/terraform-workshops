@@ -228,8 +228,32 @@ resource "aws_iam_user_policy_attachment" "dynamodb_user_access" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 }
 
+data "template_file" "message_script" {
+  for_each = !var.email_enabled ? local.students : {}
+
+  template = file("${path.module}/templates/message.sh.tpl")
+  vars = {
+    encrypted_password = aws_iam_user_login_profile.students[each.key].encrypted_password
+    student_email      = each.value.email
+    student_alias      = each.value.alias
+    student_region     = random_shuffle.region[each.key].result[0]
+    link_to_slides     = local.link_to_slides
+    link_to_survey     = local.link_to_survey
+  }
+}
+
+resource "null_resource" "message_files" {
+  for_each = !var.email_enabled ? local.students : {}
+
+  provisioner "local-exec" {
+    interpreter = ["/bin/bash", "-c"]
+    command     = data.template_file.message_script[each.key].rendered
+  }
+}
+
+
 data "template_file" "email_script" {
-  for_each = local.students
+  for_each = var.email_enabled ? local.students : {}
 
   template = file("${path.module}/templates/email.sh.tpl")
   vars = {
@@ -243,7 +267,7 @@ data "template_file" "email_script" {
 }
 
 resource "null_resource" "email_students" {
-  for_each = local.students
+  for_each = var.email_enabled ? local.students : {}
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
