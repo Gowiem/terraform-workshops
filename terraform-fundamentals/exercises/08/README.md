@@ -21,7 +21,7 @@ cd primitives
 terraform apply
 ```
 
-Wow that fast! That's because we're not really creating any infrastructure in this folder, rather we're just looking at the processing and output of variables and data. You should see something like the following when running the above:
+Wow that was fast! That's because we're not really creating any infrastructure in this folder, rather we're just looking at the processing and output of variables and data. You should see something like the following when running the above:
 
 ```
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
@@ -154,11 +154,11 @@ variable "my_list" {
 }
 ...
 output "my_list_index_2" {
-  value = "${var.my_list[2]}"
+  value = var.my_list[2]
 }
 
 output "my_list_values" {
-  value = "${var.my_list}"
+  value = var.my_list
 }
 ```
 
@@ -173,12 +173,11 @@ variable "my_set" {
 }
 ...
 output "my_set_values" {
-  value = "${var.my_set}"
+  value = var.my_set
 }
 ```
 
-Sets are kinda like lists, but have their differences. We discussed them, but play around with the definition in the HCL here and
-see if you can remember or identify what makes a set unique.
+Sets are very similar to lists, but have their differences. We discussed them, but play around with the definition in the HCL here and see if you can remember or identify what makes a set _unique_.
 
 ```hcl
 variable "my_tuple" {
@@ -192,27 +191,35 @@ output "my_tuple_values" {
 ```
 
 My guess is that you'll probably use tuples the least of any of the types. But we get to see it in action here nonetheless.
-The key takeaway is that it's a list with mixed, strict type constraints.
+The key takeaway is that it's a list with mixed, strict type constraints and ordering.
 
 ```hcl
 variable "my_map" {
-  type      = map
-  default   = {names: ["John", "Susy", "Harold"], ages: [12, 14, 10]}
+  type    = map(list(any))
+  default = {
+    names : ["John", "Susy", "Harold"],
+    ages : [12, 14, 10],
+  }
 }
 ...
 output "my_map_values" {
-  value = var.my_map # the ability to do this without quotes is new in 0.12!
+  value = var.my_map
 }
 ```
 
-Maps are also not new in 0.12, and they work very similarly to how they did before, except that they now allow a type constraint
-for the related value(s). A map is just a collection of key/values.
+Maps are also not new in 0.12, and they work very similarly to how they did before, except that they now allow a type constraint for the related value(s). A map is just a collection of key/values.
 
 ```hcl
 # How is this different than the map above?
 variable "my_object" {
-  type      = object({names: list(string), ages: list(number)})
-  default   = {names: ["John", "Susy", "Harold"], ages: [12, 14, 10]}
+  type = object({
+    names : list(string),
+    ages : list(number),
+  })
+  default = {
+    names : ["John", "Susy", "Harold"],
+    ages : [12, 14, 10]
+  }
 }
 ...
 output "my_object_values" {
@@ -289,15 +296,13 @@ data "aws_ami" "ubuntu" {
 }
 ```
 
-Don't worry too much about all the pieces here, the most important part to understand right now is really `data "aws_ami"`. This
-is a data source type resource that is a generic construct in Terraform itself. The AWS provider implements this `aws_ami` data
-source type so that we can query AMIs available in AWS.
+Don't worry too much about all the pieces here, the most important part to understand right now is really `data "aws_ami"`. This is a data source type resource that is a generic construct in Terraform itself. The AWS provider implements this `aws_ami` data source type so that we can query AMIs available in AWS.
 
 After the data source resource is declared, we can then access it's attributes that have been populated by actually making the
 query to AWS
 
 ```
-${data.aws_ami.ubuntu.id}
+data.aws_ami.ubuntu.id
 ```
 
 Second, let's look at the availability zone query pieces
@@ -310,13 +315,13 @@ data "aws_availability_zones" "available" {
 ```
 
 Availability zones are specific to a particular region, and we're not passing in a region here, so how is this working? If you
-can't figure out, ask your instructor for a little help.
+can't figure out, ask a fellow classmate or the instructor for a little help!
 
 Similar to the AMI data source, this one also has attributes that have been populated and can be accessed after the query to
 the AWS api actually happens. So in our subsequent HCL, we can access the `names` attribute, giving us all AZ names
 
 ```
-${data.aws_availability_zones.available.names}
+data.aws_availability_zones.available.names
 ```
 
 ### Finishing off this exercise
