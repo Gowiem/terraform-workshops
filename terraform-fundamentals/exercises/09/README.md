@@ -139,14 +139,14 @@ things in your ultimately built infrastructure. Let's look at our `main.tf` agai
 
 ```hcl
 resource "aws_s3_bucket_object" "optional_file" {
-  count   = "${var.include_optional_file ? 1 : 0}"
+  count   = var.include_optional_file ? 1 : 0
   bucket  = "tf-fundamentals-${var.student_alias}"
   key     = "optional-file"
   content = "optional-file"
 }
 ```
 
-So, our `count   = "${var.include_optional_file ? 1 : 0}"` syntax says: if the `include_optional_file` variable is set to true, we
+So, our `count   = var.include_optional_file ? 1 : 0` syntax says: if the `include_optional_file` variable is set to true, we
 want one instance of this object, otherwise we want 0. Could you think of another way to produce the same result? Hint: it's how
 you had to do it before the `bool` data type came around.
 

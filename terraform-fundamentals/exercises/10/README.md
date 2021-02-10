@@ -58,7 +58,7 @@ Terraform will perform the following actions:
       + arn                         = (known after apply)
       + bucket                      = (known after apply)
       + bucket_domain_name          = (known after apply)
-      + bucket_prefix               = "tf-fundamentals-bane-"
+      + bucket_prefix               = "tf-fundamentals-finn-the-human-"
       + bucket_regional_domain_name = (known after apply)
       + force_destroy               = true
       + hosted_zone_id              = (known after apply)
@@ -132,7 +132,7 @@ simply instruct Terraform to use these values.
 Now let's move on to our plan and apply
 
 ```bash
-terraform plan -out=plan.out
+terraform plan -out=run.plan
 ```
 
 For fun, we've thrown in an explicit saving of the plan to a file, and then applying that plan. Recent versions of
@@ -141,10 +141,10 @@ a plan and then asks you to accept that plan before continuing. This alternative
 previously considered best practice and continues to be a good option for more-automated terraform execution scenarios
 like CI/CD pipelines for recording the plan artifact as an example.
 
-The plan having been saved to the `plan.out` file, we can execute our apply to point to that plan
+The plan having been saved to the `run.plan` file, we can execute our apply to point to that plan
 
 ```
-terraform apply plan.out
+terraform apply run.plan
 ```
 
 And you should get something similar to below
@@ -175,7 +175,7 @@ Your state file is appropriately stored in this remote location. Remote state is
 address safe and maintainable collaboration on infrastructure using terraform. Another is state locking, such as the case of:
 
 * April is testing some changes to the terraform source to remove a DB instance that is no longer needed against the staging infrastructure
-* At the same time, Matt is running the current version of the terraform code against staging to test some other things out, but his changes still have the DB that April is removing. April's removal might go through, but then the DB is immediately recreated by Matt's run. So, April might be scratching her head in 10 minutes wondering how that DB is suddenly there again
+* At the same time, Chloe is running the current version of the terraform code against staging to test some other things out, but her changes still have the DB that April is removing. April's removal might go through, but then the DB is immediately recreated by Chloe's run. So, April might be scratching her head in 10 minutes wondering how that DB is suddenly there again
 
 Locking the state file can address situations like the above and many other problematic scenarios in team collaboration using Terraform. We won't go into the details of state locking as an exercise. The thing that's important to know for the sake of this course around remote state locking:
 
@@ -195,6 +195,8 @@ terraform {
   }
 }
 ```
+
+If we have time at the end of the class, we can look at this more closely if folks are interested. Feel free to ask questions about it.
 
 ### Finishing up this exercise
 
