@@ -104,7 +104,7 @@ EOF
 }
 
 resource "aws_iam_policy" "student_ec2_access" {
-  name        = "StudentEC2Access"
+  name        = "StudentEC2Access-${terraform.workspace}"
   description = "Allowing student access to EC2 accordingly"
   policy      = <<EOF
 {
@@ -168,7 +168,7 @@ EOF
 }
 
 resource "aws_iam_policy" "student_credentials_access" {
-  name        = "StudentIAMCredentialsAccess"
+  name        = "StudentIAMCredentialsAccess-${terraform.workspace}"
   description = "Allowing student to rotate and manage their own credentials"
   policy      = <<EOF
 {
