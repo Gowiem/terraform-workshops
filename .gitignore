@@ -15,3 +15,5 @@ student-environments/config/*
 
 ! student-environments/messages/.gitkeep
 student-environments/messages/*
+
+terraform-fundamentals/**/*.lock.hcl
