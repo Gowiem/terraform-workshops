@@ -1,5 +1,5 @@
 locals {
-  all_account = {
+  all_accounts = {
     management = {
       name  = "mp-management"
       email = "contact+management@masterpoint.io"
