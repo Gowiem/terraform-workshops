@@ -105,7 +105,7 @@ Let's look at the `main.tf` file here to see what's going on. First, the `aws_s3
 
 ```hcl
 resource "aws_s3_bucket_object" "dynamic_file" {
-  count   = "${var.object_count}"
+  count   = var.object_count
   bucket  = "tf-fundamentals-${var.student_alias}"
   key     = "dynamic-file-${count.index}"
   content = "dynamic-file at index ${count.index}"
