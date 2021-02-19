@@ -1,0 +1,158 @@
+exercises:
+
+* refresher project
+* terraform init deep-dive: -upgrade, look at the .terraform directory, -plugin-dir, -backend-config
+* variable types: type as validator, no type defined accepts any type, passing in complex types, outputs sensitive, complex outputs
+* Looking deeper into state: planning, querying, show, mv, rm
+* workspaces
+* complex module usage: versioning, pulling, using the same module multiple times, nested modules, cross-module deps
+* debugging terraform: TF_LOG, TF_LOG_PATH
+* A refresh on provisioners: they are a last resort, but often still a required piece of functionality. Packer, cloud-init as alternatives
+* importing
+* terraform refresh
+* destroying only part of your infrastructure: remove, taint (untaint), destroy -target
+* functions and the console
+
+* approaches to rolling back
+* Looking depper into state: refreshing, approaches to drift and infrastructure manual changes, locking via DynamoDB, force-unlock
+* automating and centralizing terraform ops: TF_IN_AUTOMATION, -input=false, spinnaker and terraform
+
+
+Experiments:
+
+
+--------------------------------------------------------------------------
+AWS Hardening Guidelines
+
+Hashicorp Terraform Associate Certifcation
+Config mgmt vs infrastructure orchestration
+terraform vs cloudformation, deployment manager?
+
+Hashicorp tool benefits: small learning curve
+
+IDE options for Terraform:
+  Atom
+  Visual Studio
+
+Not covering HCL 2 specifically, but will cover more of it
+Not covering >=0.12 specifically, but will cover more
+
+automating terraform, CI/CD and pipeline approaches
+
+
+Not just AWS providers!
+  best practices: declare a version or version constraint
+  understanding Terraform version constraints
+  provider incompatibilities with terraform versions: aws 2.6.0 not compatible with 0.12.x
+  cannot download custom providers, any that are not distributed/managed by Hashicorp
+  needs for custom/community providers:
+    a fork of an official provider to address missing needs, bugs
+    internal org needs
+  installing a 3rd party/community provider
+
+student-environments re-write
+
+terraform init deep-dive
+
+published scm modules, versioning, using in other projects
+
+hybrid cloud approaches
+
+destroying part of your infrastructure
+  removing it from code: declarative at its best!
+  destroy -target
+
+taints
+  tainting a resource in a module
+  untaint
+import and its limitations
+import with taint
+
+Resilient state workflows and practices, deep dive
+  state backups
+  you're not fully protected with Terraform alone
+  state infrastructure via Terraform or not Terraform? The chicken and the egg
+  the terraform flow for detecting drift, matching current state vs desired state
+  terraform show, and show -json using outputs
+
+Manual changes to infrastructure and Terraform
+  terraform as source of truth
+  terraform refresh
+  workflow and best practices
+  organizational tracking and minimizing drift
+  desired state == what's defined in terraform code. if you make manual changes that are not defined in desired state, Terraform doesn't care about it, e.g. security group using default, not defined in Terraform
+
+Changing in place vs recreating, lifecycle: ec2 instance type vs ami
+
+Things managed in Terraform vs those that are not: import and other options
+
+understanding most uses of the .terraform directory
+
+outputs as a full resource instead of just an individual resource attribute
+
+not setting type for variable, accepts any type
+type as a validator
+passing in variable values for complex types
+
+approaches to "rolling back"
+
+count based on a list
+
+intermediate approaches to maximizing code re-usability, keeping things DRY
+
+using terraform console and diving deeper into functions
+
+all built-in variables
+
+terraform graph
+
+TF_LOG, TF_LOG_PATH
+
+terraform format on a legacy or messy project, w/ included modules
+
+terraform validate intermediate cases
+
+new expression language capabilities
+  dynamic block w/ iterator
+  loops
+
+complex variables via map, object, tuple
+
+workspaces
+  environment isolation
+  other options for per-workspace parameters
+  state isolation
+
+splat
+
+security concerns deep dive
+  repo-stored
+  state file stored
+  how to secure totally
+
+null_resource provisioners
+remote-exec provisioners with shell
+local-exec with Ansible
+
+using community or org modules
+
+multiple providers of the same type
+
+remote state backend types
+  standard
+  enhanced
+  migrating local to remote
+  state commands further: mv, pull, etc.
+  Orchestrate a state file clobber, state files without locking?
+  a look at .terraform for the dynamodb inclusion
+  force-unlock
+
+output sensitive
+
+ensuring the terraform version being used
+  containerization
+  enforcing terraform only running from an accepted pipeline
+    protected creds
+  Terraform cloud/enterprise
+
+terraform init -upgrade
