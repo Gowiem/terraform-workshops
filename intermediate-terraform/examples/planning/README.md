@@ -286,73 +286,7 @@ aws_instance.instance: Creation complete after 24s [id=i-0ca5be7bc21a9342d]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
-jane's workflow in this scenario is one of running `terraform plan` to see what changes her config would make and then `terraform apply -auto-approve`, which has historically been somewhat common. Again, the idea of the `apply` command enforcing the need to accept the plan is relatively new. But this workflow of jane's represents something of a more-normal workflow in the past. So, let's see it fail.
-
-If we look at a version of terraform as recent as `0.9.11`, we'll notice the auto-approve argument wasn't there for the `apply` command:
-
-```
-mac:jane patrickforce$ terraform --version
-Terraform v0.9.11
-
-Your version of Terraform is out of date! The latest version
-is 0.13.0. You can update by downloading from www.terraform.io
-mac:jane patrickforce$ terraform apply --help
-Usage: terraform apply [options] [DIR-OR-PLAN]
-
-  Builds or changes infrastructure according to Terraform configuration
-  files in DIR.
-
-  By default, apply scans the current directory for the configuration
-  and applies the changes appropriately. However, a path to another
-  configuration or an execution plan can be provided. Execution plans can be
-  used to only execute a pre-determined set of actions.
-
-  DIR can also be a SOURCE as given to the "init" command. In this case,
-  apply behaves as though "init" was called followed by "apply". This only
-  works for sources that aren't files, and only if the current working
-  directory is empty of Terraform files. This is a shortcut for getting
-  started.
-
-Options:
-
-  -backup=path           Path to backup the existing state file before
-                         modifying. Defaults to the "-state-out" path with
-                         ".backup" extension. Set to "-" to disable backup.
-
-  -lock=true             Lock the state file when locking is supported.
-
-  -lock-timeout=0s       Duration to retry a state lock.
-
-  -input=true            Ask for input for variables if not directly set.
-
-  -no-color              If specified, output won't contain any color.
-
-  -parallelism=n         Limit the number of parallel resource operations.
-                         Defaults to 10.
-
-  -refresh=true          Update state prior to checking for differences. This
-                         has no effect if a plan file is given to apply.
-
-  -state=path            Path to read and save state (unless state-out
-                         is specified). Defaults to "terraform.tfstate".
-
-  -state-out=path        Path to write state to that is different than
-                         "-state". This can be used to preserve the old
-                         state.
-
-  -target=resource       Resource to target. Operation will be limited to this
-                         resource and its dependencies. This flag can be used
-                         multiple times.
-
-  -var 'foo=bar'         Set a variable in the Terraform configuration. This
-                         flag can be set multiple times.
-
-  -var-file=foo          Set variables in the Terraform configuration from
-                         a file. If "terraform.tfvars" is present, it will be
-                         automatically loaded if this flag is not specified.
-```
-
-Auto-approve was really the default, so one of the points here is that more-modern versions of terraform are starting to address these "what I actually expect to apply" pitfalls via better plan integration into apply itself.
+jane's workflow in this scenario is one of running `terraform plan` to see what changes her config would make and then `terraform apply -auto-approve`, which has historically been somewhat common. The idea of the `apply` command enforcing the need to accept the plan is relatively new. But this workflow of jane's represents something of a more-normal workflow in the past. So, let's see why it can fail.
 
 jane has just created the infrastructure anew. She realizes she needs to change the tag name, so she does so in your local repo clone
 
@@ -787,9 +721,9 @@ The given plan file can no longer be applied because the state was changed by
 another operation after the plan was created.
 ```
 
-Ah! something in tim's changes now makes my plan stale, or outdated. We can see some indication in source of how we get to this error from terraform source code itself: https://github.com/hashicorp/terraform/blob/master/backend/local/backend_local.go#L231. This computation and concept is in flux and has changed in recent versions. Even a handful of issues exist currently for stale vs not-stale, like this one: https://github.com/hashicorp/terraform/issues/24078. All of this changing recently and some work to do on Hashicorp's side, being as much as you need to know about this right now.
+Ah! Something in tim's changes now makes jane's plan stale (outdated) and she must redo her option.
 
-The real takeaway from this, at this level, is to just know that this is a protection against clobbering changes unknowingly, Terraform working towards a path of more predictable and safe operations related to apply. And that when we see this, we simply know that we need to generate a plan (file) again, so let's do it
+The real takeaway from this, at this level, is to just know that this is a protection against clobbering changes unknowingly. When we see this, we simply know that we need to generate a plan (file) again, so let's do that:
 
 ```
 terraform plan -out=plan.out
@@ -965,8 +899,6 @@ Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
 ```
 
 We could yet again see the indication of a stale plan file if a similar situation happened again like tim putting in between a change before we were able to apply. The important thing here is that these mechanisms are Terraform attempting to take increased measures to keep your state and infrastructure safe, even at the cost of human interaction and workflows in certain situations.
-
-These are some indications that putting Terraform into more automated, pipeline, CI/CD workflows makes A LOT of sense. Your instructor highly recommends doing so from the very beginning of any project, no matter how complex or simple the project.
 
 # DESTROY
 

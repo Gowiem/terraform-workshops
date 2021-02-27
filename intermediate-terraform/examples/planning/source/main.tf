@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket = "rockholla-di-force"
-    key    = "intermediate-terraform/examples-planning/terraform.tfstate"
-    region = "us-west-1"
+    bucket  = "mp-teaching-examples"
+    key     = "intermediate-terraform/examples-planning/terraform.tfstate"
+    region  = "us-west-1"
     encrypt = true
   }
 }
