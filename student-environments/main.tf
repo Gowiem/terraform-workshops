@@ -1,6 +1,7 @@
 locals {
   config_yaml = yamldecode(file("${path.module}/config/${terraform.workspace}.yaml"))
 
+  class_level    = local.config_yaml.class_level
   link_to_slides = local.config_yaml.link_to_slides
   link_to_survey = local.config_yaml.link_to_survey
 
@@ -22,7 +23,7 @@ resource "random_shuffle" "region" {
 
 resource "aws_s3_bucket" "student_buckets" {
   for_each      = local.students
-  bucket        = "tf-fundamentals-${each.value.alias}"
+  bucket        = "tf-${local.class_level}-${each.value.alias}"
   acl           = "private"
   force_destroy = true
 }
@@ -83,8 +84,8 @@ resource "aws_iam_policy" "student_bucket_access" {
                 "s3:*"
             ],
             "Resource": [
-                "arn:aws:s3:::tf-fundamentals-${each.value.alias}",
-                "arn:aws:s3:::tf-fundamentals-${each.value.alias}-*"
+                "arn:aws:s3:::tf-${local.class_level}-${each.value.alias}",
+                "arn:aws:s3:::tf-${local.class_level}-${each.value.alias}-*"
             ]
         },
         {
@@ -94,8 +95,8 @@ resource "aws_iam_policy" "student_bucket_access" {
                 "s3:*"
             ],
             "Resource": [
-              "arn:aws:s3:::tf-fundamentals-${each.value.alias}/*",
-              "arn:aws:s3:::tf-fundamentals-${each.value.alias}-*/*"
+              "arn:aws:s3:::tf-${local.class_level}-${each.value.alias}/*",
+              "arn:aws:s3:::tf-${local.class_level}-${each.value.alias}-*/*"
             ]
         }
     ]
