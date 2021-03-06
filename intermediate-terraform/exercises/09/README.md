@@ -176,7 +176,7 @@ As it would do everything we're doing with the file approach. It's helpful to se
 Let's see what our alternative looks like from a terraform apply perspective. First, let's initialize our project.
 
 ```
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=rockholla-di-[student-alias]
+$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ...
 ```
 

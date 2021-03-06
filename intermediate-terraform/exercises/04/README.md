@@ -11,7 +11,7 @@ Plans along with state are the foundational way that Terraform resolves what is 
 Go ahead and change directories into the `team1-project` one here. And we'll run the following, as before replacing `[student-alias]` with the one assigned to you:
 
 ```
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=rockholla-di-[student-alias]
+$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ...
 $ terraform show
 
@@ -19,7 +19,7 @@ $ terraform plan
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
@@ -39,9 +39,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force"
+      + key_name    = "tf-intermediate-luke-skywalker"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -75,7 +75,7 @@ $ terraform apply
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 
 An execution plan has been generated and is shown below.
@@ -89,9 +89,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force"
+      + key_name    = "tf-intermediate-luke-skywalker"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -103,7 +103,7 @@ Do you want to perform these actions?
   Enter a value: yes
 
 aws_key_pair.my_key_pair: Creating...
-aws_key_pair.my_key_pair: Creation complete after 0s [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Creation complete after 0s [id=tf-intermediate-luke-skywalker]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
@@ -126,12 +126,12 @@ The easiest way to get a look at the current state of your project is to use the
 $ terraform show
 # aws_key_pair.my_key_pair:
 resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force"
+    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
-    id          = "rockholla-di-force"
-    key_name    = "rockholla-di-force"
+    id          = "tf-intermediate-luke-skywalker"
+    key_name    = "tf-intermediate-luke-skywalker"
     key_pair_id = "key-0f87362ef96c0d8b3"
-    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
     tags        = {}
 }
 
@@ -145,7 +145,7 @@ We can also get the json version of the state using a similar command
 
 ```
 $ terraform show -json
-{"format_version":"0.1","terraform_version":"0.12.29","values":{"outputs":{"my_key_pair_id":{"sensitive":false,"value":"key-0f87362ef96c0d8b3"}},"root_module":{"resources":[{"address":"aws_key_pair.my_key_pair","mode":"managed","type":"aws_key_pair","name":"my_key_pair","provider_name":"aws","schema_version":1,"values":{"arn":"arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force","fingerprint":"d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62","id":"rockholla-di-force","key_name":"rockholla-di-force","key_name_prefix":null,"key_pair_id":"key-0f87362ef96c0d8b3","public_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org","tags":{}}}]}}}
+{"format_version":"0.1","terraform_version":"0.12.29","values":{"outputs":{"my_key_pair_id":{"sensitive":false,"value":"key-0f87362ef96c0d8b3"}},"root_module":{"resources":[{"address":"aws_key_pair.my_key_pair","mode":"managed","type":"aws_key_pair","name":"my_key_pair","provider_name":"aws","schema_version":1,"values":{"arn":"arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker","fingerprint":"d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62","id":"tf-intermediate-luke-skywalker","key_name":"tf-intermediate-luke-skywalker","key_name_prefix":null,"key_pair_id":"key-0f87362ef96c0d8b3","public_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io","tags":{}}}]}}}
 ```
 
 This format obviously designed for machine-readable scenarios, so automated processes that might need access to a given project's current state. A similar option is to use `terraform state pull`
@@ -172,13 +172,13 @@ This format obviously designed for machine-readable scenarios, so automated proc
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force",
+            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
-            "id": "rockholla-di-force",
-            "key_name": "rockholla-di-force",
+            "id": "tf-intermediate-luke-skywalker",
+            "key_name": "tf-intermediate-luke-skywalker",
             "key_name_prefix": null,
             "key_pair_id": "key-0f87362ef96c0d8b3",
-            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org",
+            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io",
             "tags": {}
           },
           "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
@@ -210,13 +210,13 @@ $ terraform plan -out=plan.out
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
 
 ------------------------------------------------------------------------
 
@@ -327,13 +327,13 @@ $ terraform plan -out=plan.out
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
 aws_eip.my_eip: Refreshing state... [id=eipalloc-0cf7da010d5f77406]
 
 ------------------------------------------------------------------------
@@ -394,13 +394,13 @@ Now we're in a different project, one for "team2" and separate from "team1." We 
 We'll go ahead and go straight to apply commands for this project
 
 ```
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=rockholla-di-[student-alias]
+$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ...
 $ terraform apply
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 data.terraform_remote_state.team1: Refreshing state...
 
@@ -415,9 +415,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force-team2"
+      + key_name    = "tf-intermediate-luke-skywalker-team2"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di-team2@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker-team2@masterpoint.io"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -429,7 +429,7 @@ Do you want to perform these actions?
   Enter a value: yes
 
 aws_key_pair.my_key_pair: Creating...
-aws_key_pair.my_key_pair: Creation complete after 1s [id=rockholla-di-force-team2]
+aws_key_pair.my_key_pair: Creation complete after 1s [id=tf-intermediate-luke-skywalker-team2]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
@@ -449,7 +449,7 @@ Let's look more closely at the second one. Here's the configuration using the `t
 data "terraform_remote_state" "team1" {
   backend = "s3"
   config = {
-    bucket = "rockholla-di-${var.student_alias}"
+    bucket = "tf-intermediate-${var.student_alias}"
     key    = "intermediate-terraform/exercise-04/team1-project/terraform.tfstate"
     region = "us-west-1"
   }
@@ -493,8 +493,8 @@ Let's start by adding another key pair resource to our team2 project. Add the fo
 
 ```
 resource "aws_key_pair" "my_key_pair_additional" {
-  key_name   = "rockholla-di-${var.student_alias}-team2-additional"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}+di-team2-additional@rockholla.org"
+  key_name   = "tf-intermediate-${var.student_alias}-team2-additional"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}-team2-additional@masterpoint.io"
 }
 ```
 
@@ -505,10 +505,10 @@ $ terraform apply
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 data.terraform_remote_state.team1: Refreshing state...
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force-team2]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker-team2]
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -521,9 +521,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force-team2-additional"
+      + key_name    = "tf-intermediate-luke-skywalker-team2-additional"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di-team2-additional@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker-team2-additional@masterpoint.io"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -535,7 +535,7 @@ Do you want to perform these actions?
   Enter a value: yes
 
 aws_key_pair.my_key_pair_additional: Creating...
-aws_key_pair.my_key_pair_additional: Creation complete after 0s [id=rockholla-di-force-team2-additional]
+aws_key_pair.my_key_pair_additional: Creation complete after 0s [id=tf-intermediate-luke-skywalker-team2-additional]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
@@ -550,30 +550,30 @@ Our additional key pair is created, let's take a look at our state now:
 $ terraform show
 # aws_key_pair.my_key_pair:
 resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-forcelocal.-team2"
+    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-team2"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
-    id          = "rockholla-di-forcelocal.-team2"
-    key_name    = "rockholla-di-forcelocal.-team2"
+    id          = "tf-intermediate-luke-skywalker-team2"
+    key_name    = "tf-intermediate-luke-skywalker-team2"
     key_pair_id = "key-015002b746a781283"
-    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 forcelocal.+di-team2@rockholla.org"
+    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker-team2@masterpoint.io"
     tags        = {}
 }
 
 # aws_key_pair.my_key_pair_additional:
 resource "aws_key_pair" "my_key_pair_additional" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-forcelocal.-team2-additional"
+    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-team2-additional"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
-    id          = "rockholla-di-forcelocal.-team2-additional"
-    key_name    = "rockholla-di-forcelocal.-team2-additional"
+    id          = "tf-intermediate-luke-skywalker-team2-additional"
+    key_name    = "tf-intermediate-luke-skywalker-team2-additional"
     key_pair_id = "key-0bce1ae4427e804b5"
-    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 forcelocal.+di-team2-additional@rockholla.org"
+    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker-team2-additional@masterpoint.io"
 }
 
 # data.terraform_remote_state.team1:
 data "terraform_remote_state" "team1" {
     backend   = "s3"
     config    = {
-        bucket = "rockholla-di-forcelocal."
+        bucket = "tf-intermediate-luke-skywalker"
         key    = "intermediate-terraform/exercise-04/team1-project/terraform.tfstate"
         region = "us-west-1"
     }
@@ -601,12 +601,12 @@ and let's do another `terraform show` to verify it's removed:
 $ terraform show
 # aws_key_pair.my_key_pair:
 resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force-team2"
+    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-team2"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
-    id          = "rockholla-di-force-team2"
-    key_name    = "rockholla-di-force-team2"
+    id          = "tf-intermediate-luke-skywalker-team2"
+    key_name    = "tf-intermediate-luke-skywalker-team2"
     key_pair_id = "key-015002b746a781283"
-    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di-team2@rockholla.org"
+    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker-team2@masterpoint.io"
     tags        = {}
 }
 
@@ -614,7 +614,7 @@ resource "aws_key_pair" "my_key_pair" {
 data "terraform_remote_state" "team1" {
     backend   = "s3"
     config    = {
-        bucket = "rockholla-di-force"
+        bucket = "tf-intermediate-luke-skywalker"
         key    = "intermediate-terraform/exercise-04/team1-project/terraform.tfstate"
         region = "us-west-1"
     }
@@ -639,10 +639,10 @@ $ terraform apply
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 data.terraform_remote_state.team1: Refreshing state...
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force-team2]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker-team2]
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -655,9 +655,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force-team2-additional"
+      + key_name    = "tf-intermediate-luke-skywalker-team2-additional"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di-team2-additional@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker-team2-additional@masterpoint.io"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -670,7 +670,7 @@ Do you want to perform these actions?
 
 aws_key_pair.my_key_pair_additional: Creating...
 
-Error: Error import KeyPair: InvalidKeyPair.Duplicate: The keypair 'rockholla-di-force-team2-additional' already exists.
+Error: Error import KeyPair: InvalidKeyPair.Duplicate: The keypair 'tf-intermediate-luke-skywalker-team2-additional' already exists.
 	status code: 400, request id: 2ef6492c-88df-447b-b7a4-ecb0ae52fa13
 
   on main.tf line 23, in resource "aws_key_pair" "my_key_pair_additional":
@@ -685,8 +685,8 @@ Go ahead and remove the following from your `main.tf`:
 
 ```
 resource "aws_key_pair" "my_key_pair_additional" {
-  key_name   = "rockholla-di-${var.student_alias}-team2-additional"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}+di-team2-additional@rockholla.org"
+  key_name   = "tf-intermediate-${var.student_alias}-team2-additional"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}-team2-additional@masterpoint.io"
 }
 ```
 
@@ -712,8 +712,8 @@ Let's give it a try. Rename your `aws_key_pair` in `main.tf` to the following:
 
 ```
 resource "aws_key_pair" "new_key_pair_name" {
-  key_name   = "rockholla-di-${var.student_alias}-team2"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}+di-team2@rockholla.org"
+  key_name   = "tf-intermediate-${var.student_alias}-team2"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}-team2@masterpoint.io"
 }
 ```
 
@@ -724,14 +724,14 @@ $ terraform plan
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
 data.terraform_remote_state.team1: Refreshing state...
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force-team2]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker-team2]
 
 ------------------------------------------------------------------------
 
@@ -744,12 +744,12 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair will be destroyed
   - resource "aws_key_pair" "my_key_pair" {
-      - arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force-team2" -> null
+      - arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-team2" -> null
       - fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> null
-      - id          = "rockholla-di-force-team2" -> null
-      - key_name    = "rockholla-di-force-team2" -> null
+      - id          = "tf-intermediate-luke-skywalker-team2" -> null
+      - key_name    = "tf-intermediate-luke-skywalker-team2" -> null
       - key_pair_id = "key-015002b746a781283" -> null
-      - public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di-team2@rockholla.org" -> null
+      - public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker-team2@masterpoint.io" -> null
       - tags        = {} -> null
     }
 
@@ -758,9 +758,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force-team2"
+      + key_name    = "tf-intermediate-luke-skywalker-team2"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di-team2@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker-team2@masterpoint.io"
     }
 
 Plan: 1 to add, 0 to change, 1 to destroy.
@@ -787,14 +787,14 @@ $ terraform plan
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 ß
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
 data.terraform_remote_state.team1: Refreshing state...
-aws_key_pair.new_key_pair_name: Refreshing state... [id=rockholla-di-force-team2]
+aws_key_pair.new_key_pair_name: Refreshing state... [id=tf-intermediate-luke-skywalker-team2]
 
 ---------------------------------------ß---------------------------------
 

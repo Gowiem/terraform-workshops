@@ -5,7 +5,7 @@ We're going to create a piece of infrastructure, go make some changes to it via 
 ## First, create the infrastructure
 
 ```
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=rockholla-di-[student-alias]
+$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ...
 $ terraform apply
 ...
@@ -33,13 +33,13 @@ $ terraform state pull
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force",
+            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
-            "id": "rockholla-di-force",
-            "key_name": "rockholla-di-force",
+            "id": "tf-intermediate-luke-skywalker",
+            "key_name": "tf-intermediate-luke-skywalker",
             "key_name_prefix": null,
             "key_pair_id": "key-0e34cea4e66ac802f",
-            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org",
+            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io",
             "tags": null
           },
           "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
@@ -56,7 +56,7 @@ Navigate in the AWS console to key pairs in the us-west-1 region, and locate the
 
 ```
 $ terraform refresh
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
 ```
 
 Great, so let's see what that did to our state:
@@ -79,13 +79,13 @@ $ terraform state pull
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force",
+            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
-            "id": "rockholla-di-force",
-            "key_name": "rockholla-di-force",
+            "id": "tf-intermediate-luke-skywalker",
+            "key_name": "tf-intermediate-luke-skywalker",
             "key_name_prefix": null,
             "key_pair_id": "key-0e34cea4e66ac802f",
-            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org",
+            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io",
             "tags": {
               "CreatedBy": "force",
               "Purpose": "Exercise11"
@@ -107,7 +107,7 @@ Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
 
 ------------------------------------------------------------------------
 
@@ -119,12 +119,12 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair will be updated in-place
   ~ resource "aws_key_pair" "my_key_pair" {
-        arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force"
+        arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker"
         fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
-        id          = "rockholla-di-force"
-        key_name    = "rockholla-di-force"
+        id          = "tf-intermediate-luke-skywalker"
+        key_name    = "tf-intermediate-luke-skywalker"
         key_pair_id = "key-0e34cea4e66ac802f"
-        public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+        public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
       ~ tags        = {
           - "CreatedBy" = "force" -> null
           - "Purpose"   = "Exercise11" -> null
@@ -144,8 +144,8 @@ Ah, so our configuration doesn't include these new tags yet though, so Terraform
 
 ```
 resource "aws_key_pair" "my_key_pair" {
-  key_name   = "rockholla-di-${var.student_alias}"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}+di@rockholla.org"
+  key_name   = "tf-intermediate-${var.student_alias}"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}@masterpoint.io"
   tags = {
     [whatever tags you set]
   }
@@ -160,7 +160,7 @@ Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
 
 ------------------------------------------------------------------------
 

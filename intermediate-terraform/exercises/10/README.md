@@ -7,7 +7,7 @@ Remember when we used `terraform state rm` yesterday to essentially abandon a re
 Let's init and do an apply to create the single key pair resource defined in this project
 
 ```
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=rockholla-di-[student-alias]
+$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ...
 $ terraform apply
 
@@ -22,9 +22,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force"
+      + key_name    = "tf-intermediate-luke-skywalker"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -36,7 +36,7 @@ Do you want to perform these actions?
   Enter a value: yes
 
 aws_key_pair.my_key_pair: Creating...
-aws_key_pair.my_key_pair: Creation complete after 0s [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Creation complete after 0s [id=tf-intermediate-luke-skywalker]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
@@ -49,12 +49,12 @@ First, though, let's figure out the key pair ID by looking at our current state
 $ terraform show
 # aws_key_pair.my_key_pair:
 resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force"
+    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
-    id          = "rockholla-di-force"
-    key_name    = "rockholla-di-force"
+    id          = "tf-intermediate-luke-skywalker"
+    key_name    = "tf-intermediate-luke-skywalker"
     key_pair_id = "key-006446b088b64a629"
-    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
 ```
 
 Noting the `id` attribute value here, as we'll need it for our import. We'll go ahead and abandon it from our state.
@@ -125,11 +125,11 @@ So, we have a resource defined, a placeholder for some real piece of infrastruct
 Now, the `ID` part noted in the usage of the help. What this is very much depends on the type of resource. For an EC2 instance, it'll be the instance ID as defined by AWS, in our case for a key pair, it'll be the resource `id` we noted in our terraform show above. So, let's try the import as we should have everything we need to do so.
 
 ```
-$ terraform import aws_key_pair.my_key_pair rockholla-di-force
-aws_key_pair.my_key_pair: Importing from ID "rockholla-di-force"...
+$ terraform import aws_key_pair.my_key_pair tf-intermediate-luke-skywalker
+aws_key_pair.my_key_pair: Importing from ID "tf-intermediate-luke-skywalker"...
 aws_key_pair.my_key_pair: Import prepared!
   Prepared aws_key_pair for import
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
 
 Import successful!
 
@@ -157,10 +157,10 @@ $ terraform state pull
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force",
+            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
-            "id": "rockholla-di-force",
-            "key_name": "rockholla-di-force",
+            "id": "tf-intermediate-luke-skywalker",
+            "key_name": "tf-intermediate-luke-skywalker",
             "key_name_prefix": null,
             "key_pair_id": "key-006446b088b64a629",
             "public_key": null,
@@ -191,8 +191,8 @@ OK, yeah we're missing a required argument in the resource itself. We have to fi
 
 ```
 resource "aws_key_pair" "my_key_pair" {
-  key_name   = "rockholla-di-${var.student_alias}"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}+di@rockholla.org"
+  key_name   = "tf-intermediate-${var.student_alias}"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}@masterpoint.io"
 }
 ```
 
@@ -204,7 +204,7 @@ Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-aws_key_pair.my_key_pair: Refreshing state... [id=rockholla-di-force]
+aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
 
 ------------------------------------------------------------------------
 
@@ -216,12 +216,12 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair must be replaced
 -/+ resource "aws_key_pair" "my_key_pair" {
-      ~ arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force" -> (known after apply)
+      ~ arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker" -> (known after apply)
       ~ fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> (known after apply)
-      ~ id          = "rockholla-di-force" -> (known after apply)
-        key_name    = "rockholla-di-force"
+      ~ id          = "tf-intermediate-luke-skywalker" -> (known after apply)
+        key_name    = "tf-intermediate-luke-skywalker"
       ~ key_pair_id = "key-006446b088b64a629" -> (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org" # forces replacement
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io" # forces replacement
       - tags        = {} -> null
     }
 
@@ -238,10 +238,10 @@ Well, turns out no matter what, for this type of resource, even an import leaves
 
 ```
 "attributes": {
-  "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force",
+  "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
   "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
-  "id": "rockholla-di-force",
-  "key_name": "rockholla-di-force",
+  "id": "tf-intermediate-luke-skywalker",
+  "key_name": "tf-intermediate-luke-skywalker",
   "key_name_prefix": null,
   "key_pair_id": "key-006446b088b64a629",
   "public_key": null,

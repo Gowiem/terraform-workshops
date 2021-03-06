@@ -7,7 +7,7 @@ Taints are a good way to force replace a resource. Destroy targets give us a way
 Let's start by creating our infrastructure, which will create 2 distinct key pairs
 
 ```
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=rockholla-di-[student-alias]
+$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ...
 $ terraform apply
 
@@ -22,9 +22,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force-01"
+      + key_name    = "tf-intermediate-luke-skywalker-01"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 di@masterpoint.io"
     }
 
   # aws_key_pair.my_key_pair_02 will be created
@@ -32,9 +32,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force-02"
+      + key_name    = "tf-intermediate-luke-skywalker-02"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 di@masterpoint.io"
     }
 
 Plan: 2 to add, 0 to change, 0 to destroy.
@@ -47,8 +47,8 @@ Do you want to perform these actions?
 
 aws_key_pair.my_key_pair_02: Creating...
 aws_key_pair.my_key_pair_01: Creating...
-aws_key_pair.my_key_pair_01: Creation complete after 0s [id=rockholla-di-force-01]
-aws_key_pair.my_key_pair_02: Creation complete after 0s [id=rockholla-di-force-02]
+aws_key_pair.my_key_pair_01: Creation complete after 0s [id=tf-intermediate-luke-skywalker-01]
+aws_key_pair.my_key_pair_02: Creation complete after 0s [id=tf-intermediate-luke-skywalker-02]
 
 Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 ```
@@ -68,8 +68,8 @@ Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-aws_key_pair.my_key_pair_02: Refreshing state... [id=rockholla-di-force-02]
-aws_key_pair.my_key_pair_01: Refreshing state... [id=rockholla-di-force-01]
+aws_key_pair.my_key_pair_02: Refreshing state... [id=tf-intermediate-luke-skywalker-02]
+aws_key_pair.my_key_pair_01: Refreshing state... [id=tf-intermediate-luke-skywalker-01]
 
 ------------------------------------------------------------------------
 
@@ -81,12 +81,12 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair_02 is tainted, so must be replaced
 -/+ resource "aws_key_pair" "my_key_pair_02" {
-      ~ arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force-02" -> (known after apply)
+      ~ arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-02" -> (known after apply)
       ~ fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> (known after apply)
-      ~ id          = "rockholla-di-force-02" -> (known after apply)
-        key_name    = "rockholla-di-force-02"
+      ~ id          = "tf-intermediate-luke-skywalker-02" -> (known after apply)
+        key_name    = "tf-intermediate-luke-skywalker-02"
       ~ key_pair_id = "key-0db5cb1a1e1cc9046" -> (known after apply)
-        public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+        public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 di@masterpoint.io"
       - tags        = {} -> null
     }
 
@@ -114,8 +114,8 @@ Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-aws_key_pair.my_key_pair_01: Refreshing state... [id=rockholla-di-force-01]
-aws_key_pair.my_key_pair_02: Refreshing state... [id=rockholla-di-force-02]
+aws_key_pair.my_key_pair_01: Refreshing state... [id=tf-intermediate-luke-skywalker-01]
+aws_key_pair.my_key_pair_02: Refreshing state... [id=tf-intermediate-luke-skywalker-02]
 
 ------------------------------------------------------------------------
 
@@ -134,7 +134,7 @@ Now, let's look at the case where we just want to fully remove our second key, b
 
 ```
 $ terraform destroy -target aws_key_pair.my_key_pair_02
-aws_key_pair.my_key_pair_02: Refreshing state... [id=rockholla-di-force-02]
+aws_key_pair.my_key_pair_02: Refreshing state... [id=tf-intermediate-luke-skywalker-02]
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -144,12 +144,12 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair_02 will be destroyed
   - resource "aws_key_pair" "my_key_pair_02" {
-      - arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/rockholla-di-force-02" -> null
+      - arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-02" -> null
       - fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> null
-      - id          = "rockholla-di-force-02" -> null
-      - key_name    = "rockholla-di-force-02" -> null
+      - id          = "tf-intermediate-luke-skywalker-02" -> null
+      - key_name    = "tf-intermediate-luke-skywalker-02" -> null
       - key_pair_id = "key-0db5cb1a1e1cc9046" -> null
-      - public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org" -> null
+      - public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 di@masterpoint.io" -> null
       - tags        = {} -> null
     }
 
@@ -172,7 +172,7 @@ Do you really want to destroy all resources?
 
   Enter a value: yes
 
-aws_key_pair.my_key_pair_02: Destroying... [id=rockholla-di-force-02]
+aws_key_pair.my_key_pair_02: Destroying... [id=tf-intermediate-luke-skywalker-02]
 aws_key_pair.my_key_pair_02: Destruction complete after 0s
 
 Warning: Applied changes may be incomplete
@@ -199,7 +199,7 @@ Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
 persisted to local or remote state storage.
 
-aws_key_pair.my_key_pair_01: Refreshing state... [id=rockholla-di-force-01]
+aws_key_pair.my_key_pair_01: Refreshing state... [id=tf-intermediate-luke-skywalker-01]
 
 ------------------------------------------------------------------------
 
@@ -214,9 +214,9 @@ Terraform will perform the following actions:
       + arn         = (known after apply)
       + fingerprint = (known after apply)
       + id          = (known after apply)
-      + key_name    = "rockholla-di-force-02"
+      + key_name    = "tf-intermediate-luke-skywalker-02"
       + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 force+di@rockholla.org"
+      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 di@masterpoint.io"
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.

@@ -20,7 +20,7 @@ One last thing to mention about backends, though beyond the scope of this interm
 
 ### Using the s3 backend type
 
-When your student alias user accounts were created before this course, an s3 bucket was also created for you named like `rockholla-di-[student-alias]`. We'll be using these buckets that already exist as the place to store and manage your remote state as we move forward in this course. We'll be working primarily with realistic, remote state scenarios for the remainder of our exercises.
+When your student alias user accounts were created before this course, an s3 bucket was also created for you named like `tf-intermediate-[student-alias]`. We'll be using these buckets that already exist as the place to store and manage your remote state as we move forward in this course. We'll be working primarily with realistic, remote state scenarios for the remainder of our exercises.
 
 One quick aside before we get started working with this project. Notice the file structure introduced in this project:
 
@@ -60,7 +60,7 @@ Another way we can do so is by passing values in directly to the `terraform init
 So, we'll utilize both methods above together in a single command. Make sure to replace `[student-alias]` in the command with your student alias:
 
 ```
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=rockholla-di-[student-alias]
+$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 Initializing the backend...
 
 Successfully configured the backend "s3"! Terraform will automatically
@@ -101,7 +101,7 @@ plugins			terraform.tfstate
             "access_key": null,
             "acl": null,
             "assume_role_policy": null,
-            "bucket": "rockholla-di-force",
+            "bucket": "tf-intermediate-luke-skywalker",
             "dynamodb_endpoint": null,
             "dynamodb_table": null,
             "encrypt": true,
@@ -173,7 +173,7 @@ $ rm -rf .terraform
 Now, let's run init again pointing at our custom plugin directory with pre-downloaded plugins:
 
 ```
-$ terraform init -plugin-dir=./custom-plugin-dir -backend-config=./backend.tfvars -backend-config=bucket=rockholla-di-[student-alias]
+$ terraform init -plugin-dir=./custom-plugin-dir -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ```
 
 And we'll have an updated look at our `.terraform` directory and its contents:
