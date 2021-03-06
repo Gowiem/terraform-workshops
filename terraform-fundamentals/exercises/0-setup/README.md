@@ -15,6 +15,15 @@ create a Cloud9 server / dev environment where we'll run the upcoming exercises.
 1. Wait for your environment to start. In this step, AWS is provisioning an EC2 instance on which your IDE environment will run. This gives us the distinct advantage of having a consistent and concontrolled environment for development regardless of your hardware and OS. It also allows us to connect to our instances and AWS's API without worrying about port availability at your home or in a corporate office. 😁
 1. Once your IDE loads, you should see a Welcome document. You can stop here for a minute as I will give you a quick walkthrough of the environment. If this is a Zoom class, please make a thumbsup in the Zoom so I know roughly how many people are at this point. Feel free to take the time to read through the welcome document.
 
+## Resize your Cloud9 disk
+
+There really should be a way to set the root disk size to use on a Cloud9 instance, but surprisingly there isn't, so we need to increase it using some trickery at this stage:
+
+```bash
+curl -s https://gist.githubusercontent.com/wongcyrus/a4e726b961260395efa7811cab0b4516/raw/543fe335adaf7222f5f4fca475cf716d61b9a77b/resize.sh | sh
+```
+
+This should increase and grow your Cloud9 root disk to 20G
 
 ## Setup your Environment
 
@@ -33,7 +42,7 @@ sudo unzip terraform_0.12.30_linux_amd64.zip -d /usr/bin/
 
 You will need to confirm the unzip command as there is a newer version of terraform installed by default in the Cloud9 environment that will need to be overwritten. You can do so by typing "A" and hitting enter.
 
-   4. Now let's confirm we terraform installed properly.
+4. Now let's confirm we terraform installed properly.
 
 ```bash
 terraform -v
@@ -50,7 +59,7 @@ is 0.14.6. You can update by downloading from https://www.terraform.io/downloads
 
 ## Pull the exercises repository
 
-The next thing we need to do is pull this repository down so we can use it in future modules. Run the following to do this:
+The next thing we need to do is pull this repository down so we can use it in future exercises. Run the following to do this:
 
 ```bash
 mkdir -p workshop
@@ -60,10 +69,14 @@ git clone https://github.com/Gowiem/terraform-workshops .
 
 ## Set a Default Region
 
-To let our CLI and Terraform know that we want to work in the AWS us-east-2 region (Ohio), let's run the following command:
+To let our CLI and Terraform know that we want to work in the AWS us-east-2 region (Ohio), let's run the following commands:
 
 ```bash
+# Set our AWS_DEFAULT_REGION for this terminal session
 export AWS_DEFAULT_REGION=us-east-2
+
+# Set our AWS_DEFAULT_REGION for the future as well
+echo "export AWS_DEFAULT_REGION=us-east-2" >> ~/.bash_profile
 ```
 
 This environment variable will let Terraform (as well as other tools) know where we want to deploy things.
