@@ -39,7 +39,7 @@ We've gone even a bit further than we have previously to do some organization of
 
 * `terraform.tf`: containing our root `terraform` block and its settings, root terraform configuration
 * `providers.tf`: including any provider declaration/defintion blocks, as a project could contain 1 or many
-* `ec2.tf`, `s3.tf`: a single `main.tf` or similar monolithic project config file might not be appropriate for larger projects. Splitting up by purpose and resource types to manage can be a good pattern to follow. This is not entirely unlike the benefits of encapsulating concerns in modules
+* `ec2.tf`, `s3.tf`: a single `main.tf` or similar monolithic project config file might not be appropriate for larger projects. Splitting up by purpose can be a good pattern to follow. This is not entirely unlike the benefits of encapsulating concerns in modules.
 
 OK, so we have a Terraform project, and we want to see how it's set up to use an s3 backend. We'll make sure it's configured correctly to do so for our student alias bucket and then create some infrastructure making use of our backend and remote state.
 
@@ -48,6 +48,8 @@ Let's first look at the contents of our root terraform block/settings in `terraf
 ```
 terraform {
   backend "s3" {}
+
+  ...
 }
 ```
 
@@ -68,7 +70,17 @@ use this backend unless the backend configuration changes.
 
 Initializing provider plugins...
 - Checking for available provider plugins...
-- Downloading plugin for provider "aws" (hashicorp/aws) 2.70.0...
+- Downloading plugin for provider "aws" (hashicorp/aws) 3.31.0...
+
+The following providers do not have any version constraints in configuration,
+so the latest version was installed.
+
+To prevent automatic upgrades to new major versions that may contain breaking
+changes, it is recommended to add version = "..." constraints to the
+corresponding provider blocks in configuration, with the constraint strings
+suggested below.
+
+* provider.aws: version = "~> 3.31"
 
 Terraform has been successfully initialized!
 
