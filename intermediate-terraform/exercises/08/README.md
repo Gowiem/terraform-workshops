@@ -51,8 +51,8 @@ Interesting, so the current state of Terraform is telling us that anything other
 $ TF_LOG=TRACE terraform init
 2020/08/09 17:28:32 [INFO] Terraform version: 0.12.29
 2020/08/09 17:28:32 [INFO] Go runtime version: go1.12.13
-2020/08/09 17:28:32 [INFO] CLI args: []string{"/Users/patrickforce/.tfenv/versions/0.12.29/terraform", "init"}
-2020/08/09 17:28:32 [DEBUG] Attempting to open CLI config file: /Users/patrickforce/.terraformrc
+2020/08/09 17:28:32 [INFO] CLI args: []string{"/Users/gowiem/.tfenv/versions/0.12.29/terraform", "init"}
+2020/08/09 17:28:32 [DEBUG] Attempting to open CLI config file: /Users/gowiem/.terraformrc
 2020/08/09 17:28:32 [DEBUG] File doesn't exist, but doesn't need to. Ignoring.
 2020/08/09 17:28:32 [INFO] CLI command args: []string{"init"}
 
@@ -63,12 +63,12 @@ Initializing the backend...
 2020/08/09 17:28:32 [TRACE] Meta.Backend: using default local state only (no backend configuration, and no existing initialized backend)
 2020/08/09 17:28:32 [TRACE] Meta.Backend: instantiated backend of type <nil>
 2020/08/09 17:28:32 [DEBUG] checking for provider in "."
-2020/08/09 17:28:32 [DEBUG] checking for provider in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:28:32 [DEBUG] checking for provider in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:28:32 [DEBUG] checking for provider in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:28:32 [DEBUG] found provider "terraform-provider-aws_v2.70.0_x4"
-2020/08/09 17:28:32 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
+2020/08/09 17:28:32 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
 2020/08/09 17:28:32 [DEBUG] checking for provisioner in "."
-2020/08/09 17:28:32 [DEBUG] checking for provisioner in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:28:32 [DEBUG] checking for provisioner in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:28:32 [DEBUG] checking for provisioner in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:28:32 [TRACE] Meta.Backend: backend <nil> does not support operations, so wrapping it in a local backend
 2020/08/09 17:28:32 [TRACE] backend/local: state manager for workspace "default" will:
@@ -79,18 +79,18 @@ Initializing the backend...
 2020/08/09 17:28:32 [TRACE] statemgr.Filesystem: snapshot file has nil snapshot, but that's okay
 2020/08/09 17:28:32 [TRACE] statemgr.Filesystem: read nil snapshot
 2020/08/09 17:28:32 [DEBUG] checking for provider in "."
-2020/08/09 17:28:32 [DEBUG] checking for provider in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:28:32 [DEBUG] checking for provider in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:28:32 [DEBUG] checking for provider in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:28:32 [DEBUG] found provider "terraform-provider-aws_v2.70.0_x4"
-2020/08/09 17:28:32 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
+2020/08/09 17:28:32 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
 
 2020/08/09 17:28:32 [DEBUG] plugin requirements: "aws"="~> 2.0"
 2020/08/09 17:28:32 [DEBUG] checking for provider in "."
 Initializing provider plugins...
-2020/08/09 17:28:32 [DEBUG] checking for provider in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:28:32 [DEBUG] checking for provider in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:28:32 [DEBUG] checking for provider in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:28:32 [DEBUG] found provider "terraform-provider-aws_v2.70.0_x4"
-2020/08/09 17:28:32 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
+2020/08/09 17:28:32 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
 2020/08/09 17:28:32 [DEBUG] checking for provider in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:28:32 [DEBUG] found provider "terraform-provider-aws_v2.70.0_x4"
 
@@ -119,7 +119,7 @@ First, note the log levels available on each line. So, the following would be in
 Let's step through the whole thing though and pick out some particularly noteworthy lines
 
 ```
-2020/08/09 17:28:32 [DEBUG] Attempting to open CLI config file: /Users/patrickforce/.terraformrc
+2020/08/09 17:28:32 [DEBUG] Attempting to open CLI config file: /Users/gowiem/.terraformrc
 ```
 
 Ah, so Terraform has the concept of a local CLI config file. We've not covered that in this course, nor will we, but even looking deeper into logs this way can be a good source of learning.
@@ -132,10 +132,10 @@ We are indeed using a local state configuration in this exercise, no remote stat
 
 ```
 2020/08/09 17:28:32 [DEBUG] checking for provider in "."
-2020/08/09 17:28:32 [DEBUG] checking for provider in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:28:32 [DEBUG] checking for provider in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:28:32 [DEBUG] checking for provider in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:28:32 [DEBUG] found provider "terraform-provider-aws_v2.70.0_x4"
-2020/08/09 17:28:32 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
+2020/08/09 17:28:32 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
 ```
 
 This sort of info gives us more visibility into what Terraform is doing to identify providers defined in code, and find the provider plugin locally if it can, otherwise download it.
@@ -192,8 +192,8 @@ Whether it comes from `validate` or `plan`, helpful output even with this log le
 $ TF_LOG=TRACE terraform plan
 2020/08/09 17:45:37 [INFO] Terraform version: 0.12.29
 2020/08/09 17:45:37 [INFO] Go runtime version: go1.12.13
-2020/08/09 17:45:37 [INFO] CLI args: []string{"/Users/patrickforce/.tfenv/versions/0.12.29/terraform", "plan"}
-2020/08/09 17:45:37 [DEBUG] Attempting to open CLI config file: /Users/patrickforce/.terraformrc
+2020/08/09 17:45:37 [INFO] CLI args: []string{"/Users/gowiem/.tfenv/versions/0.12.29/terraform", "plan"}
+2020/08/09 17:45:37 [DEBUG] Attempting to open CLI config file: /Users/gowiem/.terraformrc
 2020/08/09 17:45:37 [DEBUG] File doesn't exist, but doesn't need to. Ignoring.
 2020/08/09 17:45:37 [INFO] CLI command args: []string{"plan"}
 2020/08/09 17:45:37 [TRACE] Meta.Backend: no config given or present on disk, so returning nil config
@@ -202,12 +202,12 @@ $ TF_LOG=TRACE terraform plan
 2020/08/09 17:45:37 [TRACE] Meta.Backend: using default local state only (no backend configuration, and no existing initialized backend)
 2020/08/09 17:45:37 [TRACE] Meta.Backend: instantiated backend of type <nil>
 2020/08/09 17:45:37 [DEBUG] checking for provider in "."
-2020/08/09 17:45:37 [DEBUG] checking for provider in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:45:37 [DEBUG] checking for provider in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:45:37 [DEBUG] checking for provider in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:45:37 [DEBUG] found provider "terraform-provider-aws_v2.70.0_x4"
-2020/08/09 17:45:37 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
+2020/08/09 17:45:37 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
 2020/08/09 17:45:37 [DEBUG] checking for provisioner in "."
-2020/08/09 17:45:37 [DEBUG] checking for provisioner in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:45:37 [DEBUG] checking for provisioner in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:45:37 [DEBUG] checking for provisioner in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:45:37 [TRACE] Meta.Backend: backend <nil> does not support operations, so wrapping it in a local backend
 2020/08/09 17:45:37 [INFO] backend/local: starting Plan operation
@@ -232,9 +232,9 @@ $ TF_LOG=TRACE terraform plan
 2020/08/09 17:45:38 [TRACE] terraform.NewContext: loading provider schemas
 2020/08/09 17:45:38 [TRACE] LoadSchemas: retrieving schema for provider type "aws"
 2020-08-09T17:45:38.101-0600 [INFO]  plugin: configuring client automatic mTLS
-2020-08-09T17:45:38.127-0600 [DEBUG] plugin: starting plugin: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 args=[/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4]
-2020-08-09T17:45:38.137-0600 [DEBUG] plugin: plugin started: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76409
-2020-08-09T17:45:38.137-0600 [DEBUG] plugin: waiting for RPC address: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4
+2020-08-09T17:45:38.127-0600 [DEBUG] plugin: starting plugin: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 args=[/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4]
+2020-08-09T17:45:38.137-0600 [DEBUG] plugin: plugin started: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76409
+2020-08-09T17:45:38.137-0600 [DEBUG] plugin: waiting for RPC address: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4
 2020-08-09T17:45:38.164-0600 [INFO]  plugin.terraform-provider-aws_v2.70.0_x4: configuring server automatic mTLS: timestamp=2020-08-09T17:45:38.164-0600
 2020-08-09T17:45:38.191-0600 [DEBUG] plugin: using plugin: version=5
 2020-08-09T17:45:38.191-0600 [DEBUG] plugin.terraform-provider-aws_v2.70.0_x4: plugin address: address=/var/folders/sq/xw253p5n2xb8bp0ngz5nr_080000gn/T/plugin379322044 network=unix timestamp=2020-08-09T17:45:38.191-0600
@@ -242,7 +242,7 @@ $ TF_LOG=TRACE terraform plan
 2020-08-09T17:45:38.247-0600 [TRACE] plugin.stdio: waiting for stdio data
 2020/08/09 17:45:38 [TRACE] GRPCProvider: Close
 2020-08-09T17:45:38.311-0600 [WARN]  plugin.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = transport is closing"
-2020-08-09T17:45:38.314-0600 [DEBUG] plugin: plugin process exited: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76409
+2020-08-09T17:45:38.314-0600 [DEBUG] plugin: plugin process exited: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76409
 2020-08-09T17:45:38.314-0600 [DEBUG] plugin: plugin exited
 2020/08/09 17:45:38 [TRACE] terraform.NewContext: complete
 2020/08/09 17:45:38 [TRACE] backend/local: finished building terraform.Context
@@ -430,9 +430,9 @@ $ TF_LOG=TRACE terraform plan
 2020/08/09 17:45:38 [TRACE] <root>: eval: *terraform.EvalSequence
 2020/08/09 17:45:38 [TRACE] <root>: eval: *terraform.EvalInitProvider
 2020-08-09T17:45:38.315-0600 [INFO]  plugin: configuring client automatic mTLS
-2020-08-09T17:45:38.340-0600 [DEBUG] plugin: starting plugin: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 args=[/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4]
-2020-08-09T17:45:38.352-0600 [DEBUG] plugin: plugin started: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76410
-2020-08-09T17:45:38.352-0600 [DEBUG] plugin: waiting for RPC address: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4
+2020-08-09T17:45:38.340-0600 [DEBUG] plugin: starting plugin: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 args=[/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4]
+2020-08-09T17:45:38.352-0600 [DEBUG] plugin: plugin started: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76410
+2020-08-09T17:45:38.352-0600 [DEBUG] plugin: waiting for RPC address: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4
 2020-08-09T17:45:38.380-0600 [INFO]  plugin.terraform-provider-aws_v2.70.0_x4: configuring server automatic mTLS: timestamp=2020-08-09T17:45:38.378-0600
 2020-08-09T17:45:38.407-0600 [DEBUG] plugin: using plugin: version=5
 2020-08-09T17:45:38.407-0600 [DEBUG] plugin.terraform-provider-aws_v2.70.0_x4: plugin address: address=/var/folders/sq/xw253p5n2xb8bp0ngz5nr_080000gn/T/plugin150846913 network=unix timestamp=2020-08-09T17:45:38.407-0600
@@ -486,7 +486,7 @@ The provider provider.aws does not support resource type
 "aws_invalid_resource_type".
 
 2020-08-09T17:45:38.593-0600 [WARN]  plugin.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = transport is closing"
-2020-08-09T17:45:38.596-0600 [DEBUG] plugin: plugin process exited: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76410
+2020-08-09T17:45:38.596-0600 [DEBUG] plugin: plugin process exited: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76410
 2020-08-09T17:45:38.596-0600 [DEBUG] plugin: plugin exited
 ```
 
@@ -515,10 +515,10 @@ The provider provider.aws does not support resource type
 Ah, so our console output looks just like it would if we weren't using `TF_LOG` at all. Looking out our `plan.log` file now:
 
 ```
-2020/08/09 17:50:24 [INFO] Terraform version: 0.12.29  
+2020/08/09 17:50:24 [INFO] Terraform version: 0.12.29
 2020/08/09 17:50:24 [INFO] Go runtime version: go1.12.13
-2020/08/09 17:50:24 [INFO] CLI args: []string{"/Users/patrickforce/.tfenv/versions/0.12.29/terraform", "plan"}
-2020/08/09 17:50:24 [DEBUG] Attempting to open CLI config file: /Users/patrickforce/.terraformrc
+2020/08/09 17:50:24 [INFO] CLI args: []string{"/Users/gowiem/.tfenv/versions/0.12.29/terraform", "plan"}
+2020/08/09 17:50:24 [DEBUG] Attempting to open CLI config file: /Users/gowiem/.terraformrc
 2020/08/09 17:50:24 [DEBUG] File doesn't exist, but doesn't need to. Ignoring.
 2020/08/09 17:50:24 [INFO] CLI command args: []string{"plan"}
 2020/08/09 17:50:24 [TRACE] Meta.Backend: no config given or present on disk, so returning nil config
@@ -527,12 +527,12 @@ Ah, so our console output looks just like it would if we weren't using `TF_LOG` 
 2020/08/09 17:50:24 [TRACE] Meta.Backend: using default local state only (no backend configuration, and no existing initialized backend)
 2020/08/09 17:50:24 [TRACE] Meta.Backend: instantiated backend of type <nil>
 2020/08/09 17:50:24 [DEBUG] checking for provider in "."
-2020/08/09 17:50:24 [DEBUG] checking for provider in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:50:24 [DEBUG] checking for provider in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:50:24 [DEBUG] checking for provider in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:50:24 [DEBUG] found provider "terraform-provider-aws_v2.70.0_x4"
-2020/08/09 17:50:24 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
+2020/08/09 17:50:24 [DEBUG] found valid plugin: "aws", "2.70.0", "/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4"
 2020/08/09 17:50:24 [DEBUG] checking for provisioner in "."
-2020/08/09 17:50:24 [DEBUG] checking for provisioner in "/Users/patrickforce/.tfenv/versions/0.12.29"
+2020/08/09 17:50:24 [DEBUG] checking for provisioner in "/Users/gowiem/.tfenv/versions/0.12.29"
 2020/08/09 17:50:24 [DEBUG] checking for provisioner in ".terraform/plugins/darwin_amd64"
 2020/08/09 17:50:24 [TRACE] Meta.Backend: backend <nil> does not support operations, so wrapping it in a local backend
 2020/08/09 17:50:24 [INFO] backend/local: starting Plan operation
@@ -557,9 +557,9 @@ Ah, so our console output looks just like it would if we weren't using `TF_LOG` 
 2020/08/09 17:50:24 [TRACE] terraform.NewContext: loading provider schemas
 2020/08/09 17:50:24 [TRACE] LoadSchemas: retrieving schema for provider type "aws"
 2020-08-09T17:50:24.902-0600 [INFO]  plugin: configuring client automatic mTLS
-2020-08-09T17:50:24.929-0600 [DEBUG] plugin: starting plugin: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 args=[/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4]
-2020-08-09T17:50:24.939-0600 [DEBUG] plugin: plugin started: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76817
-2020-08-09T17:50:24.939-0600 [DEBUG] plugin: waiting for RPC address: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4
+2020-08-09T17:50:24.929-0600 [DEBUG] plugin: starting plugin: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 args=[/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4]
+2020-08-09T17:50:24.939-0600 [DEBUG] plugin: plugin started: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76817
+2020-08-09T17:50:24.939-0600 [DEBUG] plugin: waiting for RPC address: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4
 2020-08-09T17:50:24.965-0600 [INFO]  plugin.terraform-provider-aws_v2.70.0_x4: configuring server automatic mTLS: timestamp=2020-08-09T17:50:24.965-0600
 2020-08-09T17:50:24.993-0600 [DEBUG] plugin: using plugin: version=5
 2020-08-09T17:50:24.993-0600 [DEBUG] plugin.terraform-provider-aws_v2.70.0_x4: plugin address: address=/var/folders/sq/xw253p5n2xb8bp0ngz5nr_080000gn/T/plugin616275180 network=unix timestamp=2020-08-09T17:50:24.993-0600
@@ -567,7 +567,7 @@ Ah, so our console output looks just like it would if we weren't using `TF_LOG` 
 2020-08-09T17:50:25.047-0600 [TRACE] plugin.stdio: waiting for stdio data
 2020/08/09 17:50:25 [TRACE] GRPCProvider: Close
 2020-08-09T17:50:25.112-0600 [WARN]  plugin.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = transport is closing"
-2020-08-09T17:50:25.115-0600 [DEBUG] plugin: plugin process exited: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76817
+2020-08-09T17:50:25.115-0600 [DEBUG] plugin: plugin process exited: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76817
 2020-08-09T17:50:25.115-0600 [DEBUG] plugin: plugin exited
 2020/08/09 17:50:25 [TRACE] terraform.NewContext: complete
 2020/08/09 17:50:25 [TRACE] backend/local: finished building terraform.Context
@@ -755,9 +755,9 @@ Ah, so our console output looks just like it would if we weren't using `TF_LOG` 
 2020/08/09 17:50:25 [TRACE] <root>: eval: *terraform.EvalSequence
 2020/08/09 17:50:25 [TRACE] <root>: eval: *terraform.EvalInitProvider
 2020-08-09T17:50:25.117-0600 [INFO]  plugin: configuring client automatic mTLS
-2020-08-09T17:50:25.142-0600 [DEBUG] plugin: starting plugin: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 args=[/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4]
-2020-08-09T17:50:25.156-0600 [DEBUG] plugin: plugin started: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76818
-2020-08-09T17:50:25.156-0600 [DEBUG] plugin: waiting for RPC address: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4
+2020-08-09T17:50:25.142-0600 [DEBUG] plugin: starting plugin: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 args=[/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4]
+2020-08-09T17:50:25.156-0600 [DEBUG] plugin: plugin started: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76818
+2020-08-09T17:50:25.156-0600 [DEBUG] plugin: waiting for RPC address: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4
 2020-08-09T17:50:25.184-0600 [INFO]  plugin.terraform-provider-aws_v2.70.0_x4: configuring server automatic mTLS: timestamp=2020-08-09T17:50:25.183-0600
 2020-08-09T17:50:25.212-0600 [DEBUG] plugin: using plugin: version=5
 2020-08-09T17:50:25.212-0600 [DEBUG] plugin.terraform-provider-aws_v2.70.0_x4: plugin address: address=/var/folders/sq/xw253p5n2xb8bp0ngz5nr_080000gn/T/plugin150805657 network=unix timestamp=2020-08-09T17:50:25.211-0600
@@ -802,7 +802,7 @@ Ah, so our console output looks just like it would if we weren't using `TF_LOG` 
 2020/08/09 17:50:25 [TRACE] statemgr.Filesystem: removing lock metadata file .terraform.tfstate.lock.info
 2020/08/09 17:50:25 [TRACE] statemgr.Filesystem: unlocking terraform.tfstate using fcntl flock
 2020-08-09T17:50:25.392-0600 [WARN]  plugin.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = transport is closing"
-2020-08-09T17:50:25.396-0600 [DEBUG] plugin: plugin process exited: path=/Users/patrickforce/workspace/terraform-packer-workshop/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76818
+2020-08-09T17:50:25.396-0600 [DEBUG] plugin: plugin process exited: path=/Users/gowiem/workspace/terraform-workshops/intermediate-terraform/exercises/08/.terraform/plugins/darwin_amd64/terraform-provider-aws_v2.70.0_x4 pid=76818
 2020-08-09T17:50:25.396-0600 [DEBUG] plugin: plugin exited
 ```
 

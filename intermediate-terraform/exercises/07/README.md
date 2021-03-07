@@ -559,11 +559,11 @@ Let's look more closely then at the contents of our `.terraform` directory relat
 ```
 $ ls -la .terraform/modules
 total 8
-drwxr-xr-x   5 patrickforce  staff  160 Aug  9 15:42 .
-drwxr-xr-x   5 patrickforce  staff  160 Aug  9 15:43 ..
-drwxr-xr-x  18 patrickforce  staff  576 Aug  9 15:42 dynamodb_table
--rw-r--r--   1 patrickforce  staff  371 Aug  9 15:42 modules.json
-drwxr-xr-x   3 patrickforce  staff   96 Aug  9 15:42 security_group
+drwxr-xr-x   5 gowiem  staff  160 Aug  9 15:42 .
+drwxr-xr-x   5 gowiem  staff  160 Aug  9 15:43 ..
+drwxr-xr-x  18 gowiem  staff  576 Aug  9 15:42 dynamodb_table
+-rw-r--r--   1 gowiem  staff  371 Aug  9 15:42 modules.json
+drwxr-xr-x   3 gowiem  staff   96 Aug  9 15:42 security_group
 ```
 
 Terraform has indeed downloaded the third-party modules here, the directory names matching the identifier that we've assigned to the module call in our code, e.g. `module "security_group"`. Within each directory is the source for the module.

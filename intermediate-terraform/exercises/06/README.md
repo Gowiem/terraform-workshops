@@ -87,7 +87,7 @@ $ terraform apply
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 
 An execution plan has been generated and is shown below.
@@ -233,10 +233,10 @@ So, we've downloaded the template provider plugin, just like we've done so for t
 ```
 $ ls -la .terraform/plugins/linux_amd64/
 total 46168
-drwxr-xr-x  4 patrickforce  staff       128 Aug  7 20:39 .
-drwxr-xr-x  3 patrickforce  staff        96 Aug  7 20:39 ..
--rwxr-xr-x  1 patrickforce  staff        84 Aug  7 20:39 lock.json
--rwxr-xr-x  1 patrickforce  staff  23630632 Aug  7 20:39 terraform-provider-template_v2.1.2_x4
+drwxr-xr-x  4 gowiem  staff       128 Aug  7 20:39 .
+drwxr-xr-x  3 gowiem  staff        96 Aug  7 20:39 ..
+-rwxr-xr-x  1 gowiem  staff        84 Aug  7 20:39 lock.json
+-rwxr-xr-x  1 gowiem  staff  23630632 Aug  7 20:39 terraform-provider-template_v2.1.2_x4
 ```
 
 And so further Terraform commands are ready to use the plugin. So let's review the source first, all in main.tf

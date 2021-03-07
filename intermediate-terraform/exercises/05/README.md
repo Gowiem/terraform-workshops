@@ -91,7 +91,7 @@ $ terraform plan
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
@@ -135,7 +135,7 @@ $ terraform apply
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 
 An execution plan has been generated and is shown below.
@@ -176,9 +176,9 @@ Our key pair is created for our dev environment. Let's quickly note that we have
 ```
 $ ls -la terraform.tfstate.d/dev/
 total 8
-drwxr-xr-x  3 patrickforce  staff    96 Aug  7 17:39 .
-drwxr-xr-x  3 patrickforce  staff    96 Aug  7 17:38 ..
--rw-r--r--  1 patrickforce  staff  1311 Aug  7 17:39 terraform.tfstate
+drwxr-xr-x  3 gowiem  staff    96 Aug  7 17:39 .
+drwxr-xr-x  3 gowiem  staff    96 Aug  7 17:38 ..
+-rw-r--r--  1 gowiem  staff  1311 Aug  7 17:39 terraform.tfstate
 ```
 
 Note that this `terraform.tfstate.d` directory would be stored in our remote backend if we were using a remote state backend. For the sake of being able to work with and see this for potentially the first time, we're using local state.
@@ -203,7 +203,7 @@ $ terraform apply
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 
 An execution plan has been generated and is shown below.
@@ -246,9 +246,9 @@ And we have a totally different state file managed for this run/workspace:
 ```
 $ ls -la terraform.tfstate.d/prod/
 total 8
-drwxr-xr-x  3 patrickforce  staff    96 Aug  7 17:50 .
-drwxr-xr-x  4 patrickforce  staff   128 Aug  7 17:42 ..
--rw-r--r--  1 patrickforce  staff  1315 Aug  7 17:50 terraform.tfstate
+drwxr-xr-x  3 gowiem  staff    96 Aug  7 17:50 .
+drwxr-xr-x  4 gowiem  staff   128 Aug  7 17:42 ..
+-rw-r--r--  1 gowiem  staff  1315 Aug  7 17:50 terraform.tfstate
 ```
 
 Know that the term "workspace" is a bit overloaded when it comes to terraform CLI local operations vs the capabilities of Terraform Cloud/Enterprise. Both use much of the same functionality, but some additional things can be confusing when workspaces in Terraform Cloud are discussed, such as isolated execution environments.
