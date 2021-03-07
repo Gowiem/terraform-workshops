@@ -19,30 +19,26 @@ Go ahead run `terraform init` in this project directory:
 ```
 $ terraform init
 Initializing modules...
-Downloading terraform-aws-modules/security-group/aws 3.13.0 for security_group...
-- security_group in .terraform/modules/security_group/terraform-aws-security-group-3.13.0
+Downloading terraform-aws-modules/security-group/aws 3.18.0 for security_group...
+- security_group in .terraform/modules/security_group
 
 Initializing the backend...
 
 Initializing provider plugins...
 - Checking for available provider plugins...
-- Downloading plugin for provider "aws" (hashicorp/aws) 2.70.0...
+- Downloading plugin for provider "aws" (hashicorp/aws) 3.31.0...
 
 
-Warning: Interpolation-only expressions are deprecated
+Warning: Provider source not supported in Terraform v0.12
 
-  on main.tf line 10, in provider "aws":
-  10:   region  = "${var.region}" # we're using 0.12, and newer versions will warn us if we write this "${var.region}" instead of var.region
+  on main.tf line 8, in terraform:
+   8:     aws = {
+   9:       source  = "hashicorp/aws"
+  10:       version = "~> 3.0"
+  11:     }
 
-Terraform 0.11 and earlier required all non-constant expressions to be
-provided via interpolation syntax, but this pattern is now deprecated. To
-silence this warning, remove the "${ sequence from the start and the }"
-sequence from the end of this expression, leaving just the inner expression.
-
-Template interpolation syntax is still used to construct strings from
-expressions when the template includes multiple interpolation sequences or a
-mixture of literal strings and interpolations. This deprecation applies only
-to templates that consist entirely of a single interpolation sequence.
+A source was declared for provider aws. Terraform v0.12 does not support the
+provider source attribute. It will be ignored.
 
 Terraform has been successfully initialized!
 
@@ -59,18 +55,18 @@ Let's look at the individual pieces of this output to re-familiarize ourselves w
 
 ```
 Initializing modules...
-Downloading terraform-aws-modules/security-group/aws 3.13.0 for security_group...
-- security_group in .terraform/modules/security_group/terraform-aws-security-group-3.13.0
+Downloading terraform-aws-modules/security-group/aws 3.18.0 for security_group...
+- security_group in .terraform/modules/security_group
 ```
 
-One of `terraform init`'s jobs is to identify modules defined in configuration source and pull them in to the .terraform directory so they can be used when running further `terraform` commands. Here we see `init` identifying a third-party module defined in source and pulling it appropriately. Here's what the module call/definition looks like in our source:
+One of `terraform init`'s jobs is to identify modules defined in configuration source and pull them in to the `.terraform/` directory so they can be used when running further `terraform` commands. Here we see `init` identifying a third-party module defined in source and pulling it appropriately. Here's what the module call/definition looks like in our source:
 
 ```
 module "security_group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "3.13.0"
-  name = var.student_alias
-  vpc_id = data.aws_vpc.default.id
+  version = "3.18.0"
+  name    = var.student_alias
+  vpc_id  = data.aws_vpc.default.id
 }
 ```
 
@@ -81,10 +77,10 @@ Let's look at where and how our `init` command downloaded the module:
 ```
 $ ls -lah .terraform/modules/
 total 8
-drwxr-xr-x  4 patrickforce  staff   128B Aug  7 07:45 .
-drwxr-xr-x  4 patrickforce  staff   128B Aug  7 07:45 ..
--rw-r--r--  1 patrickforce  staff   220B Aug  7 07:45 modules.json
-drwxr-xr-x  3 patrickforce  staff    96B Aug  7 07:45 security_group
+drwxr-xr-x  4 gowiem  staff   128B Aug  7 07:45 .
+drwxr-xr-x  4 gowiem  staff   128B Aug  7 07:45 ..
+-rw-r--r--  1 gowiem  staff   220B Aug  7 07:45 modules.json
+drwxr-xr-x  3 gowiem  staff    96B Aug  7 07:45 security_group
 ```
 
 We see the module itself downloaded to the `security_group` directory, so there's Terraform source code in there that will actually be used when we run our configuration. `modules.json` is just a metadata file to track Terraform's awareness of pulled modules and such.
@@ -99,51 +95,43 @@ Initializing provider plugins...
 - Downloading plugin for provider "aws" (hashicorp/aws) 2.70.0...
 ```
 
-Initializing the backend: we'll refresh more on later, but this is Terraform preparing for interaction with remote state in short.
+Initializing the backend: we'll refresh more on later, but in short, this is Terraform preparing for interaction with remote state.
 
 Along with identifying and downloading modules, `init` also identifies providers defined in source and downloads the provider plugins. Remember that providers are key to Terraform. They're the things to define a bulk of the actual functionality when using Terraform, and are supported via a plugin architecture. For example, I want to create and manage resources in AWS, so I make use of the AWS provider which encapsulates all of the functionality to have Terraform interact with the AWS APIs to run these creation and management operations. If we look at our Terraform source for the provider definition:
 
 ```
+terraform {
+  ...
+
+  required_providers {
+    # this version constraint says that we need to use the most recent 3.x version of the provider
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
+}
+
+# see the options and configuration for the AWS provider at: https://www.terraform.io/docs/providers/aws/index.html
 provider "aws" {
-  version = "~> 2.0" # this version constraint says that we need to use the most recent 2.x version of the provider
-  region  = "${var.region}" # we're using 0.12, and newer versions will warn us if we write this "${var.region}" instead of var.region
-                            # but 0.11 and versions before don't support the syntax here
+  region = var.region
 }
 ```
 
-`terraform init` sees this provider block defined with a version constraint of `version = "~> 2.0"` and knows that it needs to go get the AWS provider matching this version constraint if it's not already available locally. `Downloading plugin for provider "aws" (hashicorp/aws) 2.70.0...` from the logs indicates that it found the version it needs and is downloading it. This provider, or plugin is also pulled into the `.terraform` directory:
+`terraform init` sees this provider block defined and knows that it needs to go get the AWS provider. It utilizes the `required_providers` block to determine the version constraint if it's not already available locally. `Downloading plugin for provider "aws" (hashicorp/aws) 3.31.0...` from the logs indicates that it found the version it needs and is downloading it. This provider, or plugin is also pulled into the `.terraform` directory:
 
 ```
 $ ls -la .terraform/plugins/linux_amd64/
 total 371144
-drwxr-xr-x  4 patrickforce  staff        128 Aug  7 07:45 .
-drwxr-xr-x  3 patrickforce  staff         96 Aug  7 07:45 ..
--rwxr-xr-x  1 patrickforce  staff         79 Aug  7 07:45 lock.json
--rwxr-xr-x  1 patrickforce  staff  189435008 Aug  7 07:45 terraform-provider-aws_v2.70.0_x4
+drwxr-xr-x  4 gowiem  staff        128 Aug  7 07:45 .
+drwxr-xr-x  3 gowiem  staff         96 Aug  7 07:45 ..
+-rwxr-xr-x  1 gowiem  staff         79 Aug  7 07:45 lock.json
+-rwxr-xr-x  1 gowiem  staff  189435008 Aug  7 07:45 terraform-provider-aws_v3.31.0_x5
 ```
 
 A provider or plugin is nothing more than a compiled binary that Terraform calls in the execution of terraform commands. This provider binary for AWS is now available locally so that Terraform can make use of it for creating and managing AWS-related resources and other AWS related operations built-in to the provider.
 
-Next, we see some output from our `init` command that implies that `init` does some basic syntax checking, which indeed it does!
-
-```
-Warning: Interpolation-only expressions are deprecated
-
-  on main.tf line 10, in provider "aws":
-  10:   region  = "${var.region}" # we're using 0.12, and newer versions will warn us if we write this "${var.region}" instead of var.region
-
-Terraform 0.11 and earlier required all non-constant expressions to be
-provided via interpolation syntax, but this pattern is now deprecated. To
-silence this warning, remove the "${ sequence from the start and the }"
-sequence from the end of this expression, leaving just the inner expression.
-
-Template interpolation syntax is still used to construct strings from
-expressions when the template includes multiple interpolation sequences or a
-mixture of literal strings and interpolations. This deprecation applies only
-to templates that consist entirely of a single interpolation sequence.
-```
-
-This will be a common warning that will appear in any project where you're transitioning from Terraform <=0.11 to >= 0.12. HCL and Terraform 0.12 have deprecated a number of syntactical approaches in previous versions. One of them being the above, where 0.12 wants you to use string interpolation only when you're actually interpolating. In the case of `"${var.region}"`, we're really only dealing with a variable value, nothing that needs to be concatenated, interpolated, etc. So, we'd want to update it to `var.region` while working with 0.12. Let's do that, and also update any others you find like this that need fixing, and then re-run init:
+Now, if we run `terraform init` again we'll see the following:
 
 ```
 $ terraform init
@@ -153,40 +141,24 @@ Initializing the backend...
 
 Initializing provider plugins...
 
-Terraform has been successfully initialized!
-
-You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
-
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
+...
 ```
 
-If you've fixed all, you should see output like the above. No more warnings. It's also worth noting that we no longer get output, nothing really happened during the module and provider plugin initialization. This is because the `terraform init` command is idempotent. We've already downloaded the versions of modules and provider plugins needed. Terraform is able to determine that and not attempt a download again. If you wanted to force re-download modules and plugins, you could use the `-upgrade=true` arg for the `init` command
+This time around `terraform init` didn't install our module to provider, which is because the `init` command is idempotent. We've already downloaded the versions of modules and provider plugins needed, so Terraform is able to determine that and not attempt a download again. If you wanted to force re-download modules and plugins, you could use the `-upgrade=true` arg for the `init` command
 
 ```
 $ terraform init -upgrade=true
 Upgrading modules...
-Downloading terraform-aws-modules/security-group/aws 3.13.0 for security_group...
-- security_group in .terraform/modules/security_group/terraform-aws-security-group-3.13.0
+Downloading terraform-aws-modules/security-group/aws 3.18.0 for security_group...
+- security_group in .terraform/modules/security_group
 
 Initializing the backend...
 
 Initializing provider plugins...
 - Checking for available provider plugins...
-- Downloading plugin for provider "aws" (hashicorp/aws) 2.70.0...
+- Downloading plugin for provider "aws" (hashicorp/aws) 3.31.0...
 
-Terraform has been successfully initialized!
-
-You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
-
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
+...
 ```
 
 ### The root `terraform` block
@@ -194,12 +166,22 @@ commands will detect it and remind you to do so if necessary.
 OK, let's go start to actually look at our configuration source. You'll notice in `main.tf` there's a root `terraform` block defined like:
 
 ```
+# root terraform configuration, no interpolation supported in this block
+# we're saying here that all the following code requires at least terraform version 0.12.26 or greater
 terraform {
   required_version = ">= 0.12.26"
+
+  required_providers {
+    # this version constraint says that we need to use the most recent 3.x version of the provider
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
 }
 ```
 
-This simply gives us a way to ensure that no terraform commands can be run against this configuration unless the version of the `terraform` CLI being used is at least version `0.12.26`. This root terraform settings block is also where you configure remote backend settings, which we'll get back to soon, as well as a few other things like experimental feature enablement.
+This simply gives us a way to ensure that no terraform commands can be run against this configuration unless the version of the `terraform` CLI being used is at least version `0.12.26`. You'll also notice we're specifying the version of our AWS provider in this block which is new in `0.12.26` and above. The root terraform block is also where you configure remote backend settings, which we'll get back to soon, as well as a few other things like experimental feature enablement.
 
 ### A look at the rest of the source
 
@@ -245,7 +227,7 @@ module "security_group" {
 
 ```
 
-our first block, or stanza is a data source, and one that's going to query the AWS API by way of the AWS provider that our `init` command downloaded. We're using a provider-defined data source called `aws_vpc`. We want to query to get info about a VPC that _already exists_ in our AWS. In this case the default VPC for the region as configured in our AWS provider block.
+our first block, or stanza is a data source, and one that's going to query the AWS API by way of the AWS provider that our `init` command downloaded. We're using a provider-defined data source called `aws_vpc`. We want to query to get info about a VPC that _already exists_ in our AWS account. In this case the default VPC for the region as configured in our AWS provider block.
 
 We can then reference the VPC's ID in other places. And we see that happen as we're setting a local variable:
 
@@ -261,7 +243,7 @@ The final 3 blocks in this file represent resources we want to create and manage
 
 * an AWS key pair
 * an AWS elastic IP
-* an AWS security group care of the community module being used to create the resource
+* an AWS security group via a community module being used to create the resource
 
 Let's run a `terraform plan` now and look through the output:
 
@@ -270,12 +252,12 @@ $ terraform plan
 var.region
   the region where resources will be created
 
-  Enter a value: us-west-1
+  Enter a value: us-east-2
 
 var.student_alias
   Your student alias
 
-  Enter a value: force
+  Enter a value: luke-skywalker
 
 Refreshing Terraform state in-memory prior to plan...
 The refreshed state will be used to calculate this plan, but will not be
@@ -293,22 +275,24 @@ Terraform will perform the following actions:
 
   # aws_eip.my_eip will be created
   + resource "aws_eip" "my_eip" {
-      + allocation_id     = (known after apply)
-      + association_id    = (known after apply)
-      + customer_owned_ip = (known after apply)
-      + domain            = (known after apply)
-      + id                = (known after apply)
-      + instance          = (known after apply)
-      + network_interface = (known after apply)
-      + private_dns       = (known after apply)
-      + private_ip        = (known after apply)
-      + public_dns        = (known after apply)
-      + public_ip         = (known after apply)
-      + public_ipv4_pool  = (known after apply)
-      + tags              = {
-          + "in_vpc" = "default-vpc-75a4a012"
+      + allocation_id        = (known after apply)
+      + association_id       = (known after apply)
+      + carrier_ip           = (known after apply)
+      + customer_owned_ip    = (known after apply)
+      + domain               = (known after apply)
+      + id                   = (known after apply)
+      + instance             = (known after apply)
+      + network_border_group = (known after apply)
+      + network_interface    = (known after apply)
+      + private_dns          = (known after apply)
+      + private_ip           = (known after apply)
+      + public_dns           = (known after apply)
+      + public_ip            = (known after apply)
+      + public_ipv4_pool     = (known after apply)
+      + tags                 = {
+          + "in_vpc" = "default-vpc-6342f808"
         }
-      + vpc               = true
+      + vpc                  = true
     }
 
   # aws_key_pair.my_key_pair will be created
@@ -320,7 +304,7 @@ Terraform will perform the following actions:
       + key_pair_id = (known after apply)
       + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
       + tags        = {
-          + "in_vpc" = "default-vpc-75a4a012"
+          + "in_vpc" = "default-vpc-6342f808"
         }
     }
 
@@ -332,13 +316,13 @@ Terraform will perform the following actions:
       + id                     = (known after apply)
       + ingress                = (known after apply)
       + name                   = (known after apply)
-      + name_prefix            = "force-"
+      + name_prefix            = "luke-skywalker-"
       + owner_id               = (known after apply)
       + revoke_rules_on_delete = false
       + tags                   = {
-          + "Name" = "force"
+          + "Name" = "luke-skywalker"
         }
-      + vpc_id                 = "vpc-75a4a012"
+      + vpc_id                 = "vpc-6342f808"
     }
 
 Plan: 3 to add, 0 to change, 0 to destroy.
@@ -381,12 +365,10 @@ Finally, let's take a look at our `outputs.tf` file:
 
 ```
 output "eip_public_ip" {
-  value = "${aws_eip.my_eip.public_ip}"
+  value = aws_eip.my_eip.public_ip
 }
 ```
 
-Outputs are useful pieces of data to come out of a particular Terraform project or module. In this case, we're referencing a value that was filled in upon creating our AWS elastic IP resource. AWS internally created that resource and assigned a public IP to it. We can reference that output or attribute of the resource, and pass it out of our project as well. This particular example might be useful if you have other processes or other projects after this one that needs this IP to, say, update DNS records.
-
-Notice that 0.12 didn't give us a warning for a value contained within `"${..}"` for outputs.
+Outputs are useful pieces of data to come out of a particular Terraform project. In this case, we're referencing a value that was filled in upon creating our AWS elastic IP resource. AWS internally created that resource and assigned a public IP to it. We can reference that output (refered to as an "attribute") of the resource, and pass it out of our project as well. This particular example might be useful if you have other processes or other projects after this one that needs this IP to, say, update DNS records.
 
 That's it for this refresher exercise. We won't actually apply any of this configuration.
