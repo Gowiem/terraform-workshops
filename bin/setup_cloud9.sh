@@ -16,7 +16,7 @@ sudo yum -y install jq
 
 # Install Terraform - We're installing directly from Hashi, but for future usage I suggest using tfenv: https://github.com/tfutils/tfenv
 curl -O https://releases.hashicorp.com/terraform/0.12.30/terraform_0.12.30_linux_amd64.zip
-sudo unzip -o terraform_0.12.30_linux_amd64.zip -d /usr/bin/
+sudo unzip -o terraform_0.12.30_linux_amd64.zip -d /usr/bin/;
 
 # Pull Repo
 ############
