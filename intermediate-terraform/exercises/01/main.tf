@@ -2,13 +2,19 @@
 # we're saying here that all the following code requires at least terraform version 0.12.26 or greater
 terraform {
   required_version = ">= 0.12.26"
+
+  required_providers {
+    # this version constraint says that we need to use the most recent 3.x version of the provider
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
 }
 
 # see the options and configuration for the AWS provider at: https://www.terraform.io/docs/providers/aws/index.html
 provider "aws" {
-  version = "~> 2.0" # this version constraint says that we need to use the most recent 2.x version of the provider
-  region  = "${var.region}" # we're using 0.12, and newer versions will warn us if we write this "${var.region}" instead of var.region
-                           # but 0.11 and versions before don't support the syntax here
+  region = var.region
 }
 
 data "aws_vpc" "default" {

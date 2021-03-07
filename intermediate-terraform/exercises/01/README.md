@@ -10,7 +10,6 @@ Some intro topics refreshed in this exercise:
 * use of data sources
 * local variables
 * outputs
-* tracking 0.11 vs 0.12 deprecated syntax
 * the root `terraform` block
 
 ## Let's jump right in
