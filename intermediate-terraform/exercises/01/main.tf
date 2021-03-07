@@ -42,7 +42,7 @@ resource "aws_eip" "my_eip" {
 
 module "security_group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "3.13.0"
+  version = "~> 3.0"
   name    = var.student_alias
   vpc_id  = data.aws_vpc.default.id
 }
