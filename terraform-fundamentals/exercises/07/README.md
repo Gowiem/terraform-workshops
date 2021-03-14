@@ -60,7 +60,7 @@ value. Use a -var or -var-file command line argument to provide a value for
 this variable.
 ```
 
-Alright, pretty simple and straight forward to grasp right? Let's move on.
+Alright, pretty simple and straight forward to grasp, right? Let's move on.
 
 ### Syntactical Errors
 
@@ -132,7 +132,7 @@ The argument "bucket" is required, but no definition was found.
 ```
 
 So, our provider is actually giving us this. The AWS provider defines what a `aws_s3_bucket_object` should include,
-and what is required. The `bucket` property is required, so it's tell us we have a problem with this resource defintion.
+and what is required. The `bucket` property is required, so it's telling us we have a problem with this resource defintion.
 
 ### Provider Errors or Passthrough
 

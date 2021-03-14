@@ -5,6 +5,8 @@ module "cloudwatch_monitors" {
   source  = "masterpointio/monitor/aws"
   version = "0.11.0"
 
+  # ...
+
   providers = {
     aws_region_1 = aws.usw2
     aws_region_2 = aws.use1
