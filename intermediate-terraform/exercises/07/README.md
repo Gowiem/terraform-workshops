@@ -24,7 +24,7 @@ Let's test out some things to understand loading precedence of that arg. We have
 
 ```
 key = "intermediate-terraform/exercise-07/terraform.tfstate"
-region = "us-west-1"
+region = "us-east-2"
 encrypt = true
 bucket = "totally-invalid-bucket-name-9129083798723472"
 ```

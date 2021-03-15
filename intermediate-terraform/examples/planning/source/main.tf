@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket  = "mp-teaching-examples"
     key     = "intermediate-terraform/examples-planning/terraform.tfstate"
-    region  = "us-west-1"
+    region  = "us-east-2"
     encrypt = true
   }
 }

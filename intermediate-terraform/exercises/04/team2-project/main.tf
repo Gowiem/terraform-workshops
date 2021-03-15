@@ -3,6 +3,7 @@ terraform {
 }
 
 provider "aws" {
+  region = "us-east-2"
 }
 
 resource "aws_key_pair" "my_key_pair" {
@@ -15,6 +16,6 @@ data "terraform_remote_state" "team1" {
   config = {
     bucket = "tf-intermediate-${var.student_alias}"
     key    = "intermediate-terraform/exercise-04/team1-project/terraform.tfstate"
-    region = "us-west-1"
+    region = "us-east-2"
   }
 }

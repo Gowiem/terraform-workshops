@@ -28,18 +28,6 @@ Initializing provider plugins...
 - Checking for available provider plugins...
 - Downloading plugin for provider "aws" (hashicorp/aws) 3.31.0...
 
-
-Warning: Provider source not supported in Terraform v0.12
-
-  on main.tf line 8, in terraform:
-   8:     aws = {
-   9:       source  = "hashicorp/aws"
-  10:       version = "~> 3.0"
-  11:     }
-
-A source was declared for provider aws. Terraform v0.12 does not support the
-provider source attribute. It will be ignored.
-
 Terraform has been successfully initialized!
 
 You may now begin working with Terraform. Try running "terraform plan" to see
@@ -106,7 +94,9 @@ terraform {
   required_providers {
     # this version constraint says that we need to use the most recent 3.x version of the provider
     aws = {
-      source  = "hashicorp/aws"
+      # In versions 0.13+, you must specify the source of the provider.
+      # This will cause an error in 0.12 however, so we leave it commented out.
+      # source  = "hashicorp/aws"
       version = "~> 3.0"
     }
   }
@@ -174,7 +164,9 @@ terraform {
   required_providers {
     # this version constraint says that we need to use the most recent 3.x version of the provider
     aws = {
-      source  = "hashicorp/aws"
+      # In versions 0.13+, you must specify the source of the provider.
+      # This will cause an error in 0.12 however, so we leave it commented out.
+      # source  = "hashicorp/aws"
       version = "~> 3.0"
     }
   }
@@ -356,7 +348,7 @@ We have no defaults defined for these variables, thus Terraform needs values for
 ```
 # fill in your variables accordingly here
 student_alias="[student-alias]"
-region="us-west-1"
+region="us-east-2"
 ```
 
 And run `terraform plan` again. You should not be prompted. Terraform will read input values from the `terraform.tfvars` file to get the values it needs. Do you remember all the other ways you can pass in variable values in automated ways?

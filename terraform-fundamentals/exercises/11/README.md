@@ -132,7 +132,7 @@ something like:
 
 ```hcl
 provider "aws" {
-  region = "us-west-1"
+  region = "us-east-2"
 }
 
 # A non-default, or "aliased" configuration is also defined for a different

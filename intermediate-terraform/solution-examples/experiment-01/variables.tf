@@ -5,7 +5,7 @@ variable "student_alias" {
 locals {
   env = {
     dev = {
-      region = "us-west-1"
+      region = "us-east-2"
     }
     prod = {
       region = "us-east-2"

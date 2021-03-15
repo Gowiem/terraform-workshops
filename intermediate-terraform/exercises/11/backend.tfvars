@@ -1,3 +1,3 @@
-key = "intermediate-terraform/exercise-11/terraform.tfstate"
-region = "us-west-1"
+key     = "intermediate-terraform/exercise-11/terraform.tfstate"
+region  = "us-east-2"
 encrypt = true

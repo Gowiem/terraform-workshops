@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "aws" {
-  version = "~> 2.0"
+  region = "us-east-2"
 }
 
 resource "aws_key_pair" "my_key_pair" {

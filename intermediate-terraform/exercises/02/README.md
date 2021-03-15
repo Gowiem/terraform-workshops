@@ -126,7 +126,7 @@ plugins			terraform.tfstate
             "lock_table": null,
             "max_retries": null,
             "profile": null,
-            "region": "us-west-1",
+            "region": "us-east-2",
             "role_arn": null,
             "secret_key": null,
             "session_name": null,

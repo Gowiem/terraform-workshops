@@ -3,7 +3,9 @@ terraform {
 
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
+      # In versions 0.13+, you must specify the source of the provider.
+      # This will cause an error in 0.12 however, so we leave it commented out.
+      # source  = "hashicorp/aws"
       version = "~> 3.0"
     }
   }
