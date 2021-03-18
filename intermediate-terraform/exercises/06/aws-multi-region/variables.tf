@@ -3,5 +3,5 @@ variable "student_alias" {
 }
 
 variable "secondary_region" {
-  default = "us-east-2"
+  default = "us-west-2"
 }

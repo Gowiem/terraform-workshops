@@ -42,12 +42,9 @@ terraform {
   backend "s3" {}
 }
 
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 
 provider "aws" {
-  version = "~> 2.0"
   region  = var.secondary_region
   alias   = "secondary_region"
 }
@@ -69,16 +66,14 @@ So, let's talk through this. First, we have two different providers of the same 
 We have our alias `secondary_region` provider for aws. Which means we can override resources to use this provider instead of the default one which is
 
 ```
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 ```
 
 and, as a refresher, we're not setting the region on this default provider block, which means it'll use the `AWS_DEFAULT_REGION` environment variable as the region that we set up when we initialized our Cloud9 server environment. If that environment variable weren't set, we'd be prompted for the region to use for that block.
 
 So, we can use our secondary provider accordingly along with our default one, but we need to tell resources or modules to use this provider instead of our default.
 
-The `provider = aws.secondary_region` within the `aws_key_pair` resource is called a meta-argument, or some argument that terraform core defines common to all resource types. Any resource types support this argument, instructing it to use an alternate provider config instead of the default one setup up by the default provider block for that resource type. I encourage you to look at and experiment more with meta arguments [for resources](https://www.terraform.io/docs/configuration/resources.html#meta-arguments), [data sources](https://www.terraform.io/docs/configuration/data-sources.html#meta-arguments), and [modules](https://www.terraform.io/docs/configuration/modules.html#other-meta-arguments) during experimentation time today.
+The `provider = aws.secondary_region` within the `aws_key_pair` resource is called a meta-argument, or some argument that terraform core defines common to all resource types. Any resource types support this argument, instructing it to use an alternate provider config instead of the default one setup up by the default provider block for that resource type. I encourage you to look at and experiment more with meta arguments [for resources](https://www.terraform.io/docs/language/resources/syntax.html#meta-arguments), [data sources](https://www.terraform.io/docs/configuration/data-sources.html#meta-arguments), and [modules](https://www.terraform.io/docs/language/modules/syntax.html#meta-arguments) during experimentation time today.
 
 Let's go ahead and apply this configuration and see what happens
 
@@ -152,7 +147,7 @@ $ terraform state pull
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
+            "arn": "arn:aws:ec2:us-west-2:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
             "id": "tf-intermediate-luke-skywalker",
             "key_name": "tf-intermediate-luke-skywalker",
@@ -204,7 +199,7 @@ $ terraform destroy
 
 OK, back to hands-on. Let's become familiar with the template provider. This is one that's foundational to terraform, useful in many situations, and quite simple.
 
-Change your directory to the `./template-provider` one here. Looking at the contents of main.tf (I'm getting lazy on this one to split out variables, etc. :), do you think we need to run `terraform init`?
+Change your directory to the `./template-provider` one here. Looking at the contents of main.tf, do you think we need to run `terraform init`?
 
 The answer is yes. Because we're using a provider, and thus a plugin requires `terraform init`, so let's run it:
 
@@ -253,12 +248,10 @@ variable "enable_security" {
   default   = true
 }
 
-provider "template" {
-  version = "~> 2.1"
-}
+provider "template" {}
 
 data "template_file" "config" {
-  template = "${file('template.tmpl)}"
+  template = file('template.tmpl)
   vars = {
     network_on       = var.network_on
     enable_security  = var.enable_security
@@ -266,13 +259,13 @@ data "template_file" "config" {
 }
 
 output "template_rendered" {
-  value = "${data.template_file.config.rendered}"
+  value = data.template_file.config.rendered
 }
 
 ```
 
 
-We have some input variables, they get passed in to the template, and rendered accordingly to produce a string. In most cases, this sort of thing is used for resources like `aws_instance` and it's [user_data argument](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#user_data). So, you can render templated-muti-string-content for other things to ingest.
+We have some input variables, they get passed in to the template, and rendered accordingly to produce a string. In most cases, this sort of thing is used for resources like `aws_instance` and it's [user_data argument](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance#user_data). But it can be useful for anytime you need to build templated multi-line content.
 
 Let's look at it as as standard terraform output nonetheless...
 
@@ -290,19 +283,19 @@ template_rendered = {
 }
 ```
 
-Depending on the template structure, Terraform may parse and render structured data, or just a string. We can see in this case, that we actually see Terraform rendering something of a structured data item as an output. When you pass this same thing to other arguments of Terraform resources that accept only string. Say, user-data for an ec2-instance, Terraform will type-convert and handle that gracefully.
+Depending on the template structure, Terraform may parse and render structured data, or just a string. We can see in this case, that we actually see Terraform rendering something of a structured data item as an output. When you pass this same thing to other arguments of Terraform resources that accept only string, say, user-data for an ec2-instance, Terraform will type-convert and handle that gracefully.
 
 ## Best practices related to providers and modules
 
-Hashicorp tells us primarily what we need to know, so I'll simply let you read what they say:
+Hashicorp does a good job of telling us what we need to know, so I'll let you read what they thing on this subject:
 
-[Hashicorp's recommendation on modules, providers, and what level should be responsible for what](https://www.terraform.io/docs/configuration/modules.html#providers-within-modules)
+[Hashicorp's recommendation on modules, providers, and what level should be responsible for what](https://www.terraform.io/docs/language/modules/develop/providers.html)
 
 For projects using modules within modules within modules that only care about a single provider, some of this becomes less important, especially if it's all internally managed. Hopefully you can see how it could become an important topic as you adopt a number of providers in a single project using any number of modules or modules within modules dependent upon those providers.
 
-Obviously, a given module, and the way that it's written may require some version constraint of a provider. The above does not limit this. And a new concept to look at related to this is the root `terraform` block [`required_providers`](https://www.terraform.io/docs/configuration/terraform.html#specifying-required-provider-versions) argument.
+Obviously, given a module and the way that it's written may require some version constraint of a provider. The above does not limit this. And a new concept to look at related to this is the root `terraform` block [`required_providers`](https://www.terraform.io/docs/configuration/terraform.html#specifying-required-provider-versions) argument.
 
-As an example, let's look at an official, community provided module that clarifies this point. The [terraform-aws-vpc module](https://github.com/terraform-aws-modules/terraform-aws-vpc) defines [something at the terraform block level that tells any project using this module that they must be using the aws provider, and that project's definition of the provider either implicitly, or explicitly passed in must match the version constraint `~-> 2.57`](https://github.com/terraform-aws-modules/terraform-aws-vpc/blob/master/versions.tf). Projects using this module can still either implicitly or explicitly pass in the AWS provider configuration they define. The module-level terraform configuration block will halt any parent project using the module dependent upon the parent project provider configuration, just as it would halt if the terraform CLI version being used was not acceptable.
+As an example, let's look at an official, community provided module that clarifies this point. The [terraform-aws-vpc module](https://github.com/cloudposse/terraform-aws-vpc) defines [something at the terraform block level that tells any project using this module that they must be using the aws provider, and that project's definition of the provider either implicitly or explicitly must match the version constraint `>= 2.0`](https://github.com/cloudposse/terraform-aws-vpc/blob/master/versions.tf#L5). Projects using this module can still either implicitly or explicitly pass in the AWS provider configuration they define. The module-level terraform configuration block will halt any parent project using the module if it does not use the correct version, just as it would halt if the terraform CLI version being used was not acceptable.
 
 ## Hybrid cloud project structures, managing projects that are concerned with many providers
 
@@ -345,6 +338,6 @@ So, with this team structure, we might assign responsibility like the following.
     * AWS IAM
     * Google Cloud IAM
 
-Now, the **Integrations Team** needs only piece together one or many simply projects to pull in and use the modules developed and made available by those other teams. You hope the interface is simple, and the modules are easy to implement. That's the goal, and if you do it right, you've turned something quite complex into a manageable division of responsibility, labor, and maintenance.
+Now, the **Integrations Team** needs only piece together a few simple simple projects to pull in and consume the modules developed and made available by those other teams. You hope the interface is simple, and the modules are easy to implement. That's the goal, and if you do it right, you've turned something quite complex into a manageable division of responsibility, labor, and maintenance.
 
 That's it for this exercise. A little more reading and digesting on this one as opposed to hands-on. But, it's worth it to take the time for these things as we advance in Terraform and tech knowledge generally.

@@ -2,14 +2,11 @@ terraform {
   backend "s3" {}
 }
 
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 
 provider "aws" {
-  version = "~> 2.0"
-  region  = var.secondary_region
-  alias   = "secondary_region"
+  region = var.secondary_region
+  alias  = "secondary_region"
 }
 
 resource "aws_key_pair" "my_key_pair" {

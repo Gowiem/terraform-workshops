@@ -8,9 +8,7 @@ variable "enable_security" {
   default   = true
 }
 
-provider "template" {
-  version = "~> 2.1"
-}
+provider "template" {}
 
 data "template_file" "config" {
   template = file("template.tmpl")
