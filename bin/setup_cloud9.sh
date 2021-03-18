@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+#
+# Invoke this script like so to setup a Cloud9 instance for our development environment.
+# curl -s https://raw.githubusercontent.com/Gowiem/terraform-workshops/master/bin/setup_cloud9.sh | bash
 
 ## Cloud9 instance updates
 ###########################
