@@ -20,7 +20,7 @@ sudo yum -y install jq
 
 # Install Terraform - We're installing directly from Hashi, but for future usage I suggest using tfenv: https://github.com/tfutils/tfenv
 curl -O https://releases.hashicorp.com/terraform/0.12.30/terraform_0.12.30_linux_amd64.zip
-sudo unzip -o terraform_0.12.30_linux_amd64.zip -d /usr/bin/;
+sudo unzip -o terraform_0.12.30_linux_amd64.zip -d /usr/bin/
 
 ## Pull Repo
 #############
@@ -37,3 +37,10 @@ export AWS_DEFAULT_REGION=us-east-2
 
 # Set our AWS_DEFAULT_REGION for the future as well
 echo "export AWS_DEFAULT_REGION=us-east-2" >>~/.bash_profile
+
+## Setup Instructor Prompt
+###########################
+
+export PS1="\[\033[01;32m\]$(_cloud9_prompt_user)\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]$(__git_ps1)\[\033[01;32m\] »\[\033[00m\] "
+
+echo 'export PS1="\[\033[01;32m\]$(_cloud9_prompt_user)\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]$(__git_ps1)\[\033[01;32m\] »\[\033[00m\] "' >>~/.bash_profile
