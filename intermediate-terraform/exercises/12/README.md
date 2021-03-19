@@ -81,7 +81,7 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair_02 is tainted, so must be replaced
 -/+ resource "aws_key_pair" "my_key_pair_02" {
-      ~ arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-02" -> (known after apply)
+      ~ arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker-02" -> (known after apply)
       ~ fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> (known after apply)
       ~ id          = "tf-intermediate-luke-skywalker-02" -> (known after apply)
         key_name    = "tf-intermediate-luke-skywalker-02"
@@ -144,7 +144,7 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair_02 will be destroyed
   - resource "aws_key_pair" "my_key_pair_02" {
-      - arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-02" -> null
+      - arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker-02" -> null
       - fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> null
       - id          = "tf-intermediate-luke-skywalker-02" -> null
       - key_name    = "tf-intermediate-luke-skywalker-02" -> null

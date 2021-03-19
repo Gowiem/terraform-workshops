@@ -11,7 +11,7 @@ $ terraform apply
 ...
 ```
 
-This is the exact same project configuration content as our previous exercise, just a single key pair in our us-west-1 region.
+This is the exact same project configuration content as our previous exercise, just a single key pair in our us-east-2 region.
 
 Let's inspect the state for our project
 
@@ -33,7 +33,7 @@ $ terraform state pull
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
+            "arn": "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
             "id": "tf-intermediate-luke-skywalker",
             "key_name": "tf-intermediate-luke-skywalker",
@@ -52,7 +52,7 @@ $ terraform state pull
 
 Note especially `"tags": null`. We're going to go add some tags to our key via the console, so we can see how Terraform is able to pick up those changes and pull them into state with a refresh.
 
-Navigate in the AWS console to key pairs in the us-west-1 region, and locate the one for your student alias. If you need help finding your way, just let your instructor know. Once you've found your key, select the checkbox on that line, then click on the "Actions" dropdown in the top right. Select "Manage Tags" from there. Add a few tags, whatever you like. When you're done, you can navigate back to your Cloud9 environment console so we can run the refresh
+Navigate in the AWS console to key pairs in the us-east-2 region, and locate the one for your student alias. If you need help finding your way, just let your instructor know. Once you've found your key, select the checkbox on that line, then click on the "Actions" dropdown in the top right. Select "Manage Tags" from there. Add a few tags, whatever you like. When you're done, you can navigate back to your Cloud9 environment console so we can run the refresh
 
 ```
 $ terraform refresh
@@ -79,7 +79,7 @@ $ terraform state pull
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
+            "arn": "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
             "id": "tf-intermediate-luke-skywalker",
             "key_name": "tf-intermediate-luke-skywalker",
@@ -119,14 +119,14 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair will be updated in-place
   ~ resource "aws_key_pair" "my_key_pair" {
-        arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker"
+        arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker"
         fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
         id          = "tf-intermediate-luke-skywalker"
         key_name    = "tf-intermediate-luke-skywalker"
         key_pair_id = "key-0e34cea4e66ac802f"
         public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
       ~ tags        = {
-          - "CreatedBy" = "force" -> null
+          - "CreatedBy" = "Gowiem" -> null
           - "Purpose"   = "Exercise11" -> null
         }
     }

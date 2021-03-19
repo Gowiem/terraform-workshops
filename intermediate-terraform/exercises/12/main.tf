@@ -2,9 +2,7 @@ terraform {
   backend "s3" {}
 }
 
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 
 resource "aws_key_pair" "my_key_pair_01" {
   key_name   = "tf-intermediate-${var.student_alias}-01"

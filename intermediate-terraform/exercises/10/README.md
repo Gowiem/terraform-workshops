@@ -49,7 +49,7 @@ First, though, let's figure out the key pair ID by looking at our current state
 $ terraform show
 # aws_key_pair.my_key_pair:
 resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker"
+    arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
     id          = "tf-intermediate-luke-skywalker"
     key_name    = "tf-intermediate-luke-skywalker"
@@ -157,7 +157,7 @@ $ terraform state pull
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
+            "arn": "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
             "id": "tf-intermediate-luke-skywalker",
             "key_name": "tf-intermediate-luke-skywalker",
@@ -216,7 +216,7 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair must be replaced
 -/+ resource "aws_key_pair" "my_key_pair" {
-      ~ arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker" -> (known after apply)
+      ~ arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker" -> (known after apply)
       ~ fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> (known after apply)
       ~ id          = "tf-intermediate-luke-skywalker" -> (known after apply)
         key_name    = "tf-intermediate-luke-skywalker"
@@ -238,7 +238,7 @@ Well, turns out no matter what, for this type of resource, even an import leaves
 
 ```
 "attributes": {
-  "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
+  "arn": "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker",
   "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
   "id": "tf-intermediate-luke-skywalker",
   "key_name": "tf-intermediate-luke-skywalker",

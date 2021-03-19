@@ -278,7 +278,7 @@ Outputs:
 
 project_keys = [
   {
-    "arn" = "arn:aws:ec2:us-west-1:946320133426:key-pair/force-one-ecf34f57-3eef-aec1-3cbd-54afe38a0b8f"
+    "arn" = "arn:aws:ec2:us-east-2:946320133426:key-pair/force-one-ecf34f57-3eef-aec1-3cbd-54afe38a0b8f"
     "fingerprint" = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
     "id" = "force-one-ecf34f57-3eef-aec1-3cbd-54afe38a0b8f"
     "key_name" = "force-one-ecf34f57-3eef-aec1-3cbd-54afe38a0b8f"
@@ -286,7 +286,7 @@ project_keys = [
     "public_key" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 di@masterpoint.io"
   },
   {
-    "arn" = "arn:aws:ec2:us-west-1:946320133426:key-pair/force-two-8972dc37-db52-ba5e-a0a8-eb8ced32e735"
+    "arn" = "arn:aws:ec2:us-east-2:946320133426:key-pair/force-two-8972dc37-db52-ba5e-a0a8-eb8ced32e735"
     "fingerprint" = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
     "id" = "force-two-8972dc37-db52-ba5e-a0a8-eb8ced32e735"
     "key_name" = "force-two-8972dc37-db52-ba5e-a0a8-eb8ced32e735"
@@ -294,7 +294,7 @@ project_keys = [
     "public_key" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 di@masterpoint.io"
   },
 ]
-project_table_arn = arn:aws:dynamodb:us-west-1:946320133426:table/force_project
+project_table_arn = arn:aws:dynamodb:us-east-2:946320133426:table/force_project
 ```
 
 We'll focus on a few things here related to the apply and then look at state as well

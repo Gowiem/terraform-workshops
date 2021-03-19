@@ -152,7 +152,7 @@ module "example" {
 }
 ```
 
-This particular example is defining the default provider for this module or terraform project with a region of us-west-1, but an
+This particular example is defining the default provider for this module or terraform project with a region of us-east-2, but an
 alternate provider that can then be passed to the example module.
 
 OK, back to our main exercise though, as soon as you're done with your `init` command, we can move the acutal apply:
@@ -225,9 +225,9 @@ module.backend.aws_security_group.alb: Creation complete after 2s [id=sg-04e85a7
 module.frontend.aws_security_group_rule.alb_allow_http_inbound: Creating...
 module.frontend.aws_security_group_rule.allow_all_outbound: Creating...
 module.frontend.aws_alb.web_servers: Creating...
-module.backend.aws_alb_target_group.web_servers: Creation complete after 2s [id=arn:aws:elasticloadbalancing:us-west-1:946320133426:targetgroup/backend/e48104a050c4ce06]
+module.backend.aws_alb_target_group.web_servers: Creation complete after 2s [id=arn:aws:elasticloadbalancing:us-east-2:946320133426:targetgroup/backend/e48104a050c4ce06]
 module.frontend.aws_security_group_rule.web_server_allow_http_inbound: Creating...
-module.frontend.aws_alb_target_group.web_servers: Creation complete after 3s [id=arn:aws:elasticloadbalancing:us-west-1:946320133426:targetgroup/frontend/3fa34a0f7fe2e643]
+module.frontend.aws_alb_target_group.web_servers: Creation complete after 3s [id=arn:aws:elasticloadbalancing:us-east-2:946320133426:targetgroup/frontend/3fa34a0f7fe2e643]
 module.backend.aws_security_group_rule.web_server_allow_http_inbound: Creating...
 module.backend.aws_security_group_rule.web_server_allow_ssh_inbound: Creation complete after 1s [id=sgrule-1244802946]
 module.frontend.aws_security_group_rule.web_server_allow_ssh_inbound: Creation complete after 1s [id=sgrule-1288178588]
@@ -269,21 +269,21 @@ module.frontend.aws_alb.web_servers: Still creating... [2m0s elapsed]
 module.backend.aws_alb.web_servers: Still creating... [2m0s elapsed]
 module.frontend.aws_alb.web_servers: Still creating... [2m10s elapsed]
 module.backend.aws_alb.web_servers: Still creating... [2m10s elapsed]
-module.frontend.aws_alb.web_servers: Creation complete after 2m16s [id=arn:aws:elasticloadbalancing:us-west-1:946320133426:loadbalancer/app/frontend/018200e4365b3087]
+module.frontend.aws_alb.web_servers: Creation complete after 2m16s [id=arn:aws:elasticloadbalancing:us-east-2:946320133426:loadbalancer/app/frontend/018200e4365b3087]
 module.frontend.aws_alb_listener.http: Creating...
-module.frontend.aws_alb_listener.http: Creation complete after 0s [id=arn:aws:elasticloadbalancing:us-west-1:946320133426:listener/app/frontend/018200e4365b3087/d559474fe6c9845a]
+module.frontend.aws_alb_listener.http: Creation complete after 0s [id=arn:aws:elasticloadbalancing:us-east-2:946320133426:listener/app/frontend/018200e4365b3087/d559474fe6c9845a]
 module.frontend.aws_alb_listener_rule.send_all_to_web_servers: Creating...
-module.frontend.aws_alb_listener_rule.send_all_to_web_servers: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-west-1:946320133426:listener-rule/app/frontend/018200e4365b3087/d559474fe6c9845a/363224e13f266318]
+module.frontend.aws_alb_listener_rule.send_all_to_web_servers: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-east-2:946320133426:listener-rule/app/frontend/018200e4365b3087/d559474fe6c9845a/363224e13f266318]
 module.backend.aws_alb.web_servers: Still creating... [2m20s elapsed]
 module.backend.aws_alb.web_servers: Still creating... [2m30s elapsed]
-module.backend.aws_alb.web_servers: Creation complete after 2m37s [id=arn:aws:elasticloadbalancing:us-west-1:946320133426:loadbalancer/app/backend/477fbbf6e6316f7b]
+module.backend.aws_alb.web_servers: Creation complete after 2m37s [id=arn:aws:elasticloadbalancing:us-east-2:946320133426:loadbalancer/app/backend/477fbbf6e6316f7b]
 module.frontend.data.template_file.user_data: Refreshing state...
 module.backend.aws_alb_listener.http: Creating...
 module.frontend.aws_launch_configuration.microservice: Creating...
-module.backend.aws_alb_listener.http: Creation complete after 0s [id=arn:aws:elasticloadbalancing:us-west-1:946320133426:listener/app/backend/477fbbf6e6316f7b/2e6f4fecf2d93316]
+module.backend.aws_alb_listener.http: Creation complete after 0s [id=arn:aws:elasticloadbalancing:us-east-2:946320133426:listener/app/backend/477fbbf6e6316f7b/2e6f4fecf2d93316]
 module.backend.aws_alb_listener_rule.send_all_to_web_servers: Creating...
 module.backend.aws_autoscaling_group.microservice: Creating...
-module.backend.aws_alb_listener_rule.send_all_to_web_servers: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-west-1:946320133426:listener-rule/app/backend/477fbbf6e6316f7b/2e6f4fecf2d93316/b65e22fdca8b804b]
+module.backend.aws_alb_listener_rule.send_all_to_web_servers: Creation complete after 1s [id=arn:aws:elasticloadbalancing:us-east-2:946320133426:listener-rule/app/backend/477fbbf6e6316f7b/2e6f4fecf2d93316/b65e22fdca8b804b]
 module.frontend.aws_launch_configuration.microservice: Creation complete after 1s [id=terraform-20190623035747150700000002]
 module.frontend.aws_autoscaling_group.microservice: Creating...
 module.backend.aws_autoscaling_group.microservice: Still creating... [10s elapsed]
@@ -305,8 +305,8 @@ Apply complete! Resources: 26 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-backend_url = http://internal-backend-412928292.us-west-1.elb.amazonaws.com:80/
-frontend_url = http://frontend-1508950933.us-west-1.elb.amazonaws.com:80/
+backend_url = http://internal-backend-412928292.us-east-2.elb.amazonaws.com:80/
+frontend_url = http://frontend-1508950933.us-east-2.elb.amazonaws.com:80/
 ```
 
 Most of our output we don't need to look too closely at, but let's note a few things:

@@ -143,9 +143,7 @@ This sort of info gives us more visibility into what Terraform is doing to ident
 Let's use this same approach to help us see more about an error. Let's have a look at our `main.tf`
 
 ```
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 
 data "aws_vpc" "default" {
   default = true

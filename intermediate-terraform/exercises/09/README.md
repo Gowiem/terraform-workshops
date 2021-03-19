@@ -4,13 +4,15 @@ We don't want to use provisioners unless we have to. And there are many cases wh
 
 ## A look at the different types of provisioners available to us via Terraform out-of-the-box
 
-* `chef`: https://www.terraform.io/docs/provisioners/chef.html
+
 * `file`: https://www.terraform.io/docs/provisioners/file.html
-* `habitat`: https://www.terraform.io/docs/provisioners/habitat.html
 * `local-exec`: https://www.terraform.io/docs/provisioners/local-exec.html
-* `puppet`: https://www.terraform.io/docs/provisioners/puppet.html
 * `remote-exec`: https://www.terraform.io/docs/provisioners/remote-exec.html
-* `salt-masterless`: https://www.terraform.io/docs/provisioners/salt-masterless.html
+* Deprecated as of 0.13.4 and will soon be removed:
+  * `puppet`: https://www.terraform.io/docs/provisioners/puppet.html
+  * `salt-masterless`: https://www.terraform.io/docs/provisioners/salt-masterless.html
+  * `habitat`: https://www.terraform.io/docs/provisioners/habitat.html
+  * `chef`: https://www.terraform.io/docs/provisioners/chef.html
 
 What about Ansible? Well, the recommended path for running Ansible provisioning would be one of 2 different ways depending your needs or wants:
 
@@ -55,9 +57,7 @@ terraform {
   backend "s3" {}
 }
 
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 
 provider "tls" {}
 

@@ -126,7 +126,7 @@ The easiest way to get a look at the current state of your project is to use the
 $ terraform show
 # aws_key_pair.my_key_pair:
 resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker"
+    arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
     id          = "tf-intermediate-luke-skywalker"
     key_name    = "tf-intermediate-luke-skywalker"
@@ -145,7 +145,7 @@ We can also get the json version of the state using a similar command
 
 ```
 $ terraform show -json
-{"format_version":"0.1","terraform_version":"0.12.29","values":{"outputs":{"my_key_pair_id":{"sensitive":false,"value":"key-0f87362ef96c0d8b3"}},"root_module":{"resources":[{"address":"aws_key_pair.my_key_pair","mode":"managed","type":"aws_key_pair","name":"my_key_pair","provider_name":"aws","schema_version":1,"values":{"arn":"arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker","fingerprint":"d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62","id":"tf-intermediate-luke-skywalker","key_name":"tf-intermediate-luke-skywalker","key_name_prefix":null,"key_pair_id":"key-0f87362ef96c0d8b3","public_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io","tags":{}}}]}}}
+{"format_version":"0.1","terraform_version":"0.12.29","values":{"outputs":{"my_key_pair_id":{"sensitive":false,"value":"key-0f87362ef96c0d8b3"}},"root_module":{"resources":[{"address":"aws_key_pair.my_key_pair","mode":"managed","type":"aws_key_pair","name":"my_key_pair","provider_name":"aws","schema_version":1,"values":{"arn":"arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker","fingerprint":"d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62","id":"tf-intermediate-luke-skywalker","key_name":"tf-intermediate-luke-skywalker","key_name_prefix":null,"key_pair_id":"key-0f87362ef96c0d8b3","public_key":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io","tags":{}}}]}}}
 ```
 
 This format obviously designed for machine-readable scenarios, so automated processes that might need access to a given project's current state. A similar option is to use `terraform state pull`
@@ -172,7 +172,7 @@ This format obviously designed for machine-readable scenarios, so automated proc
         {
           "schema_version": 1,
           "attributes": {
-            "arn": "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker",
+            "arn": "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker",
             "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
             "id": "tf-intermediate-luke-skywalker",
             "key_name": "tf-intermediate-luke-skywalker",
@@ -348,7 +348,7 @@ Terraform will perform the following actions:
   - resource "aws_eip" "my_eip" {
       - domain           = "vpc" -> null
       - id               = "eipalloc-0cf7da010d5f77406" -> null
-      - public_dns       = "ec2-54-241-104-119.us-west-1.compute.amazonaws.com" -> null
+      - public_dns       = "ec2-54-241-104-119.us-east-2.compute.amazonaws.com" -> null
       - public_ip        = "54.241.104.119" -> null
       - public_ipv4_pool = "amazon" -> null
       - tags             = {} -> null
@@ -550,7 +550,7 @@ Our additional key pair is created, let's take a look at our state now:
 $ terraform show
 # aws_key_pair.my_key_pair:
 resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-team2"
+    arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker-team2"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
     id          = "tf-intermediate-luke-skywalker-team2"
     key_name    = "tf-intermediate-luke-skywalker-team2"
@@ -561,7 +561,7 @@ resource "aws_key_pair" "my_key_pair" {
 
 # aws_key_pair.my_key_pair_additional:
 resource "aws_key_pair" "my_key_pair_additional" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-team2-additional"
+    arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker-team2-additional"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
     id          = "tf-intermediate-luke-skywalker-team2-additional"
     key_name    = "tf-intermediate-luke-skywalker-team2-additional"
@@ -601,7 +601,7 @@ and let's do another `terraform show` to verify it's removed:
 $ terraform show
 # aws_key_pair.my_key_pair:
 resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-team2"
+    arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker-team2"
     fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
     id          = "tf-intermediate-luke-skywalker-team2"
     key_name    = "tf-intermediate-luke-skywalker-team2"
@@ -744,7 +744,7 @@ Terraform will perform the following actions:
 
   # aws_key_pair.my_key_pair will be destroyed
   - resource "aws_key_pair" "my_key_pair" {
-      - arn         = "arn:aws:ec2:us-west-1:946320133426:key-pair/tf-intermediate-luke-skywalker-team2" -> null
+      - arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker-team2" -> null
       - fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> null
       - id          = "tf-intermediate-luke-skywalker-team2" -> null
       - key_name    = "tf-intermediate-luke-skywalker-team2" -> null
