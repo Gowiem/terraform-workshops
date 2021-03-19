@@ -2,9 +2,7 @@ terraform {
   backend "s3" {}
 }
 
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 
 data "aws_vpc" "default" {
   default = true
@@ -17,14 +15,27 @@ module "security_group" {
 }
 
 module "dynamodb_table" {
-  source    = "github.com/terraform-aws-modules/terraform-aws-dynamodb-table?ref=v0.6.0"
-  name      = "${var.student_alias}-table"
-  hash_key  = "id"
+  source = "git::https://github.com/cloudposse/terraform-aws-dynamodb.git?ref=tags/0.22.0"
 
-  attributes = [
+  namespace = "mp"
+  name      = "${var.student_alias}-dynamo-table"
+
+  hash_key          = "HashKey"
+  range_key         = "RangeKey"
+  enable_autoscaler = false
+
+  dynamodb_attributes = [
     {
-      name = "id"
+      name = "DailyAverage"
       type = "N"
+    },
+    {
+      name = "HighWater"
+      type = "N"
+    },
+    {
+      name = "Timestamp"
+      type = "S"
     }
   ]
 }

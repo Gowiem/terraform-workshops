@@ -8,95 +8,17 @@ As we discussed, one use of modules can simply be to organize within a project, 
 
 Go ahead and switch to the `./project-modules` directory
 
-We're yet again using our remote state approach here just to help it set in, and to hopefully make this your default approach instead of local state. So, let's init our project as we've been before. A few things to note as we do so this time, again replacing `[student-alias]` with your assigned alias:
+We're yet again using our remote state approach here just to help it set in, and to hopefully make this your default approach instead of local state. So, let's init our project as we've been before:
 
 ```
 $ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ```
 
-Another aside before we move forward with this exercise specifically
-
-We're able to use the `-backend-config` argument as many times as we like, and in multiple contexts. That arg can accept one of two things:
-  * a path to a file containing HCL name/values, very much like a tfvars file
-  * or an explicit setting of a value. In the case of `-backend-config=bucket=tf-intermediate-[student-alias]` we're providing an explicit value setting along with our `backend.tfvars`
-
-Let's test out some things to understand loading precedence of that arg. We have the following, alternative `backend-invalid.tfvars` file here in this directory, and here's what it looks like:
-
-```
-key = "intermediate-terraform/exercise-07/terraform.tfstate"
-region = "us-east-2"
-encrypt = true
-bucket = "totally-invalid-bucket-name-9129083798723472"
-```
-
-We've been passing in our bucket value in via the CLI, but let's see if we now use this as the last `-backend-config` argument in our call
-
-first, let's just remove our `.terraform` directory to start from scratch. Another useful, alternative to this would be to use the `-reconfigure` argument to the `terraform init` command
-
-```
-$ rm -rf .terraform
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-luke-skywalker -backend-config=./backend-invalid.tfvars
-Initializing modules...
-- dynamodb in dynamodb
-- ec2 in ec2
-
-Initializing the backend...
-
-Successfully configured the backend "s3"! Terraform will automatically
-use this backend unless the backend configuration changes.
-
-Error: Failed to get existing workspaces: S3 bucket does not exist.
-
-The referenced S3 bucket must have been previously created. If the S3 bucket
-was created within the last minute, please wait for a minute or two and try
-again.
-
-Error: NoSuchBucket: The specified bucket does not exist
-	status code: 404, request id: 1683C8734D432E26, host id: js1qgCynndvqEXidODbkFDVoUH7l789icE5n335UIX+NoIo4V8AP+7bOWg3X2INoThxIjrV3/Rc=
-```
-
-The takeaway here is that `-backend-config` can be provided multiple times, and that the order that they are given in a CLI command overrides any settings from before. We've provided a configuration with an invalid bucket name as the final one in the list, thus we get an error telling us our state bucket doesn't exist.
-
-Back to our main line of the exercise, let's get back into a valid state
-
-```
-$ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias] -reconfigure
-Initializing modules...
-
-Initializing the backend...
-
-Successfully configured the backend "s3"! Terraform will automatically
-use this backend unless the backend configuration changes.
-
-Initializing provider plugins...
-- Checking for available provider plugins...
-- Downloading plugin for provider "aws" (hashicorp/aws) 2.70.0...
-
-Terraform has been successfully initialized!
-
-You may now begin working with Terraform. Try running "terraform plan" to see
-any changes that are required for your infrastructure. All Terraform commands
-should now work.
-
-If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.``
-```
-
-Speaking of `-reconfigure`, notice that it's going to re-download the providers (and modules).
-
-We're now successfully re-inited, so let's start to look at our project in more detail. First our root project level
+Let's start to look at our project in more detail. First at the root module level:
 
 #### `variables.tf`
 
-```hcl
-variable "student_alias" {
-  type        = string
-  description = "Your student alias"
-}
-```
-
-nothing new here, we're just providing an input that is our student alias, and the purpose is to be able to create uniquely-named resources based on it.
+Nothing new here, we're just providing an input that is our student alias, and the purpose is to be able to create uniquely-named resources based on it.
 
 ### Now, `main.tf`
 
@@ -105,9 +27,7 @@ terraform {
   backend "s3" {}
 }
 
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 
 module "dynamodb" {
   source        = "./dynamodb"
@@ -143,13 +63,13 @@ module "ec2" {
 }
 ```
 
-Our project, in this case, is little more than calling other modules that will do things for us. We talked about composability. At a project's best, it might just piece together functionality from a number of different modules or sources to create complex infrastructure, as flat as we can make it. The power of re-usability, organization, etc.
+Our project, in this case, is little more than calling other modules that will do things for us. We talked about composability. At a project's best, it might just piece together functionality from a number of different child modules to create complex infrastructure, as flat as we can make it. The power of re-usability, organization, etc.
 
-We're calling the dynamodb module or section of our project to presumably create all of the dynamodb-related resources. As the root project owner, I probably don't care about the complexities of what lies within this module or directory. Someone else on my team, or maybe even another team might, and we collaboratively maintain this source.
+We're calling the dynamodb module of our project to presumably create all of the dynamodb-related resources. As the root module owner, I probably don't care about the complexities of what lies within this child module. Someone else on my team, or maybe even another team might, and we collaboratively maintain this child module.
 
 Not knowing much about this module, all I need to do is pass it some values that make sense for the project:
 
-```
+```hcl
 module "dynamodb" {
   source        = "./dynamodb"
   unique_prefix = var.student_alias
@@ -481,48 +401,83 @@ terraform {
   backend "s3" {}
 }
 
-provider "aws" {
-  version = "~> 2.0"
-}
+provider "aws" {}
 
 data "aws_vpc" "default" {
   default = true
 }
 
-module "security_group" {
-  source  = "terraform-aws-modules/security-group/aws"
-  version = "3.13.0"
-  name    = "${var.student_alias}-sg"
-}
+module "sg" {
+  source  = "cloudposse/security-group/aws"
+  version = "0.1.4"
 
-module "dynamodb_table" {
-  source    = "github.com/terraform-aws-modules/terraform-aws-dynamodb-table?ref=v0.6.0"
-  name      = "${var.student_alias}-table"
-  hash_key  = "id"
+  namespace = "mp"
+  name      = "${var.student_alias}-sg"
 
-  attributes = [
+  rules = [
     {
-      name = "id"
-      type = "N"
+      type        = "ingress"
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      type        = "egress"
+      from_port   = 0
+      to_port     = 65535
+      protocol    = "all"
+      cidr_blocks = ["0.0.0.0/0"]
     }
   ]
 }
+
+module "dynamodb_table" {
+  source = "git::https://github.com/cloudposse/terraform-aws-dynamodb.git?ref=tags/0.25.2"
+
+  namespace                    = "mp"
+  name                         = "${var.student_alias}-dynamo-table"
+
+  hash_key                     = "HashKey"
+  range_key                    = "RangeKey"
+  enable_autoscaler            = false
+
+  dynamodb_attributes = [
+    {
+      name = "DailyAverage"
+      type = "N"
+    },
+    {
+      name = "HighWater"
+      type = "N"
+    },
+    {
+      name = "Timestamp"
+      type = "S"
+    }
+  ]
+}
+
 ```
 
 We're using 2 modules made available to us by the community:
 
 * The security group one is hosted at Terraform Registry, we're locking to version 3.13.0
-* The dynamodb table module we'll pull directly from github, and tell Terraform that we want to lock to version v0.6.0 of that module
+* The dynamodb table module we'll pull directly from github, and tell Terraform that we want to lock to version 0.22.0 of that module
 
 Let's run a `terraform init` and see what happens:
 
 ```
 $ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 Initializing modules...
-Downloading github.com/terraform-aws-modules/terraform-aws-dynamodb-table?ref=v0.6.0 for dynamodb_table...
+Downloading git::https://github.com/cloudposse/terraform-aws-dynamodb.git?ref=tags/0.22.0 for dynamodb_table...
 - dynamodb_table in .terraform/modules/dynamodb_table
-Downloading terraform-aws-modules/security-group/aws 3.13.0 for security_group...
-- security_group in .terraform/modules/security_group/terraform-aws-security-group-3.13.0
+Downloading git::https://github.com/cloudposse/terraform-aws-dynamodb-autoscaler.git?ref=tags/0.8.1 for dynamodb_table.dynamodb_autoscaler...
+- dynamodb_table.dynamodb_autoscaler in .terraform/modules/dynamodb_table.dynamodb_autoscaler
+Downloading git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0 for dynamodb_table.dynamodb_autoscaler.default_label...
+- dynamodb_table.dynamodb_autoscaler.default_label in .terraform/modules/dynamodb_table.dynamodb_autoscaler.default_label
+Downloading git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0 for dynamodb_table.dynamodb_label...
+- dynamodb_table.dynamodb_label in .terraform/modules/dynamodb_table.dynamodb_label
 
 Initializing the backend...
 
@@ -532,6 +487,7 @@ use this backend unless the backend configuration changes.
 Initializing provider plugins...
 - Checking for available provider plugins...
 - Downloading plugin for provider "aws" (hashicorp/aws) 2.70.0...
+- Downloading plugin for provider "null" (hashicorp/null) 2.1.2...
 
 Terraform has been successfully initialized!
 
@@ -540,18 +496,21 @@ any changes that are required for your infrastructure. All Terraform commands
 should now work.
 
 If you ever set or change modules or backend configuration for Terraform,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
+rerun this command to reinitialize your working directory. If you forget, othe
 ```
 
 We're most interested in the top output. We can see `init` doing its job to go out and get the modules that are referenced in our terraform configuration
 
 ```
 Initializing modules...
-Downloading github.com/terraform-aws-modules/terraform-aws-dynamodb-table?ref=v0.6.0 for dynamodb_table...
+Downloading git::https://github.com/cloudposse/terraform-aws-dynamodb.git?ref=tags/0.22.0 for dynamodb_table...
 - dynamodb_table in .terraform/modules/dynamodb_table
-Downloading terraform-aws-modules/security-group/aws 3.13.0 for security_group...
-- security_group in .terraform/modules/security_group/terraform-aws-security-group-3.13.0
+Downloading git::https://github.com/cloudposse/terraform-aws-dynamodb-autoscaler.git?ref=tags/0.8.1 for dynamodb_table.dynamodb_autoscaler...
+- dynamodb_table.dynamodb_autoscaler in .terraform/modules/dynamodb_table.dynamodb_autoscaler
+Downloading git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0 for dynamodb_table.dynamodb_autoscaler.default_label...
+- dynamodb_table.dynamodb_autoscaler.default_label in .terraform/modules/dynamodb_table.dynamodb_autoscaler.default_label
+Downloading git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0 for dynamodb_table.dynamodb_label...
+- dynamodb_table.dynamodb_label in .terraform/modules/dynamodb_table.dynamodb_label
 ```
 
 Let's look more closely then at the contents of our `.terraform` directory related to this:
@@ -571,7 +530,7 @@ Terraform has indeed downloaded the third-party modules here, the directory name
 Now, let's look at the contents of our `modules.json`:
 
 ```
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"dynamodb_table","Source":"github.com/terraform-aws-modules/terraform-aws-dynamodb-table?ref=v0.6.0","Dir":".terraform/modules/dynamodb_table"},{"Key":"security_group","Source":"terraform-aws-modules/security-group/aws","Version":"3.13.0","Dir":".terraform/modules/security_group/terraform-aws-security-group-3.13.0"}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"dynamodb_table","Source":"git::https://github.com/cloudposse/terraform-aws-dynamodb.git?ref=tags/0.22.0","Dir":".terraform/modules/dynamodb_table"},{"Key":"dynamodb_table.dynamodb_autoscaler","Source":"git::https://github.com/cloudposse/terraform-aws-dynamodb-autoscaler.git?ref=tags/0.8.1","Dir":".terraform/modules/dynamodb_table.dynamodb_autoscaler"},{"Key":"dynamodb_table.dynamodb_autoscaler.default_label","Source":"git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0","Dir":".terraform/modules/dynamodb_table.dynamodb_autoscaler.default_label"},{"Key":"dynamodb_table.dynamodb_label","Source":"git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0","Dir":".terraform/modules/dynamodb_table.dynamodb_label"},{"Key":"sg","Source":"cloudposse/security-group/aws","Version":"0.1.4","Dir":".terraform/modules/sg"},{"Key":"sg.this","Source":"cloudposse/label/null","Version":"0.24.1","Dir":".terraform/modules/sg.this"},{"Key":"security_group","Source":"terraform-aws-modules/security-group/aws","Version":"3.13.0","Dir":".terraform/modules/security_group"}]}
 ```
 
 Somewhat similar to what we saw with our local, project defined modules, but Terraform is storing some extra data here related to remote source locations. It also is storing info on how further terraform commands can find the locally-downloaded module source, so that `terraform plan/apply/etc` can point to these locations when actually running our terraform configuration.
@@ -618,50 +577,124 @@ After making our fix, let's do any apply again
 ```
 $ terraform apply
 data.aws_vpc.default: Refreshing state...
+module.dynamodb_table.module.dynamodb_autoscaler.data.aws_iam_policy_document.autoscaler_cloudwatch: Refreshing state...
+module.dynamodb_table.module.dynamodb_autoscaler.data.aws_iam_policy_document.assume_role: Refreshing state...
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
   + create
+ <= read (data resources)
 
 Terraform will perform the following actions:
 
-  # module.dynamodb_table.aws_dynamodb_table.this[0] will be created
-  + resource "aws_dynamodb_table" "this" {
+  # module.dynamodb_table.aws_dynamodb_table.default[0] will be created
+  + resource "aws_dynamodb_table" "default" {
       + arn              = (known after apply)
-      + billing_mode     = "PAY_PER_REQUEST"
-      + hash_key         = "id"
+      + billing_mode     = "PROVISIONED"
+      + hash_key         = "HashKey"
       + id               = (known after apply)
-      + name             = "force-table"
+      + name             = "mp-luke-skywalker-dynamo-table"
+      + range_key        = "RangeKey"
+      + read_capacity    = 5
       + stream_arn       = (known after apply)
       + stream_enabled   = false
       + stream_label     = (known after apply)
       + stream_view_type = (known after apply)
       + tags             = {
-          + "Name" = "force-table"
+          + "Name"      = "mp-luke-skywalker-dynamo-table"
+          + "Namespace" = "mp"
         }
+      + write_capacity   = 5
 
       + attribute {
-          + name = "id"
+          + name = "DailyAverage"
           + type = "N"
+        }
+      + attribute {
+          + name = "HashKey"
+          + type = "S"
+        }
+      + attribute {
+          + name = "HighWater"
+          + type = "N"
+        }
+      + attribute {
+          + name = "RangeKey"
+          + type = "S"
+        }
+      + attribute {
+          + name = "Timestamp"
+          + type = "S"
+        }
+
+      + global_secondary_index {
+          + hash_key           = "DailyAverage"
+          + name               = "DailyAverageIndex"
+          + non_key_attributes = [
+              + "HashKey",
+              + "RangeKey",
+            ]
+          + projection_type    = "INCLUDE"
+          + range_key          = "HighWater"
+          + read_capacity      = 5
+          + write_capacity     = 5
+        }
+
+      + local_secondary_index {
+          + name               = "HighWaterIndex"
+          + non_key_attributes = [
+              + "HashKey",
+              + "RangeKey",
+            ]
+          + projection_type    = "INCLUDE"
+          + range_key          = "Timestamp"
+        }
+      + local_secondary_index {
+          + name               = "TimestampSortIndex"
+          + non_key_attributes = [
+              + "HashKey",
+              + "RangeKey",
+            ]
+          + projection_type    = "INCLUDE"
+          + range_key          = "Timestamp"
         }
 
       + point_in_time_recovery {
-          + enabled = false
+          + enabled = true
         }
 
       + server_side_encryption {
-          + enabled     = false
+          + enabled     = true
           + kms_key_arn = (known after apply)
         }
 
-      + timeouts {
-          + create = "10m"
-          + delete = "10m"
-          + update = "60m"
-        }
-
       + ttl {
-          + enabled = false
+          + attribute_name = "Expires"
+          + enabled        = true
+        }
+    }
+
+  # module.dynamodb_table.null_resource.global_secondary_index_names[0] will be created
+  + resource "null_resource" "global_secondary_index_names" {
+      + id       = (known after apply)
+      + triggers = {
+          + "name" = "DailyAverageIndex"
+        }
+    }
+
+  # module.dynamodb_table.null_resource.local_secondary_index_names[0] will be created
+  + resource "null_resource" "local_secondary_index_names" {
+      + id       = (known after apply)
+      + triggers = {
+          + "name" = "TimestampSortIndex"
+        }
+    }
+
+  # module.dynamodb_table.null_resource.local_secondary_index_names[1] will be created
+  + resource "null_resource" "local_secondary_index_names" {
+      + id       = (known after apply)
+      + triggers = {
+          + "name" = "HighWaterIndex"
         }
     }
 
@@ -673,16 +706,34 @@ Terraform will perform the following actions:
       + id                     = (known after apply)
       + ingress                = (known after apply)
       + name                   = (known after apply)
-      + name_prefix            = "force-sg-"
+      + name_prefix            = "luke-skywalker-sg-"
       + owner_id               = (known after apply)
       + revoke_rules_on_delete = false
       + tags                   = {
-          + "Name" = "force-sg"
+          + "Name" = "luke-skywalker-sg"
         }
-      + vpc_id                 = "vpc-75a4a012"
+      + vpc_id                 = "vpc-6342f808"
     }
 
-Plan: 2 to add, 0 to change, 0 to destroy.
+  # module.dynamodb_table.module.dynamodb_autoscaler.data.aws_iam_policy_document.autoscaler will be read during apply
+  # (config refers to values not yet known)
+ <= data "aws_iam_policy_document" "autoscaler"  {
+      + id   = (known after apply)
+      + json = (known after apply)
+
+      + statement {
+          + actions   = [
+              + "dynamodb:DescribeTable",
+              + "dynamodb:UpdateTable",
+            ]
+          + effect    = "Allow"
+          + resources = [
+              + (known after apply),
+            ]
+        }
+    }
+
+Plan: 5 to add, 0 to change, 0 to destroy.
 
 Do you want to perform these actions?
   Terraform will perform the actions described above.
@@ -690,12 +741,21 @@ Do you want to perform these actions?
 
   Enter a value: yes
 
+module.dynamodb_table.null_resource.local_secondary_index_names[1]: Creating...
+module.dynamodb_table.null_resource.local_secondary_index_names[0]: Creating...
+module.dynamodb_table.null_resource.global_secondary_index_names[0]: Creating...
+module.dynamodb_table.null_resource.local_secondary_index_names[0]: Creation complete after 0s [id=4769265377330554732]
+module.dynamodb_table.null_resource.global_secondary_index_names[0]: Creation complete after 0s [id=7046791913016947434]
+module.dynamodb_table.null_resource.local_secondary_index_names[1]: Creation complete after 0s [id=4168769742730824114]
+module.dynamodb_table.aws_dynamodb_table.default[0]: Creating...
 module.security_group.aws_security_group.this_name_prefix[0]: Creating...
-module.dynamodb_table.aws_dynamodb_table.this[0]: Creating...
-module.security_group.aws_security_group.this_name_prefix[0]: Creation complete after 2s [id=sg-0b762dcc892baceff]
-module.dynamodb_table.aws_dynamodb_table.this[0]: Creation complete after 9s [id=force-table]
+module.security_group.aws_security_group.this_name_prefix[0]: Creation complete after 1s [id=sg-05551bd361d49b07c]
+module.dynamodb_table.aws_dynamodb_table.default[0]: Still creating... [10s elapsed]
+module.dynamodb_table.aws_dynamodb_table.default[0]: Still creating... [20s elapsed]
+module.dynamodb_table.aws_dynamodb_table.default[0]: Creation complete after 23s [id=mp-luke-skywalker-dynamo-table]
+module.dynamodb_table.module.dynamodb_autoscaler.data.aws_iam_policy_document.autoscaler: Refreshing state...
 
-Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
 ```
 
 Success! We've created some infrastructure with pretty minimal project configuration. Using modules available to us, we can keep our project configuration manageable, re-use common-need configuration from elsewhere, and focus our project on the things that make our project unique.
