@@ -1,14 +1,9 @@
-variable "student_alias" {
-  type = string
+variable "region" {
+  type        = string
+  description = "The region that all AWS resources are deployed to."
 }
 
-locals {
-  env = {
-    dev = {
-      region = "us-east-2"
-    }
-    prod = {
-      region = "us-east-2"
-    }
-  }
+variable "student_alias" {
+  type        = string
+  description = "The student's alias that will help create unique resources"
 }

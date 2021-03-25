@@ -15,15 +15,15 @@ data "aws_ami" "ubuntu" {
 }
 
 module "security_group" {
-  source                = "./security-group"
+  source                = "./modules/security-group"
   name                  = "${var.student_alias}-experiment-01"
   allowed_inbound_ports = [80, 22]
   allow_outbound        = true
   env                   = terraform.workspace
 }
 
-data "template_file" "server_user_data" {
-  template = file("user-data.sh.tmpl")
+data "template_file" "user_date" {
+  template = file("${path.root}/templates/user-data.sh.tpl")
   vars = {
     service_name = "nginx"
   }
@@ -33,7 +33,7 @@ resource "aws_instance" "server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
 
-  user_data = data.template_file.server_user_data.rendered
+  user_data = data.template_file.user_date.rendered
 
   security_groups = [module.security_group.info.name]
 
