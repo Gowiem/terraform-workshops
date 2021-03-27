@@ -39,7 +39,7 @@ terraform init
 cd ../
 ```
 
-We'll make a change to the instance type, changing to t2.medium and apply
+We'll make a change to the instance type, changing to t2.medium and run a `terraform apply`:
 
 ```
 resource "aws_instance" "instance" {
@@ -535,7 +535,7 @@ OK, so we're back with our freshly-created infrastructure, we'll go through almo
 
 
 ```
-terraform plan -out=plan.out
+terraform plan -out=run.plan
 ...
 data.aws_ami.ubuntu: Refreshing state...
 aws_instance.instance: Refreshing state... [id=i-0d02d00e96e27d752]
@@ -610,10 +610,10 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 
 ------------------------------------------------------------------------
 
-This plan was saved to: plan.out
+This plan was saved to: run.plan
 
 To perform exactly these actions, run the following command to apply:
-    terraform apply "plan.out"
+    terraform apply "run.plan"
 ```
 
 back to tim, so we'll put his changes in place before jane actually applies hers
@@ -713,7 +713,7 @@ the instance type change is in place, and now jane happens to be running her app
 
 ```
 cd ../jane
-terraform apply plan.out
+terraform apply run.plan
 
 Error: Saved plan is stale
 
@@ -726,8 +726,8 @@ Ah! Something in tim's changes now makes jane's plan stale (outdated) and she mu
 The real takeaway from this, at this level, is to just know that this is a protection against clobbering changes unknowingly. When we see this, we simply know that we need to generate a plan (file) again, so let's do that:
 
 ```
-terraform plan -out=plan.out
-terraform show plan.out
+terraform plan -out=run.plan
+terraform show run.plan
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -813,8 +813,8 @@ resource "aws_instance" "instance" {
 Then rerun our plan with an out file again:
 
 ```
-terraform plan -out=plan.out
-terraform show plan.out
+terraform plan -out=run.plan
+terraform show run.plan
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -886,7 +886,7 @@ Plan: 0 to add, 1 to change, 0 to destroy.
 Now we're back to the only change being applied being our tag change.
 
 ```
-terraform apply plan.out
+terraform apply run.plan
 aws_instance.instance: Modifying... [id=i-0d02d00e96e27d752]
 aws_instance.instance: Still modifying... [id=i-0d02d00e96e27d752, 10s elapsed]
 aws_instance.instance: Still modifying... [id=i-0d02d00e96e27d752, 20s elapsed]

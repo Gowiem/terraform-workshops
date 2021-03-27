@@ -1,9 +1,18 @@
 terraform {
+  required_version = "0.13.6"
+
   backend "s3" {
     bucket  = "mp-teaching-examples"
     key     = "intermediate-terraform/examples-planning/terraform.tfstate"
     region  = "us-east-2"
     encrypt = true
+  }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
   }
 }
 

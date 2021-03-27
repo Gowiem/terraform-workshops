@@ -206,7 +206,7 @@ resource "aws_eip" "my_eip" {
 Then run
 
 ```
-$ terraform plan -out=plan.out
+$ terraform plan -out=run.plan
 var.student_alias
   Your student alias
 
@@ -247,29 +247,29 @@ Plan: 1 to add, 0 to change, 0 to destroy.
 
 ------------------------------------------------------------------------
 
-This plan was saved to: plan.out
+This plan was saved to: run.plan
 
 To perform exactly these actions, run the following command to apply:
-    terraform apply "plan.out"
+    terraform apply "run.plan"
 ```
 
 Our existing key pair resource is created and up-to-date, so terraform is able to resolve what's in the state file/what's actually in AWS with what's in our config to determine that no changes are needed to that resource.
 
 Per our addition to our source, it also detected this additional resource it needs to create, and we're being informed of this on our plan. There's `1 to add` and we can see the details of the `aws_eip` to add.
 
-Last, we see that our inclusion of `-out=plan.out` gives us some additional instruction at the end:
+Last, we see that our inclusion of `-out=run.plan` gives us some additional instruction at the end:
 
 ```
-This plan was saved to: plan.out
+This plan was saved to: run.plan
 
 To perform exactly these actions, run the following command to apply:
-    terraform apply "plan.out"
+    terraform apply "run.plan"
 ```
 
 Before we actually apply this plan file, let's inspect it:
 
 ```
-$ terraform show plan.out
+$ terraform show run.plan
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
   + create
@@ -301,7 +301,7 @@ The plan file output is a binary, terraform can parse it to show us what it will
 Let's apply it
 
 ```
-$ terraform apply plan.out
+$ terraform apply run.plan
 aws_eip.my_eip: Creating...
 aws_eip.my_eip: Creation complete after 1s [id=eipalloc-0cf7da010d5f77406]
 
@@ -323,7 +323,7 @@ resource "aws_eip" "my_eip" {
 ```
 
 ```
-$ terraform plan -out=plan.out
+$ terraform plan -out=run.plan
 var.student_alias
   Your student alias
 
@@ -359,10 +359,10 @@ Plan: 0 to add, 0 to change, 1 to destroy.
 
 ------------------------------------------------------------------------
 
-This plan was saved to: plan.out
+This plan was saved to: run.plan
 
 To perform exactly these actions, run the following command to apply:
-    terraform apply "plan.out"
+    terraform apply "run.plan"
 ```
 
 Stepping back out, just like we saw one to add, now we see `1 to destroy`. The power of declarative configuration really shines in this example. Many other infrastructure as code tools don't support the idea of simply removing some piece of code to remove the object being managed. In such cases, the code can grow unmanageable quickly and contain stuff related to just ensuring infrastructure is gone. In terraform you simply remove code to remove resources. A powerful model.
@@ -370,7 +370,7 @@ Stepping back out, just like we saw one to add, now we see `1 to destroy`. The p
 Let's apply the plan file yet again
 
 ```
-$ terraform apply plan.out
+$ terraform apply run.plan
 aws_eip.my_eip: Destroying... [id=eipalloc-0cf7da010d5f77406]
 aws_eip.my_eip: Destruction complete after 1s
 
