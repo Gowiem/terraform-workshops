@@ -219,7 +219,7 @@ module "security_group" {
 
 ```
 
-our first block, or stanza is a data source, and one that's going to query the AWS API by way of the AWS provider that our `init` command downloaded. We're using a provider-defined data source called `aws_vpc`. We want to query to get info about a VPC that _already exists_ in our AWS account. In this case the default VPC for the region as configured in our AWS provider block.
+our first block is a data source, and one that's going to query the AWS API by way of the AWS provider that our `init` command downloaded. We're using a provider-defined data source called `aws_vpc`. We want to query to get info about a VPC that _already exists_ in our AWS account. In this case the default VPC for the region as configured in our AWS provider block.
 
 We can then reference the VPC's ID in other places. And we see that happen as we're setting a local variable:
 
