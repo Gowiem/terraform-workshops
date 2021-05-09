@@ -34,8 +34,8 @@ This curl-bash pattern will execute a secript in your environment which should i
 sudo yum -y install jq
 
 # Install Terraform - We're installing directly from Hashi, but for future usage I suggest using tfenv: https://github.com/tfutils/tfenv
-curl -O https://releases.hashicorp.com/terraform/0.12.30/terraform_0.12.30_linux_amd64.zip
-sudo unzip terraform_0.12.30_linux_amd64.zip -d /usr/bin/
+curl -O https://releases.hashicorp.com/terraform/0.12.31/terraform_0.12.31_linux_amd64.zip
+sudo unzip terraform_0.12.31_linux_amd64.zip -d /usr/bin/
 ```
 
 You will need to confirm the unzip command as there is a newer version of terraform installed by default in the Cloud9 environment that will need to be overwritten. You can do so by typing "A" and hitting enter.
@@ -49,7 +49,7 @@ terraform -v
 You should see something along the lines of:
 
 ```
-Terraform v0.12.30
+Terraform v0.12.31
 
 Your version of Terraform is out of date! The latest version
 is 0.14.6. You can update by downloading from https://www.terraform.io/downloads.html
