@@ -11,7 +11,10 @@ Here is the AWS account and other course info --
 AWS Console URL: https://masterpoint-teaching.signin.aws.amazon.com/console
 AWS Console Username: ${student_email}
 AWS Console Password: $PASSWORD
-AWS Region for Exercise 11: ${student_region}
+
+AWS Region to create your Cloud9 environments in: us-east-2 (Ohio)
+AWS Region for **Exercise 11 only**: ${student_region}
+
 Your Student Alias: ${student_alias}
 
 Repo: https://github.com/Gowiem/terraform-workshops
