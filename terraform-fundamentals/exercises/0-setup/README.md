@@ -13,7 +13,7 @@ create a Cloud9 server / dev environment where we'll run the upcoming exercises.
 1. Keep the settings as their defaults on this screen, then click "Next"
 1. Review your settings on the next screen, and then click "Create"
 1. Wait for your environment to start. In this step, AWS is provisioning an EC2 instance on which your IDE environment will run. This gives us the distinct advantage of having a consistent and controlled environment for development regardless of your hardware and OS. It also allows us to connect to our instances and AWS's API without worrying about port availability at your home or in a corporate office. 😁
-1. Once your IDE loads, you should see a Welcome document. You can stop here for a minute as I will give you a quick walkthrough of the environment. If this is a Zoom class, please make a thumbsup in the Zoom so I know roughly how many people are at this point. Feel free to take the time to read through the welcome document.
+1. Once your IDE loads, you should see a Welcome document. From here continue with the below steps and I'll give an intro to the Cloud9 environment once everyone has completed all the steps.
 
 ## Resize your Cloud9 disk
 
