@@ -4,7 +4,7 @@ Maybe you've had the opportunity to use modules in some complex ways already. We
 
 ## Local Project Modules as an Organizational Element
 
-As we discussed, one use of modules can simply be to organize within a project, and not be intended to be shared out. Your instructor has used them in this way many times in this way for real projects. So, let's see what that looks like in a somewhat realistic scenario.
+As we discussed, one use of modules can simply be to organize within a project, and not be intended to be shared out. Your instructor has used them in this way many times for real projects. So, let's see what that looks like in a somewhat realistic scenario.
 
 Go ahead and switch to the `./project-modules` directory
 
@@ -145,7 +145,7 @@ Terraform will perform the following actions:
       + billing_mode     = "PROVISIONED"
       + hash_key         = "project_key"
       + id               = (known after apply)
-      + name             = "force_project"
+      + name             = "skywalker_project"
       + range_key        = "project_range_key"
       + read_capacity    = 20
       + stream_arn       = (known after apply)
@@ -187,7 +187,7 @@ Terraform will perform the following actions:
             }
         )
       + range_key  = "project_range_key"
-      + table_name = "force_project"
+      + table_name = "skywalker_project"
     }
 
   # module.dynamodb.aws_dynamodb_table_item.project[1] will be created
@@ -205,7 +205,7 @@ Terraform will perform the following actions:
             }
         )
       + range_key  = "project_range_key"
-      + table_name = "force_project"
+      + table_name = "skywalker_project"
     }
 
   # module.ec2.aws_key_pair.project[0] will be created
@@ -240,7 +240,7 @@ can't guarantee that exactly these actions will be performed if
 Some first things to notice with our plan are items like
 
 ```
-+ name             = "force_project"
++ name             = "skywalker_project"
 + range_key        = "project_range_key"
 ```
 
@@ -266,11 +266,11 @@ module.ec2.aws_key_pair.project[1]: Creating...
 module.dynamodb.aws_dynamodb_table.project: Creating...
 module.ec2.aws_key_pair.project[0]: Creation complete after 0s [id=force-one-ecf34f57-3eef-aec1-3cbd-54afe38a0b8f]
 module.ec2.aws_key_pair.project[1]: Creation complete after 0s [id=force-two-8972dc37-db52-ba5e-a0a8-eb8ced32e735]
-module.dynamodb.aws_dynamodb_table.project: Creation complete after 6s [id=force_project]
+module.dynamodb.aws_dynamodb_table.project: Creation complete after 6s [id=skywalker_project]
 module.dynamodb.aws_dynamodb_table_item.project[1]: Creating...
 module.dynamodb.aws_dynamodb_table_item.project[0]: Creating...
-module.dynamodb.aws_dynamodb_table_item.project[1]: Creation complete after 0s [id=force_project|project_key||hash-key-value-2||project_range_key||range-key-value-2|]
-module.dynamodb.aws_dynamodb_table_item.project[0]: Creation complete after 0s [id=force_project|project_key||hash-key-value-1||project_range_key||range-key-value-1|]
+module.dynamodb.aws_dynamodb_table_item.project[1]: Creation complete after 0s [id=skywalker_project|project_key||hash-key-value-2||project_range_key||range-key-value-2|]
+module.dynamodb.aws_dynamodb_table_item.project[0]: Creation complete after 0s [id=skywalker_project|project_key||hash-key-value-1||project_range_key||range-key-value-1|]
 
 Apply complete! Resources: 5 added, 0 changed, 0 destroyed.
 
@@ -294,7 +294,7 @@ project_keys = [
     "public_key" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 di@masterpoint.io"
   },
 ]
-project_table_arn = arn:aws:dynamodb:us-east-2:946320133426:table/force_project
+project_table_arn = arn:aws:dynamodb:us-east-2:946320133426:table/skywalker_project
 ```
 
 We'll focus on a few things here related to the apply and then look at state as well
@@ -407,63 +407,29 @@ data "aws_vpc" "default" {
   default = true
 }
 
-module "sg" {
-  source  = "cloudposse/security-group/aws"
-  version = "0.1.4"
-
-  namespace = "mp"
-  name      = "${var.student_alias}-sg"
-
-  rules = [
-    {
-      type        = "ingress"
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    },
-    {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 65535
-      protocol    = "all"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  ]
+module "security_group" {
+  source  = "terraform-aws-modules/security-group/aws"
+  version = "3.13.0"
+  name    = "${var.student_alias}-sg"
 }
 
 module "dynamodb_table" {
-  source = "git::https://github.com/cloudposse/terraform-aws-dynamodb.git?ref=tags/0.25.2"
+  source = "git::https://github.com/cloudposse/terraform-aws-dynamodb.git?ref=tags/0.22.0"
 
-  namespace                    = "mp"
-  name                         = "${var.student_alias}-dynamo-table"
+  namespace = "mp"
+  name      = "${var.student_alias}-dynamo-table"
 
-  hash_key                     = "HashKey"
-  range_key                    = "RangeKey"
-  enable_autoscaler            = false
-
-  dynamodb_attributes = [
-    {
-      name = "DailyAverage"
-      type = "N"
-    },
-    {
-      name = "HighWater"
-      type = "N"
-    },
-    {
-      name = "Timestamp"
-      type = "S"
-    }
-  ]
+  hash_key          = "HashKey"
+  range_key         = "RangeKey"
+  enable_autoscaler = false
 }
 
 ```
 
 We're using 2 modules made available to us by the community:
 
-* The security group one is hosted at Terraform Registry, we're locking to version 3.13.0
-* The dynamodb table module we'll pull directly from github, and tell Terraform that we want to lock to version 0.22.0 of that module
+* The security group one is hosted at Terraform Registry, we're locking to version 0.1.4
+* The dynamodb table module we'll pull directly from github, and tell Terraform that we want to lock to version 0.25.2 of that module
 
 Let's run a `terraform init` and see what happens:
 

@@ -43,7 +43,7 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 Alright, so we now have a key pair created up on AWS. We want to abandon it from our Terraform state so that we can see `terraform import` in action
 
-First, though, let's figure out the key pair ID by looking at our current state
+First, though, let's figure out the key pair `key_name` by looking at our current state
 
 ```
 $ terraform show
