@@ -17,7 +17,7 @@ locals {
 }
 
 resource "aws_s3_bucket" "default" {
-  bucket = "count-examples"
+  bucket_prefix = "count-examples"
 }
 
 resource "aws_s3_bucket_object" "objects" {

@@ -1,7 +1,7 @@
 ## Cloud Provider Example
 ##########################
 provider "aws" {
-  region = var.region
+  region = "us-west-2"
 
   assume_role {
     role_arn = local.assume_role
@@ -9,12 +9,22 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias  = "logs_account"
-  region = var.region
+  alias  = "east"
+  region = "us-east-2"
+}
 
-  assume_role {
-    role_arn = local.logs_account_assume_role
-  }
+resource "aws_s3_bucket" "west" {
+  name = "..."
+  # ...
+}
+
+resource "aws_s3_bucket" "east" {
+  name = "..."
+  # ...
+  provider = aws.east
+  depends_on = [
+    aws_s3_bucket.west
+  ]
 }
 
 ## Kubernetes Cluster Provider Example
