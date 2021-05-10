@@ -11,12 +11,17 @@ variable "https_enabled" {
 data "template_file" "config" {
   template = file("${path.root}/config.tpl")
   vars = {
-    instance_name = var.instance_name
     https_enabled = var.https_enabled
   }
 }
 
-output "config_content" {
-  value       = data.template_file.config.rendered
-  description = "The template generated configuration file."
+provider "template" {}
+
+locals {
+  template_content = data.template_file.config.render
+}
+
+resource "local_file" "foo" {
+  content  = data.template_file.config.rendered
+  filename = "${path.module}/config.yaml"
 }
