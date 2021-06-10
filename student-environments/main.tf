@@ -1,5 +1,5 @@
 locals {
-  config_yaml = yamldecode(file("${path.module}/config/${terraform.workspace}.yaml"))
+  config_yaml = yamldecode(file("${path.root}/config/${terraform.workspace}.yaml"))
 
   class_level    = local.config_yaml.class_level
   link_to_slides = local.config_yaml.link_to_slides
