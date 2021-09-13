@@ -13,6 +13,7 @@ interpolation.  We will experiment with 3 ways this can be done.
 
 ```bash
 terraform init
+terraform plan
 terraform apply
 ```
 

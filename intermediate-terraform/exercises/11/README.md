@@ -1,4 +1,4 @@
-# Exercise 10: Terraform Refresh
+# Exercise 11: Terraform Refresh
 
 We're going to create a piece of infrastructure, go make some changes to it via the AWS console, and then see what happens when we refresh state on our project
 

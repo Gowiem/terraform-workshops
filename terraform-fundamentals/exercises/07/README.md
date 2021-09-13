@@ -44,6 +44,8 @@ could try running `apply` with it set to false.
 
 ```bash
 terraform init
+
+
 unset TF_VAR_student_alias && terraform apply -input=false
 ```
 

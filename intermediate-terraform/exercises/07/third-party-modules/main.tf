@@ -23,19 +23,4 @@ module "dynamodb_table" {
   hash_key          = "HashKey"
   range_key         = "RangeKey"
   enable_autoscaler = false
-
-  dynamodb_attributes = [
-    {
-      name = "DailyAverage"
-      type = "N"
-    },
-    {
-      name = "HighWater"
-      type = "N"
-    },
-    {
-      name = "Timestamp"
-      type = "S"
-    }
-  ]
 }

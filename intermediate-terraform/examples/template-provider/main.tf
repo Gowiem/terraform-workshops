@@ -12,16 +12,18 @@ data "template_file" "config" {
   template = file("${path.root}/config.tpl")
   vars = {
     https_enabled = var.https_enabled
+    instance_name = var.instance_name
   }
 }
 
 provider "template" {}
 
 locals {
-  template_content = data.template_file.config.render
+  template_content = data.template_file.config.rendered
 }
 
+
 resource "local_file" "foo" {
-  content  = data.template_file.config.rendered
+  content  = yamlencode(data.template_file.config.rendered)
   filename = "${path.module}/config.yaml"
 }

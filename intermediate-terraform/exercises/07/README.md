@@ -428,8 +428,8 @@ module "dynamodb_table" {
 
 We're using 2 modules made available to us by the community:
 
-* The security group one is hosted at Terraform Registry, we're locking to version 0.1.4
-* The dynamodb table module we'll pull directly from github, and tell Terraform that we want to lock to version 0.25.2 of that module
+* The security group one is hosted at Terraform Registry, we're locking to version 3.13.0
+* The dynamodb table module we'll pull directly from github, and tell Terraform that we want to lock to version 0.22.0 of that module
 
 Let's run a `terraform init` and see what happens:
 

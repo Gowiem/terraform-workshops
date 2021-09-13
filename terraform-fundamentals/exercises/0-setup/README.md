@@ -3,6 +3,8 @@
 In this first exercise we'll make sure that we're all set up with access to AWS, and then we'll
 create a Cloud9 server / dev environment where we'll run the upcoming exercises.
 
+**NOTE**: You will not be using your own machines to run terraform or the exercises in this course, you will only use the remote Cloud9 environments. This is enable us to create a consistent environment for you to work in so that we're all utilizing the same shell, hardware, and workspace. Be sure to execute all of the below commands in your Cloud9 environment only and not on your local machine.
+
 ## Log into the AWS Console and Launch your Cloud9 Environment
 
 1. Log in to AWS using the link, username, and password provided to you via chat or email.

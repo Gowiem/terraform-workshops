@@ -114,7 +114,6 @@ Let's add an explicit provider version requirement for the `template` provider a
 terraform {
   required_providers {
     template = {
-      source  = "hashicorp/template"
       version = "~> 2.2"
     }
   }

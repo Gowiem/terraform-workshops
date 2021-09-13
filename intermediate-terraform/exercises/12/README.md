@@ -1,4 +1,4 @@
-# Exercise 10: Taints and Destroy Targets
+# Exercise 12: Taints and Destroy Targets
 
 Taints are a good way to force replace a resource. Destroy targets give us a way to remove sinlge pieces of our infrastructure at a time
 
