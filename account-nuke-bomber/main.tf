@@ -4,7 +4,7 @@ provider "aws" {
 
 module "nuke_bomber" {
   source = "../../../../masterpoint/terraform-aws-nuke-bomber"
-  # source  = "masterpointio/nuke-bomber/aws"n
+  # source  = "masterpointio/nuke-bomber/aws"
   # version = "0.2.0"
 
   namespace   = "mp"
@@ -12,9 +12,8 @@ module "nuke_bomber" {
   stage       = "teaching"
   name        = "nuke-bomber"
 
-  # NOTE: 5 minutes is way too often. This is just for testing / example purposes.
-  schedule_expression = "rate(5 minutes)"
+  # Run every Sunday at 5am UTC
+  schedule_expression = "cron(0 5 ? * SUN *)"
 
-  # NOTE: When you've tested using dry runs, enable the following to actually execute the resource deletion.
-  # command = ["-c", "/home/aws-nuke/nuke-config.yml", "--force", "--force-sleep", "3", "--no-dry-run"]
+  command = ["-c", "/home/aws-nuke/nuke-config.yml", "--force", "--force-sleep", "3", "--no-dry-run"]
 }

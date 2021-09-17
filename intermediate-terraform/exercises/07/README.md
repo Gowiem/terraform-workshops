@@ -538,7 +538,7 @@ module "security_group" {
 
 The main takeaway here is that a missing variable value at the module level will not prompt, it will fail notifying the user of the missing value.
 
-After making our fix, let's do any apply again
+After making our fix, let's do an apply again
 
 ```
 $ terraform apply

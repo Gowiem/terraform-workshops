@@ -5,7 +5,7 @@ terraform {
 }
 
 variable "api_key" {
-  sensitive   = true
+  # sensitive   = true
   type        = string
   description = "A sensitive value"
 }
@@ -22,6 +22,6 @@ resource "null_resource" "print_sensitive_value" {
 
 output "api_key" {
   value       = var.api_key
-  sensitive   = true
+  # sensitive   = true
   description = "A sensitive value"
 }
