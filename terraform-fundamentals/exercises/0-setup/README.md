@@ -9,7 +9,7 @@ create a Cloud9 server / dev environment where we'll run the upcoming exercises.
 
 1. Log in to AWS using the link, username, and password provided to you via chat or email.
 1. In the top bar of the AWS Console, in the center you'll see the Services searchbar, click on it, and type "Cloud9" which will filter available services in the search list. Click on "Cloud9" which will take you to where we can create your environment.
-1. **IMPORTANT**: Select **US East (Ohio) us-east-2** in the upper right corner of your AWS console as the region
+1. **IMPORTANT**: Select **US East (Ohio) us-east-1** in the upper right corner of your AWS console as the region
 1. Click on "Create Environment"
 1. Give your environment a unique name (your provided student alias is suggested i.e. $FIRST_NAME-$LAST_NAME) and, optionally, a description. Click "Next"
 1. Keep the settings as their defaults on this screen, then click "Next"
@@ -69,14 +69,14 @@ git clone https://github.com/Gowiem/terraform-workshops .
 
 ## Set a Default Region
 
-To let our CLI and Terraform know that we want to work in the AWS us-east-2 region (Ohio), let's run the following commands:
+To let our CLI and Terraform know that we want to work in the AWS us-east-1 region (Ohio), let's run the following commands:
 
 ```bash
 # Set our AWS_DEFAULT_REGION for this terminal session
-export AWS_DEFAULT_REGION=us-east-2
+export AWS_DEFAULT_REGION=us-east-1
 
 # Set our AWS_DEFAULT_REGION for the future as well
-echo "export AWS_DEFAULT_REGION=us-east-2" >> ~/.bash_profile
+echo "export AWS_DEFAULT_REGION=us-east-1" >> ~/.bash_profile
 ```
 
 This environment variable will let Terraform (as well as other tools) know where we want to deploy things.
