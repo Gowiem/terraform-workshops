@@ -41,6 +41,6 @@ echo "export AWS_DEFAULT_REGION=us-east-2" >>~/.bash_profile
 ## Setup Instructor Prompt
 ###########################
 
-export PS1="\[\033[01;32m\]$(_cloud9_prompt_user)\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]$(__git_ps1)\[\033[01;32m\] »\[\033[00m\] "
-
 echo 'export PS1="\[\033[01;32m\]$(_cloud9_prompt_user)\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]$(__git_ps1)\[\033[01;32m\] »\[\033[00m\] "' >>~/.bash_profile
+
+source ~/.bash_profile
