@@ -22,6 +22,12 @@ sudo yum -y install jq
 curl -O https://releases.hashicorp.com/terraform/0.12.31/terraform_0.12.31_linux_amd64.zip
 sudo unzip -o terraform_0.12.31_linux_amd64.zip -d /usr/bin/
 
+sudo yum install -y vault
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --help
+
 ## Pull Repo
 #############
 
