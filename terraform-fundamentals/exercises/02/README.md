@@ -93,8 +93,8 @@ Let's try a few things.
 * create a file called terraform.tfvars in this directory
 * insert the following code into it:
 ```hcl
-# swap "$YOUR_ALIAS" with your full name in kebab case. e.g. "Luke Skywalker" => "luke-skywalker"
-student_alias = "$YOUR_ALIAS"
+# swap "<YOUR ALIAS> with your full name in kebab case. e.g. "Luke Skywalker" => "luke-skywalker"
+student_alias = "<YOUR ALIAS>"
 ```
 * then run this in the same directory
 ```bash
@@ -119,7 +119,7 @@ testing because values entered via CLI override values from other methods.
 identifier like before.
 
 ```bash
-terraform plan -var 'student_alias=$YOUR_ALIAS'
+terraform plan -var 'student_alias=<YOUR ALIAS>'
 ```
 
 * You can try using a different identifier to see if it worked. Like before, you should be able to see the

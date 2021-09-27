@@ -72,9 +72,11 @@ To let our CLI and Terraform know that we want to work in the AWS us-east-2 regi
 ```bash
 # Set our AWS_DEFAULT_REGION for this terminal session
 export AWS_DEFAULT_REGION=us-east-2
+export AWS_REGION=us-east-2
 
 # Set our AWS_DEFAULT_REGION for the future as well
 echo "export AWS_DEFAULT_REGION=us-east-2" >> ~/.bash_profile
+echo "export AWS_REGION=us-east-2" >> ~/.bash_profile
 ```
 
 This environment variable will let Terraform (as well as other tools) know where we want to deploy things.

@@ -45,7 +45,7 @@ locals {
 resource "aws_organizations_account" "account" {
   for_each = local.all_accounts
 
-  name  = "mp-${each.key}" # mp-dev, mp-stage, etc.
+  name  = each.value.name # "mp-${each.key}" # mp-dev, mp-stage, etc.
   email = each.value.email
   tags  = each.value.tags
 }

@@ -32,11 +32,13 @@ git clone https://github.com/Gowiem/terraform-workshops .
 ## Default Our Region
 ######################
 
-# Set our AWS_DEFAULT_REGION for this terminal session
+# Set our AWS Region for this terminal session
 export AWS_DEFAULT_REGION=us-east-2
+export AWS_REGION=us-east-2
 
 # Set our AWS_DEFAULT_REGION for the future as well
 echo "export AWS_DEFAULT_REGION=us-east-2" >>~/.bash_profile
+echo "export AWS_REGION=us-east-2" >>~/.bash_profile
 
 ## Setup Instructor Prompt
 ###########################
