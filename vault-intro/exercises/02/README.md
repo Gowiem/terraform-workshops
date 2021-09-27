@@ -17,3 +17,9 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED             STATU
 <CONTAINER ID>   vault:latest   "docker-entrypoint.s…"   About an hour ago   Up About an hour   0.0.0.0:8200-8201->8200-8201/tcp, :::8200-8201->8200-8201/tcp   01_vault_1
 ```
 
+As long as you see that then you're good to continue! However, if you don't see vault running then return to excercise 01 and follow the steps to get the dev server running.
+
+## Running Terraform Against Vault
+
+
+

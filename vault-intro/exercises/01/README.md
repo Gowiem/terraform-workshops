@@ -117,7 +117,7 @@ Since our Vault server is running in the foreground and we still need to execute
 1. Option + T
 1. Click the little Green plus button next to your existing terminal tab.
 
-Now that you have that token ad we've started a new terminal session, let's set two environment variables to let our Vault CLI know how to speak with Vault:
+Now that you have that token and we've started a new terminal session, let's set two environment variables to let our Vault CLI know how to speak with Vault:
 
 ```bash
 $ export VAULT_TOKEN=<ROOT TOKEN COPIED FROM VAULT SERVER OUTPUT>
