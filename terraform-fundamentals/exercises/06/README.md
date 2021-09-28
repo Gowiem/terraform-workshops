@@ -13,7 +13,7 @@ provider "aws" {}
 
 module "s3_bucket_01" {
   source        = "./modules/s3_bucket/"
-  region        = "us-east-1"
+  region        = "us-east-2"
   student_alias = var.student_alias
 }
 

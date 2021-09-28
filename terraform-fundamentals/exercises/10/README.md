@@ -58,7 +58,7 @@ Terraform will perform the following actions:
       + arn                         = (known after apply)
       + bucket                      = (known after apply)
       + bucket_domain_name          = (known after apply)
-      + bucket_prefix               = "tf-fundy-finn-the-human-"
+      + bucket_prefix               = "tf-fundys-finn-the-human-"
       + bucket_regional_domain_name = (known after apply)
       + force_destroy               = true
       + hosted_zone_id              = (known after apply)
@@ -83,13 +83,13 @@ Do you want to perform these actions?
   Enter a value: yes
 
 aws_s3_bucket.state_bucket: Creating...
-aws_s3_bucket.state_bucket: Creation complete after 5s [id=tf-fundy-bane-20190623022126911700000001]
+aws_s3_bucket.state_bucket: Creation complete after 5s [id=tf-fundys-bane-20190623022126911700000001]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 
 Outputs:
 
-state_bucket_name = tf-fundy-bane-20190623022126911700000001
+state_bucket_name = tf-fundys-bane-20190623022126911700000001
 ```
 
 Now, before we move on, you may be asking yourself: so what about the state for this state bucket? And it's a good
@@ -190,7 +190,7 @@ terraform {
     encrypt         = true
     bucket          = "REPLACE-WITH-YOUR-STATE-BUCKET-NAME"
     dynamodb_table  = "terraform-state-lock-dynamo"
-    region          = us-east-1
+    region          = us-east-2
     key             = "exercise-10/terraform.tfstate"
   }
 }

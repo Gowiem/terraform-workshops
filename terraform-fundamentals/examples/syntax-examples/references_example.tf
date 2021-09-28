@@ -36,7 +36,7 @@ module "database" {
 
 # Don't ever do this in the real world ;)
 resource "aws_s3_bucket_object" "rds_credentials" {
-  bucket  = "tf-fundy-finn-mertens"
+  bucket  = "tf-fundys-finn-mertens"
   key     = "rds_credentials.txt"
   content = "Username: ${module.database.username}\nPassword: ${module.database.password}"
 }

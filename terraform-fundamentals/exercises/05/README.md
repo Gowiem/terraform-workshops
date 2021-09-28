@@ -27,7 +27,7 @@ You will also need to specify the alternate provider when creating your bucket:
 
 ```hcl
 resource "aws_s3_bucket" "student_bucket_alt" {
-  bucket   = "tf-fundy-${var.student_alias}-alt"
+  bucket   = "tf-fundys-${var.student_alias}-alt"
   provider = aws.alternate
 }
 ```
@@ -39,7 +39,7 @@ terraform init
 terraform apply
 terraform show
 ```
-The above should show that you have a bucket now named `tf-fundy-[your student alias]-alt` that was created in the
+The above should show that you have a bucket now named `tf-fundys-[your student alias]-alt` that was created in the
 us-west-2 region.
 
 **NOTE:** the `AWS_DEFAULT_REGION` environment variable is set in your Cloud9 environment as part of creating it.

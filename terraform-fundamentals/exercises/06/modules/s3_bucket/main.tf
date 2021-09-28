@@ -11,5 +11,5 @@ provider "aws" {
 resource "aws_s3_bucket" "user_bucket_random" {
   # bucket_prefix is a nice option in the aws provider for creating s3 buckets
   # the suffix will be a semi-random sequence
-  bucket_prefix = "tf-fundy-${var.student_alias}-"
+  bucket_prefix = "tf-fundys-${var.student_alias}-"
 }

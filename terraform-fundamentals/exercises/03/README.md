@@ -46,7 +46,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be created
   + resource "aws_s3_bucket_object" "user_student_alias_object" {
       + acl                    = "private"
-      + bucket                 = "tf-fundy-..."
+      + bucket                 = "tf-fundys-..."
       + content                = "This bucket is reserved for ..."
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -94,7 +94,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be created
   + resource "aws_s3_bucket_object" "user_student_alias_object" {
       + acl                    = "private"
-      + bucket                 = "tf-fundy-..."
+      + bucket                 = "tf-fundys-..."
       + content                = "This bucket is reserved for ..."
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -142,7 +142,7 @@ Find `main.tf` and modify the s3 bucket block to reflect the following (add the 
 ```hcl
 # declare a resource block so we can create something.
 resource "aws_s3_bucket_object" "user_student_alias_object" {
-  bucket  = "tf-fundy-${var.student_alias}"
+  bucket  = "tf-fundys-${var.student_alias}"
   key     = "student.alias"
   content = "This bucket is reserved for ${var.student_alias} ****ONLY****"
 }
@@ -162,7 +162,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be updated in-place
   ~ resource "aws_s3_bucket_object" "user_student_alias_object" {
         acl           = "private"
-        bucket        = "tf-fundy-..."
+        bucket        = "tf-fundys-..."
       ~ content       = "This bucket is reserved for ..." -> "This bucket is reserved for ... ****ONLY****"
         content_type  = "binary/octet-stream"
         etag          = "94e32327b8007fa215f3a9edbda7f68c"
@@ -213,7 +213,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.user_student_alias_object will be destroyed
   - resource "aws_s3_bucket_object" "user_student_alias_object" {
       - acl           = "private" -> null
-      - bucket        = "tf-fundy-..." -> null
+      - bucket        = "tf-fundys-..." -> null
       - content       = "This bucket is reserved for ... ****ONLY****" -> null
       - content_type  = "binary/octet-stream" -> null
       - etag          = "c7e49348083281f9dd997923fe6084b7" -> null

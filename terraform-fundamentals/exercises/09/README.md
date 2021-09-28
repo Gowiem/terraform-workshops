@@ -37,7 +37,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[0] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundy-luke-skywalker"
+      + bucket                 = "tf-fundys-luke-skywalker"
       + content                = "dynamic-file at index 0"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -51,7 +51,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[1] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundy-luke-skywalker"
+      + bucket                 = "tf-fundys-luke-skywalker"
       + content                = "dynamic-file at index 1"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -65,7 +65,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.dynamic_file[2] will be created
   + resource "aws_s3_bucket_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundy-luke-skywalker"
+      + bucket                 = "tf-fundys-luke-skywalker"
       + content                = "dynamic-file at index 2"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -79,7 +79,7 @@ Terraform will perform the following actions:
   # aws_s3_bucket_object.optional_file[0] will be created
   + resource "aws_s3_bucket_object" "optional_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundy-luke-skywalker"
+      + bucket                 = "tf-fundys-luke-skywalker"
       + content                = "optional-file"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -106,7 +106,7 @@ Let's look at the `main.tf` file here to see what's going on. First, the `aws_s3
 ```hcl
 resource "aws_s3_bucket_object" "dynamic_file" {
   count   = var.object_count
-  bucket  = "tf-fundy-${var.student_alias}"
+  bucket  = "tf-fundys-${var.student_alias}"
   key     = "dynamic-file-${count.index}"
   content = "dynamic-file at index ${count.index}"
 }
@@ -140,7 +140,7 @@ things in your ultimately built infrastructure. Let's look at our `main.tf` agai
 ```hcl
 resource "aws_s3_bucket_object" "optional_file" {
   count   = var.include_optional_file ? 1 : 0
-  bucket  = "tf-fundy-${var.student_alias}"
+  bucket  = "tf-fundys-${var.student_alias}"
   key     = "optional-file"
   content = "optional-file"
 }
@@ -156,7 +156,7 @@ We see in our plan output
   # aws_s3_bucket_object.optional_file[0] will be created
   + resource "aws_s3_bucket_object" "optional_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundy-luke-skywalker"
+      + bucket                 = "tf-fundys-luke-skywalker"
       + content                = "optional-file"
       + content_type           = (known after apply)
       + etag                   = (known after apply)

@@ -7,6 +7,6 @@ provider "aws" {}
 
 # declare a resource block so we can create something.
 resource "aws_s3_bucket" "student_bucket_alt" {
-  bucket = "tf-fundy-${var.student_alias}-alt"
+  bucket = "tf-fundys-${var.student_alias}-alt"
 }
 

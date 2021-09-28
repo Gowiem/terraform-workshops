@@ -34,7 +34,7 @@ You should see something like this below:
 # aws_s3_bucket_object.user_student_alias_object:
 resource "aws_s3_bucket_object" "user_student_alias_object" {
     acl           = "private"
-    bucket        = "tf-fundy-luke-skywalker"
+    bucket        = "tf-fundys-luke-skywalker"
     content       = "This bucket is reserved for luke-skywalker"
     content_type  = "binary/octet-stream"
     etag          = "94e32327b8007fa215f3a9edbda7f68c"

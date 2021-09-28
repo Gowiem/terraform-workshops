@@ -262,9 +262,9 @@ Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 Outputs:
 
 current_region_availability_zones = [
-  "us-east-1a",
-  "us-east-1b",
-  "us-east-1c",
+  "us-east-2a",
+  "us-east-2b",
+  "us-east-2c",
 ]
 most_recent_ubuntu_ami_id = ami-0d03add87774b12c5
 ```
