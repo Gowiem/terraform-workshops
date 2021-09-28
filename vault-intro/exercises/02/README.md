@@ -47,9 +47,14 @@ Let's move onto consuming those secrets via Terraform so we can pass them to our
 
 Now that we're done with the `admin` root module, let's head to the client root module: `cd ../client`
 
-Here, we have yet another small Terraform root module which I encourage you to read through carefully.
+Here, we have yet another small Terraform root module which I encourage you to read through carefully. After doing so, let's run it:
 
-All this small root module does is read in the newly created "generic" (KV V2) secrets and writes them out as `output`s. Super simple, but the idea behind it is important: Our secrets are created, permissioned, managed elsewhere and all we need to do as consumers is just authenticate to the Vault API with proper permissions to be able to read them and pass them downstream. This is immensely powerful in large organizations as it enables application developers to never even have to see their applications secrets as they just become a blind consumer to those values.
+```bash
+$ terraform init
+$ terraform apply # We don't need to pass a plan or confirm for this apply... Can you guess why that is?
+```
+
+Cool! All this small root module just did is read in the newly created "generic" (KV V2) secrets and write them out as `output`s. Super simple, but the idea behind it is important: Our secrets are created, permissioned, and managed elsewhere; All we need to do as consumers is just authenticate to the Vault API with proper permissions to be able to read them and pass them downstream. This is immensely powerful in large organizations as it enables application developers to never even have to see their applications secrets as they just become a blind consumer to those values.
 
 This has a ton of potential use-cases:
 
