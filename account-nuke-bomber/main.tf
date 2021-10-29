@@ -12,6 +12,26 @@ provider "aws" {
   region = "us-west-2"
 }
 
+resource "aws_servicequotas_service_quota" "ecs_vpc_elastic_ips" {
+  quota_code   = "L-0263D0A3"
+  service_code = "ec2"
+  value        = 30
+}
+
+resource "aws_servicequotas_service_quota" "vpc_elastic_ips_ue2" {
+  quota_code   = "L-0263D0A3"
+  service_code = "ec2"
+  value        = 30
+  provider     = aws.ohio
+}
+
+resource "aws_servicequotas_service_quota" "vpc_elastic_ips_uw2" {
+  quota_code   = "L-0263D0A3"
+  service_code = "ec2"
+  value        = 30
+  provider     = aws.oregon
+}
+
 module "ue1_vpc" {
   source = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.27.0"
 

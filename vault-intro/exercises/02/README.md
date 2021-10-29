@@ -31,7 +31,7 @@ $ terraform plan -out run.plan
 $ terraform apply run.plan
 ```
 
-*NOTE*: You will be prompted to input the `legacy_password` variable as part of this run. Obviously, we don't have any real legacy password to set here, so feel free to enter any text you like. I do suggest thinking through the problem presented here though: Since I need to keep my secrets out of my source control, how I could I safely and securely provide the initial secret values that seed Vault for consumers? Feel free to ask any questions on this as it's a good discussion topic.
+*NOTE*: You will be prompted to input the `legacy_password` variable as part of this run. Obviously, we don't have any real legacy password to set here, so feel free to enter any text you like. I do suggest thinking through the problem presented here though: Since I need to keep my secrets out of my source control, how could I safely and securely provide the initial secret values that seed Vault for consumers? Feel free to ask any questions on this as it's a good discussion topic.
 
 This Terraform run will do 3 things:
 

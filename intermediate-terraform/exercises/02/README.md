@@ -16,8 +16,6 @@ Enter Terraform backends so that we can centrally manage state for a project in 
 * encrypting state at rest in a bucket
 * state file locking through use of DynamoDB table records, preventing race and conflicting conditions on terraform operations run against a particular state
 
-One last thing to mention about backends, though beyond the scope of this intermediate course, is they're used for Terraform communicating and interacting with services like Terraform cloud. A backend being both a remote storage, but also remote execution environment for Terraform in these cases.
-
 ### Using the s3 backend type
 
 When your student alias user accounts were created before this course, an s3 bucket was also created for you named like `tf-intermediate-[student-alias]`. We'll be using these buckets that already exist as the place to store and manage your remote state as we move forward in this course. We'll be working primarily with realistic, remote state scenarios for the remainder of our exercises.

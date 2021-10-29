@@ -137,7 +137,7 @@ $ vault kv get secret/hello
 You should receive a message that states now value was found... so let's put in a value:
 
 ```bash
-$ vault kv set secret/hello foo=world
+$ vault kv put secret/hello foo=world
 $ vault kv get secret/hello
 ```
 

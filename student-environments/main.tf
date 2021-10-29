@@ -62,7 +62,7 @@ resource "aws_iam_user_login_profile" "students" {
 
 resource "aws_iam_policy" "student_bucket_access" {
   for_each    = local.students
-  name        = "${each.value.alias}-StudentBucketAccess"
+  name        = "StudentBucketAccess-${each.value.alias}"
   description = "Allowing student access to their own bucket"
   policy      = <<EOF
 {
@@ -97,6 +97,34 @@ resource "aws_iam_policy" "student_bucket_access" {
             "Resource": [
               "arn:aws:s3:::tf-${local.class_level}-${each.value.alias}/*",
               "arn:aws:s3:::tf-${local.class_level}-${each.value.alias}-*/*"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_policy" "ecr_access" {
+  for_each    = local.students
+  name        = "EcrAccess-${each.value.alias}-${terraform.workspace}"
+  description = "Allowing student access to create and manage an ECR repository"
+  policy      = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowEcrOperations",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:Describe*",
+                "ecr:List*",
+                "ecr:TagResource",
+                "ecr:UntagResource",
+                "ecr:CreateRepository",
+                "ecr:DeleteRepository"
+            ],
+            "Resource": [
+              "arn:aws:ecr::*:repository/*${each.value.alias}*"
             ]
         }
     ]
@@ -211,6 +239,12 @@ resource "aws_iam_user_policy_attachment" "student_ec2_access" {
   policy_arn = aws_iam_policy.student_ec2_access.arn
 }
 
+resource "aws_iam_user_policy_attachment" "student_ecr_access" {
+  for_each   = local.students
+  user       = aws_iam_user.students[each.key].name
+  policy_arn = aws_iam_policy.ecr_access[each.key].arn
+}
+
 resource "aws_iam_user_policy_attachment" "student_credentials_access" {
   for_each   = local.students
   user       = aws_iam_user.students[each.key].name
@@ -229,41 +263,19 @@ resource "aws_iam_user_policy_attachment" "dynamodb_user_access" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 }
 
-data "template_file" "message_script" {
-  for_each = !var.email_enabled ? local.students : {}
-
-  template = file("${path.module}/templates/message.sh.tpl")
-  vars = {
-    encrypted_password = aws_iam_user_login_profile.students[each.key].encrypted_password
-    student_email      = each.value.email
-    student_alias      = each.value.alias
-    student_region     = random_shuffle.region[each.key].result[0]
-    link_to_slides     = local.link_to_slides
-    link_to_survey     = local.link_to_survey
-  }
-}
-
 resource "null_resource" "message_files" {
   for_each = !var.email_enabled ? local.students : {}
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command     = data.template_file.message_script[each.key].rendered
-  }
-}
-
-
-data "template_file" "email_script" {
-  for_each = var.email_enabled ? local.students : {}
-
-  template = file("${path.module}/templates/email.sh.tpl")
-  vars = {
-    encrypted_password = aws_iam_user_login_profile.students[each.key].encrypted_password
-    student_email      = each.value.email
-    student_alias      = each.value.alias
-    student_region     = random_shuffle.region[each.key].result[0]
-    link_to_slides     = local.link_to_slides
-    link_to_survey     = local.link_to_survey
+    command     = templatefile("${path.module}/templates/message.sh.tpl", {
+      encrypted_password = aws_iam_user_login_profile.students[each.key].encrypted_password
+      student_email      = each.value.email
+      student_alias      = each.value.alias
+      student_region     = random_shuffle.region[each.key].result[0]
+      link_to_slides     = local.link_to_slides
+      link_to_survey     = local.link_to_survey
+    })
   }
 }
 
@@ -272,6 +284,13 @@ resource "null_resource" "email_students" {
 
   provisioner "local-exec" {
     interpreter = ["/bin/bash", "-c"]
-    command     = data.template_file.email_script[each.key].rendered
+    command     = templatefile("${path.module}/templates/email.sh.tpl", {
+      encrypted_password = aws_iam_user_login_profile.students[each.key].encrypted_password
+      student_email      = each.value.email
+      student_alias      = each.value.alias
+      student_region     = random_shuffle.region[each.key].result[0]
+      link_to_slides     = local.link_to_slides
+      link_to_survey     = local.link_to_survey
+    })
   }
 }
