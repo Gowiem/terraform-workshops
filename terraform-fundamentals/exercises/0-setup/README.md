@@ -12,7 +12,7 @@ create a Cloud9 server / dev environment where we'll run the upcoming exercises.
 1. **IMPORTANT**: Select **US East (Ohio) us-east-2** in the upper right corner of your AWS console as the region
 1. Click on "Create Environment"
 1. Give your environment a unique name (your provided student alias is suggested i.e. $FIRST_NAME-$LAST_NAME) and, optionally, a description. Click "Next"
-1. Keep the settings as their defaults on this screen, then click "Next"
+1. Keep the majority of the settings as their defaults on this screen. The one setting you may need to change is to ensure that in the "Network Settings" section, under "Subnet", select a subnet that includes the word "public" in it. If you fail to do this then you won't be able to connect to the the EC2 instance that Cloud9 will run on and you'll need to create a new environment. Once you've properly selected a public subnet then click "Next"
 1. Review your settings on the next screen, and then click "Create"
 1. Wait for your environment to start. In this step, AWS is provisioning an EC2 instance on which your IDE environment will run. This gives us the distinct advantage of having a consistent and controlled environment for development regardless of your hardware and OS. It also allows us to connect to our instances and AWS's API without worrying about port availability at your home or in a corporate office. 😁
 1. Once your IDE loads, you should see a Welcome document. From here continue with the below steps and I'll give an intro to the Cloud9 environment once everyone has completed all the steps.
