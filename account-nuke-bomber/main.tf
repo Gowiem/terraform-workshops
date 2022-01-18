@@ -56,7 +56,8 @@ module "ue1_subnets" {
   vpc_id              = module.ue1_vpc.vpc_id
   igw_id              = module.ue1_vpc.igw_id
   cidr_block          = module.ue1_vpc.vpc_cidr_block
-  nat_gateway_enabled = true
+  nat_gateway_enabled = false
+  nat_instance_enabled = true
 
   tags = { Protected = "true" }
 }
@@ -89,7 +90,8 @@ module "ue2_subnets" {
   vpc_id              = module.ue2_vpc.vpc_id
   igw_id              = module.ue2_vpc.igw_id
   cidr_block          = module.ue2_vpc.vpc_cidr_block
-  nat_gateway_enabled = true
+  nat_gateway_enabled = false
+  nat_instance_enabled = true
 
   tags = { Protected = "true" }
 
@@ -126,7 +128,8 @@ module "uw2_subnets" {
   vpc_id              = module.uw2_vpc.vpc_id
   igw_id              = module.uw2_vpc.igw_id
   cidr_block          = module.uw2_vpc.vpc_cidr_block
-  nat_gateway_enabled = true
+  nat_gateway_enabled = false
+  nat_instance_enabled = true
 
   tags = { Protected = "true" }
 
