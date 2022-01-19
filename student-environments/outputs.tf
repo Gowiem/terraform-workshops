@@ -26,4 +26,5 @@ output "secret_keys" {
     for key, student_info in local.students :
     key => aws_iam_access_key.students[key].secret
   }
+  sensitive = true
 }
