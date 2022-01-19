@@ -4,27 +4,37 @@ Remember when we used `terraform state rm` yesterday to essentially abandon a re
 
 ## Create our infrastructure item to abandon
 
-Let's init and do an apply to create the single key pair resource defined in this project
+Let's init and do an apply to create the Elastic Container Repository (ECR) repo resource defined in this project
 
 ```
 $ terraform init -backend-config=./backend.tfvars -backend-config=bucket=tf-intermediate-[student-alias]
 ...
 $ terraform apply
 
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
+var.student_alias
+  Your student alias
+
+  Enter a value: luke-skywalker
+
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
   + create
 
 Terraform will perform the following actions:
 
-  # aws_key_pair.my_key_pair will be created
-  + resource "aws_key_pair" "my_key_pair" {
-      + arn         = (known after apply)
-      + fingerprint = (known after apply)
-      + id          = (known after apply)
-      + key_name    = "tf-intermediate-luke-skywalker"
-      + key_pair_id = (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
+  # aws_ecr_repository.student_repo will be created
+  + resource "aws_ecr_repository" "student_repo" {
+      + arn                  = (known after apply)
+      + id                   = (known after apply)
+      + image_tag_mutability = "MUTABLE"
+      + name                 = "luke-skywalker-repo"
+      + registry_id          = (known after apply)
+      + repository_url       = (known after apply)
+      + tags_all             = (known after apply)
+
+      + image_scanning_configuration {
+          + scan_on_push = true
+        }
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
@@ -35,33 +45,45 @@ Do you want to perform these actions?
 
   Enter a value: yes
 
-aws_key_pair.my_key_pair: Creating...
-aws_key_pair.my_key_pair: Creation complete after 0s [id=tf-intermediate-luke-skywalker]
+aws_ecr_repository.student_repo: Creating...
+aws_ecr_repository.student_repo: Still creating... [10s elapsed]
+aws_ecr_repository.student_repo: Creation complete after 16s [id=luke-skywalker-repo]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
 
-Alright, so we now have a key pair created up on AWS. We want to abandon it from our Terraform state so that we can see `terraform import` in action
+Alright, so we now have an ECR repo created up on AWS. We want to abandon it from our Terraform state so that we can see `terraform import` in action
 
-First, though, let's figure out the key pair `key_name` by looking at our current state
+First, though, let's figure out the ECR repo's `name` by looking at our current state
 
 ```
 $ terraform show
-# aws_key_pair.my_key_pair:
-resource "aws_key_pair" "my_key_pair" {
-    arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker"
-    fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62"
-    id          = "tf-intermediate-luke-skywalker"
-    key_name    = "tf-intermediate-luke-skywalker"
-    key_pair_id = "key-006446b088b64a629"
-    public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io"
+
+# aws_ecr_repository.student_repo:
+resource "aws_ecr_repository" "student_repo" {
+    arn                  = "arn:aws:ecr:us-east-2:146525114093:repository/luke-skywalker-repo"
+    id                   = "luke-skywalker-repo"
+    image_tag_mutability = "MUTABLE"
+    name                 = "luke-skywalker-repo"
+    registry_id          = "146525114093"
+    repository_url       = "146525114093.dkr.ecr.us-east-2.amazonaws.com/luke-skywalker-repo"
+    tags_all             = {}
+
+    encryption_configuration {
+        encryption_type = "AES256"
+    }
+
+    image_scanning_configuration {
+        scan_on_push = true
+    }
+}
 ```
 
 Noting the `id` attribute value here, as we'll need it for our import. We'll go ahead and abandon it from our state.
 
 ```
-$ terraform state rm aws_key_pair.my_key_pair
-Removed aws_key_pair.my_key_pair
+$ terraform state rm aws_ecr_repository.student_repo
+Removed aws_ecr_repository.student_repo
 Successfully removed 1 resource instance(s).
 ```
 
@@ -71,7 +93,7 @@ And now let's have a look at our current state:
 $ terraform state pull
 {
   "version": 4,
-  "terraform_version": "0.12.29",
+  "terraform_version": "0.12.31",
   "serial": 1,
   "lineage": "bd7ae852-5916-7269-4d2e-6eb4d19808ae",
   "outputs": {},
@@ -79,12 +101,12 @@ $ terraform state pull
 }
 ```
 
-Cool, the resource still exists out there, but the state for our project doesn't know about it. Let's get it back into state with an import.
+Cool, the resource still exists out there and [we can see it by going to the ECR console](https://us-east-2.console.aws.amazon.com/ecr/repositories?region=us-east-2), but the state for our project doesn't know about it. Let's get it back into state with an import.
 
 Let's take a moment to look at the help for the import command at this stage:
 
 ```
-$ terrform import --help
+$ terraform import --help
 Usage: terraform import [options] ADDR ID
 
   Import existing infrastructure into your Terraform state.
@@ -117,19 +139,19 @@ Usage: terraform import [options] ADDR ID
 The `ADDR` mentioned in the usage output is the local terraform configuration `[RESOURCE TYPE].[RESOURCE IDENTIFIER]`. Let's go modify our configuration at this point to make some things clearer. Make our resource block in `main.tf` look like the following, so removing arguments from it
 
 ```
-resource "aws_key_pair" "my_key_pair" {}
+resource "aws_ecr_repository" "student_repo" {}
 ```
 
-So, we have a resource defined, a placeholder for some real piece of infrastructure we want to import, a key pair that exists in AWS
+So, we have a resource defined, a placeholder for some real piece of infrastructure we want to import, and an ECR repo that exists in AWS.
 
-Now, the `ID` part noted in the usage of the help. What this is very much depends on the type of resource. For an EC2 instance, it'll be the instance ID as defined by AWS, in our case for a key pair, it'll be the resource `id` we noted in our terraform show above. So, let's try the import as we should have everything we need to do so.
+Now, the `ID` part noted in the usage of the help. What this is very much depends on the type of resource. For an EC2 instance, it'll be the instance ID as defined by AWS, in our case for a ECR repo, it'll be the resource `name` we noted in our terraform show above. So, let's try the import as we should have everything we need to do so.
 
 ```
-$ terraform import aws_key_pair.my_key_pair tf-intermediate-luke-skywalker
-aws_key_pair.my_key_pair: Importing from ID "tf-intermediate-luke-skywalker"...
-aws_key_pair.my_key_pair: Import prepared!
-  Prepared aws_key_pair for import
-aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
+$ terraform import aws_ecr_repository.student_repo <YOUR ECR REPO ID>
+aws_ecr_repository.student_repo: Importing from ID "<YOUR ECR REPO ID>"...
+aws_ecr_repository.student_repo: Import prepared!
+  Prepared aws_ecr_repository for import
+aws_ecr_repository.student_repo: Refreshing state... [id=<YOUR ECR REPO ID>]
 
 Import successful!
 
@@ -143,30 +165,45 @@ Excellent, so it's seemingly now imported and part of our project state yet agai
 $ terraform state pull
 {
   "version": 4,
-  "terraform_version": "0.12.29",
-  "serial": 4,
-  "lineage": "bd7ae852-5916-7269-4d2e-6eb4d19808ae",
+  "terraform_version": "1.0.0",
+  "serial": 2,
+  "lineage": "e5db200b-8ef7-9815-5c53-b16631f64821",
   "outputs": {},
   "resources": [
     {
       "mode": "managed",
-      "type": "aws_key_pair",
-      "name": "my_key_pair",
-      "provider": "provider.aws",
+      "type": "aws_ecr_repository",
+      "name": "student_repo",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
       "instances": [
         {
-          "schema_version": 1,
+          "schema_version": 0,
           "attributes": {
-            "arn": "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker",
-            "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
-            "id": "tf-intermediate-luke-skywalker",
-            "key_name": "tf-intermediate-luke-skywalker",
-            "key_name_prefix": null,
-            "key_pair_id": "key-006446b088b64a629",
-            "public_key": null,
-            "tags": {}
+            "arn": "arn:aws:ecr:us-east-2:146525114093:repository/luke-skywalker-repo",
+            "encryption_configuration": [
+              {
+                "encryption_type": "AES256",
+                "kms_key": ""
+              }
+            ],
+            "id": "luke-skywalker-repo",
+            "image_scanning_configuration": [
+              {
+                "scan_on_push": true
+              }
+            ],
+            "image_tag_mutability": "MUTABLE",
+            "name": "luke-skywalker-repo",
+            "registry_id": "146525114093",
+            "repository_url": "146525114093.dkr.ecr.us-east-2.amazonaws.com/luke-skywalker-repo",
+            "tags": {},
+            "tags_all": {},
+            "timeouts": {
+              "delete": null
+            }
           },
-          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ=="
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiZGVsZXRlIjoxMjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIwIn0="
         }
       ]
     }
@@ -179,20 +216,30 @@ Nice, but we have an empty block in our configuration. What would happen if I ra
 ```
 $ terraform plan
 
-Error: Missing required argument
+var.student_alias
+  Your student alias
 
-  on main.tf line 9, in resource "aws_key_pair" "my_key_pair":
-   9: resource "aws_key_pair" "my_key_pair" {}
+  Enter a value: luke-skywalker
 
-The argument "public_key" is required, but no definition was found.
+╷
+│ Error: Missing required argument
+│
+│   on main.tf line 9, in resource "aws_ecr_repository" "student_repo":
+│    9: resource "aws_ecr_repository" "student_repo" {}
+│
+│ The argument "name" is required, but no definition was found.
 ```
 
 OK, yeah we're missing a required argument in the resource itself. We have to fill this back in. In practice, this is usually just done after an import by looking at the state and setting the configuration values appropriately. Hashicorp notes that at some point in the future Terraform will be able to fill in and modify configuration after an import as well. For now, though, it's on us to do so. Let's get values back in:
 
 ```
-resource "aws_key_pair" "my_key_pair" {
-  key_name   = "tf-intermediate-${var.student_alias}"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 ${var.student_alias}@masterpoint.io"
+resource "aws_ecr_repository" "student_repo" {
+  name                 = "${var.student-alias}-repo"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }
 ```
 
@@ -200,54 +247,16 @@ And we'll try a terraform plan again
 
 ```
 $ terraform plan
-Refreshing Terraform state in-memory prior to plan...
-The refreshed state will be used to calculate this plan, but will not be
-persisted to local or remote state storage.
+var.student_alias
+  Your student alias
 
-aws_key_pair.my_key_pair: Refreshing state... [id=tf-intermediate-luke-skywalker]
+  Enter a value: luke-skywalker
 
-------------------------------------------------------------------------
+aws_ecr_repository.student_repo: Refreshing state... [id=luke-skywalker-repo]
 
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
--/+ destroy and then create replacement
+No changes. Your infrastructure matches the configuration.
 
-Terraform will perform the following actions:
-
-  # aws_key_pair.my_key_pair must be replaced
--/+ resource "aws_key_pair" "my_key_pair" {
-      ~ arn         = "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker" -> (known after apply)
-      ~ fingerprint = "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62" -> (known after apply)
-      ~ id          = "tf-intermediate-luke-skywalker" -> (known after apply)
-        key_name    = "tf-intermediate-luke-skywalker"
-      ~ key_pair_id = "key-006446b088b64a629" -> (known after apply)
-      + public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQD3F6tyPEFEzV0LX3X8BsXdMsQz1x2cEikKDEY0aIj41qgxMCP/iteneqXSIFZBp5vizPvaoIR3Um9xK7PGoW8giupGn+EPuxIA4cDM4vzOqOkiMPhz5XK0whEjkVzTo4+S0puvDZuwIsdiW9mxhJc7tgBNL0cYlWSYVkz4G/fslNfRPW5mYAM49f4fhtxPb5ok4Q2Lg9dPKVHO/Bgeu5woMc7RY0p1ej6D4CKFE6lymSDJpW0YHX/wqE9+cfEauh7xZcG0q9t2ta6F6fmX0agvpFyZo8aFbXeUBr7osSCJNgvavWbM/06niWrOvYX2xwWdhXmXSrbX8ZbabVohBK41 luke-skywalker@masterpoint.io" # forces replacement
-      - tags        = {} -> null
-    }
-
-Plan: 1 to add, 0 to change, 1 to destroy.
-
-------------------------------------------------------------------------
-
-Note: You didn't specify an "-out" parameter to save this plan, so Terraform
-can't guarantee that exactly these actions will be performed if
-"terraform apply" is subsequently run.
-```
-
-Well, turns out no matter what, for this type of resource, even an import leaves us in a place where the resource is going to be created anew, replaced anyway, namely b/c the import command didn't fill in all of the values in state from the actual resource, if we look back at our state introspection after the import:
-
-```
-"attributes": {
-  "arn": "arn:aws:ec2:us-east-2:946320133426:key-pair/tf-intermediate-luke-skywalker",
-  "fingerprint": "d7:ff:a6:63:18:64:9c:57:a1:ee:ca:a4:ad:c2:81:62",
-  "id": "tf-intermediate-luke-skywalker",
-  "key_name": "tf-intermediate-luke-skywalker",
-  "key_name_prefix": null,
-  "key_pair_id": "key-006446b088b64a629",
-  "public_key": null,
-  "tags": {}
-},
-"private": "eyJzY2hlb
+Terraform has compared your real infrastructure against your configuration and found no differences, so no changes are needed.
 ```
 
 So, caveats exist for import. EC2 instances happen to not be subject to this sort of thing as long as you're filling values back in on the configuration side of things, so it will very much depend on the resource type as to whether or not import is going to be a good fit. Knowing the limitations of import are as important as understanding that it's there and how to use it.
@@ -255,6 +264,45 @@ So, caveats exist for import. EC2 instances happen to not be subject to this sor
 ## Let's finish off by running a destroy
 
 ```
-$ terraform destroy
-...
+$ terraform destroy -auto-approve
+var.student_alias
+  Your student alias
+
+  Enter a value: luke-skywalker
+
+aws_ecr_repository.student_repo: Refreshing state... [id=luke-skywalker-repo]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_ecr_repository.student_repo will be destroyed
+  - resource "aws_ecr_repository" "student_repo" {
+      - arn                  = "arn:aws:ecr:us-east-2:146525114093:repository/luke-skywalker-repo" -> null
+      - id                   = "luke-skywalker-repo" -> null
+      - image_tag_mutability = "MUTABLE" -> null
+      - name                 = "luke-skywalker-repo" -> null
+      - registry_id          = "146525114093" -> null
+      - repository_url       = "146525114093.dkr.ecr.us-east-2.amazonaws.com/luke-skywalker-repo" -> null
+      - tags                 = {} -> null
+      - tags_all             = {} -> null
+
+      - encryption_configuration {
+          - encryption_type = "AES256" -> null
+        }
+
+      - image_scanning_configuration {
+          - scan_on_push = true -> null
+        }
+
+      - timeouts {}
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
+aws_ecr_repository.student_repo: Destroying... [id=luke-skywalker-repo]
+aws_ecr_repository.student_repo: Still destroying... [id=luke-skywalker-repo, 10s elapsed]
+aws_ecr_repository.student_repo: Destruction complete after 11s
+
+Destroy complete! Resources: 1 destroyed.
 ```
