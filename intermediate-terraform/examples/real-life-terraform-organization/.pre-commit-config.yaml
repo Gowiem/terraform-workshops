@@ -1,0 +1,10 @@
+# To use:
+# brew install pre-commit terraform-docs tflint tfsec coreutils checkov terrascan infracost jq
+repos:
+  - repo: git://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.58.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_tflint
+      - id: terraform_validate
+      - id: terraform_docs

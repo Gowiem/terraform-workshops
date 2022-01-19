@@ -1,0 +1,13 @@
+{
+  "terraform": {
+    "backend": {
+      "s3": {
+        "acl": "bucket-owner-full-control",
+        "bucket": "mp-teaching-examples",
+        "encrypt": true,
+        "key": "real-life/terraform.tfstate",
+        "region": "us-east-2"
+      }
+    }
+  }
+}
