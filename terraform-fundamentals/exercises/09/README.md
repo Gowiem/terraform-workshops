@@ -34,10 +34,10 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  # aws_s3_bucket_object.dynamic_file[0] will be created
-  + resource "aws_s3_bucket_object" "dynamic_file" {
+  # aws_s3_object.dynamic_file[0] will be created
+  + resource "aws_s3_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundys-luke-skywalker"
+      + bucket                 = "tf-fundy-luke-skywalker"
       + content                = "dynamic-file at index 0"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -48,10 +48,10 @@ Terraform will perform the following actions:
       + version_id             = (known after apply)
     }
 
-  # aws_s3_bucket_object.dynamic_file[1] will be created
-  + resource "aws_s3_bucket_object" "dynamic_file" {
+  # aws_s3_object.dynamic_file[1] will be created
+  + resource "aws_s3_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundys-luke-skywalker"
+      + bucket                 = "tf-fundy-luke-skywalker"
       + content                = "dynamic-file at index 1"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -62,10 +62,10 @@ Terraform will perform the following actions:
       + version_id             = (known after apply)
     }
 
-  # aws_s3_bucket_object.dynamic_file[2] will be created
-  + resource "aws_s3_bucket_object" "dynamic_file" {
+  # aws_s3_object.dynamic_file[2] will be created
+  + resource "aws_s3_object" "dynamic_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundys-luke-skywalker"
+      + bucket                 = "tf-fundy-luke-skywalker"
       + content                = "dynamic-file at index 2"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -76,10 +76,10 @@ Terraform will perform the following actions:
       + version_id             = (known after apply)
     }
 
-  # aws_s3_bucket_object.optional_file[0] will be created
-  + resource "aws_s3_bucket_object" "optional_file" {
+  # aws_s3_object.optional_file[0] will be created
+  + resource "aws_s3_object" "optional_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundys-luke-skywalker"
+      + bucket                 = "tf-fundy-luke-skywalker"
       + content                = "optional-file"
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -101,12 +101,12 @@ can't guarantee that exactly these actions will be performed if
 
 ### The `count` parameter
 
-Let's look at the `main.tf` file here to see what's going on. First, the `aws_s3_bucket_object.dynamic_file` definition
+Let's look at the `main.tf` file here to see what's going on. First, the `aws_s3_object.dynamic_file` definition
 
 ```hcl
-resource "aws_s3_bucket_object" "dynamic_file" {
+resource "aws_s3_object" "dynamic_file" {
   count   = var.object_count
-  bucket  = "tf-fundys-${var.student_alias}"
+  bucket  = "tf-fundy-${var.student_alias}"
   key     = "dynamic-file-${count.index}"
   content = "dynamic-file at index ${count.index}"
 }
@@ -123,13 +123,13 @@ variable "object_count" {
 }
 ```
 
-And it has a default value of *3*, so our `aws_s3_bucket_object` resource uses the `count` property to dynamically define the number
+And it has a default value of *3*, so our `aws_s3_object` resource uses the `count` property to dynamically define the number
 of "copies" of this resource we'd like. This all adds up to our plan telling us that the following would be created:
 
 ```
-aws_s3_bucket_object.dynamic_file[0] will be created
-aws_s3_bucket_object.dynamic_file[1] will be created
-aws_s3_bucket_object.dynamic_file[2] will be created
+aws_s3_object.dynamic_file[0] will be created
+aws_s3_object.dynamic_file[1] will be created
+aws_s3_object.dynamic_file[2] will be created
 ```
 
 ### Conditional HCL Resources
@@ -138,9 +138,9 @@ The count parameter, now in combination with the `bool` type is particularly use
 things in your ultimately built infrastructure. Let's look at our `main.tf` again to see an example
 
 ```hcl
-resource "aws_s3_bucket_object" "optional_file" {
+resource "aws_s3_object" "optional_file" {
   count   = var.include_optional_file ? 1 : 0
-  bucket  = "tf-fundys-${var.student_alias}"
+  bucket  = "tf-fundy-${var.student_alias}"
   key     = "optional-file"
   content = "optional-file"
 }
@@ -153,10 +153,10 @@ you had to do it before the `bool` data type came around.
 We see in our plan output
 
 ```
-  # aws_s3_bucket_object.optional_file[0] will be created
-  + resource "aws_s3_bucket_object" "optional_file" {
+  # aws_s3_object.optional_file[0] will be created
+  + resource "aws_s3_object" "optional_file" {
       + acl                    = "private"
-      + bucket                 = "tf-fundys-luke-skywalker"
+      + bucket                 = "tf-fundy-luke-skywalker"
       + content                = "optional-file"
       + content_type           = (known after apply)
       + etag                   = (known after apply)

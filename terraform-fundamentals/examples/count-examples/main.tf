@@ -20,7 +20,7 @@ resource "aws_s3_bucket" "default" {
   bucket_prefix = "count-examples"
 }
 
-resource "aws_s3_bucket_object" "objects" {
+resource "aws_s3_object" "objects" {
   count = 3
 
   bucket  = aws_s3_bucket.default.id
@@ -28,7 +28,7 @@ resource "aws_s3_bucket_object" "objects" {
   content = "This is object #${count.index}!"
 }
 
-resource "aws_s3_bucket_object" "conditional_object" {
+resource "aws_s3_object" "conditional_object" {
   count = var.conditional_object_enabled ? 1 : 0
 
   bucket  = aws_s3_bucket.default.id

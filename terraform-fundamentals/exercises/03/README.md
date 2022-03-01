@@ -43,10 +43,10 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  # aws_s3_bucket_object.user_student_alias_object will be created
-  + resource "aws_s3_bucket_object" "user_student_alias_object" {
+  # aws_s3_object.user_student_alias_object will be created
+  + resource "aws_s3_object" "user_student_alias_object" {
       + acl                    = "private"
-      + bucket                 = "tf-fundys-..."
+      + bucket                 = "tf-fundy-..."
       + content                = "This bucket is reserved for ..."
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -91,10 +91,10 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  # aws_s3_bucket_object.user_student_alias_object will be created
-  + resource "aws_s3_bucket_object" "user_student_alias_object" {
+  # aws_s3_object.user_student_alias_object will be created
+  + resource "aws_s3_object" "user_student_alias_object" {
       + acl                    = "private"
-      + bucket                 = "tf-fundys-..."
+      + bucket                 = "tf-fundy-..."
       + content                = "This bucket is reserved for ..."
       + content_type           = (known after apply)
       + etag                   = (known after apply)
@@ -113,8 +113,8 @@ Do you want to perform these actions?
 
   Enter a value: yes
 
-aws_s3_bucket_object.user_student_alias_object: Creating...
-aws_s3_bucket_object.user_student_alias_object: Creation complete after 1s [id=student.alias]
+aws_s3_object.user_student_alias_object: Creating...
+aws_s3_object.user_student_alias_object: Creation complete after 1s [id=student.alias]
 
 Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 ```
@@ -141,8 +141,8 @@ Find `main.tf` and modify the s3 bucket block to reflect the following (add the 
 
 ```hcl
 # declare a resource block so we can create something.
-resource "aws_s3_bucket_object" "user_student_alias_object" {
-  bucket  = "tf-fundys-${var.student_alias}"
+resource "aws_s3_object" "user_student_alias_object" {
+  bucket  = "tf-fundy-${var.student_alias}"
   key     = "student.alias"
   content = "This bucket is reserved for ${var.student_alias} ****ONLY****"
 }
@@ -159,10 +159,10 @@ The important output for the plan portion of the apply that you should note, som
 ```
 Terraform will perform the following actions:
 
-  # aws_s3_bucket_object.user_student_alias_object will be updated in-place
-  ~ resource "aws_s3_bucket_object" "user_student_alias_object" {
+  # aws_s3_object.user_student_alias_object will be updated in-place
+  ~ resource "aws_s3_object" "user_student_alias_object" {
         acl           = "private"
-        bucket        = "tf-fundys-..."
+        bucket        = "tf-fundy-..."
       ~ content       = "This bucket is reserved for ..." -> "This bucket is reserved for ... ****ONLY****"
         content_type  = "binary/octet-stream"
         etag          = "94e32327b8007fa215f3a9edbda7f68c"
@@ -202,7 +202,7 @@ terraform destroy
 You should get the following:
 
 ```
-aws_s3_bucket_object.user_student_alias_object: Refreshing state... [id=student.alias]
+aws_s3_object.user_student_alias_object: Refreshing state... [id=student.alias]
 
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
@@ -210,10 +210,10 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  # aws_s3_bucket_object.user_student_alias_object will be destroyed
-  - resource "aws_s3_bucket_object" "user_student_alias_object" {
+  # aws_s3_object.user_student_alias_object will be destroyed
+  - resource "aws_s3_object" "user_student_alias_object" {
       - acl           = "private" -> null
-      - bucket        = "tf-fundys-..." -> null
+      - bucket        = "tf-fundy-..." -> null
       - content       = "This bucket is reserved for ... ****ONLY****" -> null
       - content_type  = "binary/octet-stream" -> null
       - etag          = "c7e49348083281f9dd997923fe6084b7" -> null
@@ -231,8 +231,8 @@ Do you really want to destroy all resources?
 
   Enter a value: yes
 
-aws_s3_bucket_object.user_student_alias_object: Destroying... [id=student.alias]
-aws_s3_bucket_object.user_student_alias_object: Destruction complete after 0s
+aws_s3_object.user_student_alias_object: Destroying... [id=student.alias]
+aws_s3_object.user_student_alias_object: Destruction complete after 0s
 
 Destroy complete! Resources: 1 destroyed.
 ```
